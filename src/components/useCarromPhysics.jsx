@@ -1,119 +1,131 @@
-import { useRef , useEffect } from "react";
+import { useRef, useEffect } from "react";
 import Matter from "matter-js";                       // Import Matter.js library
 
-export const useCarromPhysics = (screenRef ) =>{
-    const engineRef = useRef(Matter.Engine.create())    // Create a reference to the Matter.js engine and ' Matter.Engine.create() initializes a new physics engine instance. This engine will be responsible for simulating the physics of the carrom game, including the movement and interactions of the carrom pieces on the board. By using useRef, we can maintain a persistent reference to this engine across re-renders of the component, allowing us to manage the physics simulation effectively throughout the lifecycle of the component.
-    useEffect(() => {
-  const engine = engineRef.current;       // Access the current value of the engine reference with setup the physics simulation, including creating the carrom board, pieces, and handling interactions. The useEffect hook ensures that this setup code runs after the component has been rendered, allowing us to initialize the physics engine and set up the necessary elements for the carrom game. By using the engine reference, we can manage the physics simulation and update it as needed based on user interactions or game events.
-  engine.gravity.y=0; // Disable gravity for a top-down view of the carrom board  
+export const useCarromPhysics = (screenRef) => {
+  const engineRef = useRef(Matter.Engine.create())    // Create a reference to the Matter.js engine and ' Matter.Engine.create() initializes a new physics engine instance. This engine will be responsible for simulating the physics of the carrom game, including the movement and interactions of the carrom pieces on the board. By using useRef, we can maintain a persistent reference to this engine across re-renders of the component, allowing us to manage the physics simulation effectively throughout the lifecycle of the component.
+  useEffect(() => {
+    if (!screenRef.current) return;    // Check if the screen reference is available before proceeding with the physics setup. This ensures that we have a valid DOM element to render the physics simulation on, preventing any potential errors or issues that could arise from trying to access a null or undefined reference. By returning early if the screen reference is not available, we can ensure that the physics setup only occurs when we have a valid target for rendering the carrom game, allowing for a smoother and more reliable user experience.
+    screenRef.current.innerHTML = '';   // Clear the inner HTML of the screen element to ensure that we have a clean slate for rendering the physics simulation. This step is important to prevent any existing content from interfering with the visual representation of the carrom game, allowing us to create a clear and focused gaming experience for players. By setting innerHTML to an empty string, we can ensure that the screen element is ready to display the carrom board and pieces without any distractions or visual clutter.
 
-  const render = Matter.Render.create({         // Create a renderer to visualize the physics simulation. The Matter.Render.create() function initializes a new renderer instance that will be responsible for drawing the carrom board and pieces on the screen. By passing in the engine and the screen reference, we can link the renderer to our physics engine and specify where to render the simulation. This allows us to see the movements and interactions of the carrom pieces as they are simulated by the physics engine.
-    element : screenRef.current,      // Specify the DOM element where the renderer will draw the simulation. By using screenRef.current, we can target the specific element in the DOM that we want to use for rendering the carrom game. This allows us to control where the visual representation of the physics simulation will be displayed on the screen.
-    engine : engine,  // Link the renderer to the physics engine. By passing the engine reference to the renderer, we can ensure that the renderer is aware of the physics simulation and can accurately visualize the movements and interactions of the carrom pieces based on the physics calculations performed by the engine.
-    options:{           // Set various options for the renderer to customize the appearance of the simulation. These options include:
-        width : 600,
-        height : 600,
-        wireframes : false,     // Set wireframes to false to render solid shapes instead of wireframe outlines. This option allows us to create a more visually appealing representation of the carrom pieces and board, making it easier for players to see and interact with the game elements. By setting wireframes to false, we can enhance the overall visual experience of the carrom game.
-        background: 'transparent',           
-    }
-  });
+    const engine = engineRef.current;       // Access the current value of the engine reference with setup the physics simulation, including creating the carrom board, pieces, and handling interactions. The useEffect hook ensures that this setup code runs after the component has been rendered, allowing us to initialize the physics engine and set up the necessary elements for the carrom game. By using the engine reference, we can manage the physics simulation and update it as needed based on user interactions or game events.
+    engine.gravity.y = 0; // Disable gravity for a top-down view of the carrom board  
 
-  const wallOptions = {       // Define options for the walls of the carrom board. These options include:
-    isStatic : true,      // Define options for the walls of the carrom board. By setting isStatic to true, we ensure that the walls will not move or be affected by forces in the physics simulation. This is important for creating a stable boundary for the carrom pieces to interact with, preventing them from falling off the board or moving outside of the designated play area. The wallOptions can be used when creating the walls of the carrom board to ensure they behave as intended in the physics simulation.
+    const render = Matter.Render.create({         // Create a renderer to visualize the physics simulation. The Matter.Render.create() function initializes a new renderer instance that will be responsible for drawing the carrom board and pieces on the screen. By passing in the engine and the screen reference, we can link the renderer to our physics engine and specify where to render the simulation. This allows us to see the movements and interactions of the carrom pieces as they are simulated by the physics engine.
+      element: screenRef.current,      // Specify the DOM element where the renderer will draw the simulation. By using screenRef.current, we can target the specific element in the DOM that we want to use for rendering the carrom game. This allows us to control where the visual representation of the physics simulation will be displayed on the screen.
+      engine: engine,  // Link the renderer to the physics engine. By passing the engine reference to the renderer, we can ensure that the renderer is aware of the physics simulation and can accurately visualize the movements and interactions of the carrom pieces based on the physics calculations performed by the engine.
+      options: {           // Set various options for the renderer to customize the appearance of the simulation. These options include:
+        width: 600,
+        height: 600,
+        wireframes: false,     // Set wireframes to false to render solid shapes instead of wireframe outlines. This option allows us to create a more visually appealing representation of the carrom pieces and board, making it easier for players to see and interact with the game elements. By setting wireframes to false, we can enhance the overall visual experience of the carrom game.
+        background: 'transparent',
+        pixelRatio: window.devicePixelRatio || 1  // Set the background of the renderer to transparent and adjust the pixel ratio for better visual quality. By setting the background to transparent, we can allow the underlying elements of the carrom game, such as the board and pieces, to be visible without any background color interfering with the visual presentation. This creates a more immersive and visually appealing gaming experience. Additionally, setting the pixelRatio to window.devicePixelRatio ensures that the renderer will display the simulation with optimal clarity and sharpness on high-resolution screens, providing a better visual experience for players regardless of their device's display capabilities.
 
-    render:{ fillStyle : '#3e2723'},  // Set the fill style for the walls to a specific color (in this case, a dark brown). This option allows us to customize the appearance of the walls in the carrom game, making them visually distinct from the carrom pieces and enhancing the overall aesthetic of the game. By setting the fillStyle, we can create a more visually appealing and immersive carrom game environment.             Note :- works only when wireframes is set to false in the renderer options.
+        // Set the background of the renderer to transparent, allowing us to see the underlying elements of the carrom game, such as the board and pieces, without any background color interfering with the visual presentation. This option is particularly useful for creating a more immersive and visually appealing carrom game experience, as it allows the focus to be on the game elements rather than a distracting background. Additionally, setting the pixelRatio to window.devicePixelRatio ensures that the renderer will display the simulation with optimal clarity and sharpness on high-resolution screens, providing a better visual experience for players regardless of their device's display capabilities.
+      },
+    });
 
-    restitution: 0.9  // Set restitution to 0.9 to make the walls bouncy, allowing the carrom pieces to bounce off them with some elasticity. This option enhances the gameplay experience by adding a realistic bounce effect when the pieces collide with the walls, making the game more dynamic and enjoyable for players. By adjusting the restitution value, we can control how much energy is retained during collisions, creating a more engaging and interactive carrom game.
-  };
+    const wallOptions = {       // Define options for the walls of the carrom board. These options include:
+      isStatic: true,      // Define options for the walls of the carrom board. By setting isStatic to true, we ensure that the walls will not move or be affected by forces in the physics simulation. This is important for creating a stable boundary for the carrom pieces to interact with, preventing them from falling off the board or moving outside of the designated play area. The wallOptions can be used when creating the walls of the carrom board to ensure they behave as intended in the physics simulation.
 
-  const walls = [       // Create an array of walls for the carrom board. Each wall is defined using the Matter.Bodies.rectangle() function, which creates a rectangular body with specified position, dimensions, and options. The walls are positioned around the edges of the carrom board to create boundaries for the pieces to interact with during gameplay. By defining these walls with the appropriate options, we can ensure that they behave as intended in the physics simulation, providing a realistic and enjoyable gaming experience for players.
+      render: { fillStyle: '#3e2723' },  // Set the fill style for the walls to a specific color (in this case, a dark brown). This option allows us to customize the appearance of the walls in the carrom game, making them visually distinct from the carrom pieces and enhancing the overall aesthetic of the game. By setting the fillStyle, we can create a more visually appealing and immersive carrom game environment.             Note :- works only when wireframes is set to false in the renderer options.
 
-    Matter.Bodies.rectangle(300 , 10 , 600 , 20 , wallOptions),    // Create the top walls of the carrom board using Matter.Bodies.rectangle() function. Each wall is defined by its position (x and y coordinates), dimensions (width and height), and the wallOptions that we defined earlier. By creating these walls, we establish the boundaries of the carrom board, preventing the pieces from moving outside of the designated play area. The walls will interact with the carrom pieces based on the physics simulation, allowing for realistic collisions and bounces during gameplay.
-    
-    Matter.Bodies.rectangle(300 , 590 , 600 , 20 , wallOptions),  // Create the bottom wall of the carrom board with specified position, dimensions, and options. This wall will serve as the lower boundary of the play area, ensuring that the carrom pieces do not fall off the board during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
+      restitution: 0.9  // Set restitution to 0.9 to make the walls bouncy, allowing the carrom pieces to bounce off them with some elasticity. This option enhances the gameplay experience by adding a realistic bounce effect when the pieces collide with the walls, making the game more dynamic and enjoyable for players. By adjusting the restitution value, we can control how much energy is retained during collisions, creating a more engaging and interactive carrom game.
+    };
 
-    Matter.Bodies.rectangle(10 , 300 , 20 , 600 , wallOptions),  // Create the left wall of the carrom board  with specified position, dimensions, and options. This wall will serve as the left boundary of the play area, preventing the carrom pieces from moving outside of the designated area during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
+    const walls = [       // Create an array of walls for the carrom board. Each wall is defined using the Matter.Bodies.rectangle() function, which creates a rectangular body with specified position, dimensions, and options. The walls are positioned around the edges of the carrom board to create boundaries for the pieces to interact with during gameplay. By defining these walls with the appropriate options, we can ensure that they behave as intended in the physics simulation, providing a realistic and enjoyable gaming experience for players.
 
-    Matter.Bodies.rectangle(590 , 300 , 20 , 600 , wallOptions)       // Create the right wall of the carrom board with specified position, dimensions, and options. This wall will serve as the right boundary of the play area, ensuring that the carrom pieces do not move outside of the designated area during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
+      Matter.Bodies.rectangle(300, 5, 600, 10, wallOptions),    // Create the top walls of the carrom board using Matter.Bodies.rectangle() function. Each wall is defined by its position (x and y coordinates), dimensions (width and height), and the wallOptions that we defined earlier. By creating these walls, we establish the boundaries of the carrom board, preventing the pieces from moving outside of the designated play area. The walls will interact with the carrom pieces based on the physics simulation, allowing for realistic collisions and bounces during gameplay.
 
-  ];
+      Matter.Bodies.rectangle(300, 595, 600, 10, wallOptions),  // Create the bottom wall of the carrom board with specified position, dimensions, and options. This wall will serve as the lower boundary of the play area, ensuring that the carrom pieces do not fall off the board during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
 
-  // coin spawn logic here
-  const coins = [];
-  const centerX = 300;
-  const centerY = 300;
-  const coinRadius = 15;
+      Matter.Bodies.rectangle(5, 300, 10, 600, wallOptions),  // Create the left wall of the carrom board  with specified position, dimensions, and options. This wall will serve as the left boundary of the play area, preventing the carrom pieces from moving outside of the designated area during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
 
-  // the queen ( center )           300     300           15
-  coins.push(Matter.Bodies.circle(centerX , centerY , coinRadius, {
-    restitution: 0.4,
-    frictionAir: 0.04,
-    render : {
-      fillStyle : "#ef4444" , strokeStyle : " b91c1c" , lineWidth : 2
-    }
-  }));
+      Matter.Bodies.rectangle(595, 300, 10, 600, wallOptions)       // Create the right wall of the carrom board with specified position, dimensions, and options. This wall will serve as the right boundary of the play area, ensuring that the carrom pieces do not move outside of the designated area during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
 
-  // inner circle ( 6 coins )
-  for(let i = 0 ; i < 6 ; i++ ){
-    const angle = ( i * Math.PI ) / 3;
-    const x = centerX  +  Math.cos(angle) * ( coinRadius * 2.1 );
-    const y = centerY + Math.sign(angle) * ( coinRadius * 2.1 );
-    const color = i%2 === 0 ?  "#ffffff" : "#262626" ;
-    coins.push(Matter.Bodies.circle(
-      x , y , coinRadius , {
-        restitution : 0.4,
-        frictionAir : 0.04,
-        render : {fillStyle : color , strokeStyle : "#404040" , lineWidth : 1 }
+    ];
+
+    // coin spawn logic here
+    const coins = [];
+    const centerX = 300;
+    const centerY = 300;
+    const coinRadius = 15;
+
+    // the queen ( center )           300     300           15
+    coins.push(Matter.Bodies.circle(centerX, centerY, coinRadius, {
+      restitution: 0.4,
+      frictionAir: 0.04,
+      render: {
+        fillStyle: "#ef4444"
+        //  strokeStyle : " b91c1c" , lineWidth : 2
       }
-    ));
-  }
+    }));
 
-  // outer circle ( 12 coins )
-  for(let i = 0 ; i < 12 ; i++ ){
-    const angle = ( i * Math.PI ) / 6;
-    const x = centerX  +  Math.cos(angle) * ( coinRadius * 4.1 );
-    const y = centerY + Math.sign(angle) * ( coinRadius * 4.1 );
-    const color = i%2 === 0 ?  "#ffffff" : "#262626" ;
-    coins.push(Matter.Bodies.circle(
-      x , y , coinRadius , {
-        restitution : 0.4,
-        frictionAir : 0.04,
-        render : {fillStyle : color , strokeStyle : "#404040" , lineWidth : 1 }
+    // inner circle ( 6 coins )
+    for (let i = 0; i < 6; i++) {
+      const angle = (i * Math.PI) / 3;
+      const x = centerX + Math.cos(angle) * (coinRadius * 2.1);
+      const y = centerY + Math.sign(angle) * (coinRadius * 2.1);
+      // const color = i % 2 === 0 ? "#ffffff" : "#262626";
+      coins.push(Matter.Bodies.circle(
+        x, y, coinRadius, {
+        // {
+        // restitution: 0.4,
+        // frictionAir: 0.04,
+        render: { fillStyle: i % 2 === 0 ? "#ffffff" : "#262626" }, frictionAir: 0.04}
+      // }
+      ));
+    }
+
+    // outer circle ( 12 coins )
+    for (let i = 0; i < 12; i++) {
+      const angle = (i * Math.PI) / 6;
+      const x = centerX + Math.cos(angle) * (coinRadius * 4.1);
+      const y = centerY + Math.sign(angle) * (coinRadius * 4.1);
+      // const color = i % 2 === 0 ? "#ffffff" : "#262626";
+      coins.push(Matter.Bodies.circle(
+        x, y, coinRadius, {
+        // restitution: 0.4,
+        // frictionAir: 0.04,
+        render: { fillStyle: i % 2 === 0 ? "#ffffff" : "#262626" }, frictionAir: 0.04
       }
-    ));
-  }
+      ));
+    }
 
-  const striker = Matter.Bodies.circle(300 , 400 , 25 , { // Create a circular body to represent the striker in the carrom game. The Matter.Bodies.circle() function is used to create a circular body with specified position (x and y coordinates), radius, and options. The options include properties such as mass, restitution, frictionAir, and render settings that define the physical behavior and appearance of the striker in the physics simulation. By creating the striker with these properties, we can ensure that it interacts realistically with the other pieces on the carrom board during gameplay.
-    mass : 5,       // Higher mass → hits harder, Lower mass → moves easily
-    restitution : 0.5,        // Higher restitution → bouncier, Lower restitution → less bouncy
-    frictionAir : 0.04,       // Higher frictionAir → slows down faster, Lower frictionAir → retains speed longer
-    render : { fillStyle : '#ffeb3b' , strokeStyle : '#fbc02d' , lineWidth : 4 } // Set the fill style, stroke style, and line width for the striker to customize its appearance in the carrom game. The fillStyle defines the color used to fill the striker, while the strokeStyle specifies the color of the outline around the striker. The LineWidth option determines the thickness of the outline. By setting these render options, we can create a visually distinct and appealing striker that stands out on the carrom board, enhancing the overall aesthetic of the game.
+    const striker = Matter.Bodies.circle(300, 480, 25, { // Create a circular body to represent the striker in the carrom game. The Matter.Bodies.circle() function is used to create a circular body with specified position (x and y coordinates), radius, and options. The options include properties such as mass, restitution, frictionAir, and render settings that define the physical behavior and appearance of the striker in the physics simulation. By creating the striker with these properties, we can ensure that it interacts realistically with the other pieces on the carrom board during gameplay.
+      mass: 5,       // Higher mass → hits harder, Lower mass → moves easily
+      restitution: 0.5,        // Higher restitution → bouncier, Lower restitution → less bouncy
+      frictionAir: 0.04,       // Higher frictionAir → slows down faster, Lower frictionAir → retains speed longer
+      render: { fillStyle: '#ffeb3b', strokeStyle: '#fbc02d', lineWidth: 4 } // Set the fill style, stroke style, and line width for the striker to customize its appearance in the carrom game. The fillStyle defines the color used to fill the striker, while the strokeStyle specifies the color of the outline around the striker. The LineWidth option determines the thickness of the outline. By setting these render options, we can create a visually distinct and appealing striker that stands out on the carrom board, enhancing the overall aesthetic of the game.
 
 
-    // note :- the render options for the striker will only work if wireframes is set to false in the renderer options, allowing us to see the custom colors and styles applied to the striker in the visual representation of the carrom game.
-  });
-  const mouse = Matter.Mouse.create(render.canvas);       // Create a mouse input for the renderer's canvas to enable user interaction with the carrom pieces. The Matter.Mouse.create() function initializes a new mouse instance that is linked to the canvas element used by the renderer. This allows us to track mouse movements and clicks on the canvas, enabling players to interact with the carrom pieces by clicking and dragging them to simulate shooting the striker or moving the coins on the board. By creating a mouse input, we can enhance the interactivity of the carrom game and provide a more engaging gaming experience for players.
-  const mouseConstraint = Matter.MouseConstraint.create(engine , {          // Create a mouse constraint to allow the user to interact with the carrom pieces using the mouse input. The Matter.MouseConstraint.create() function initializes a new mouse constraint that is linked to the physics engine and the mouse input. This constraint allows players to click and drag the carrom pieces on the board, simulating the action of shooting the striker or moving the coins during gameplay. By creating a mouse constraint, we can enable intuitive and interactive controls for the carrom game, enhancing the overall user experience and making it more enjoyable for players. The options for the mouse constraint include:
-    mouse : mouse,            // Link the mouse input to the mouse constraint to enable user interaction with the carrom pieces. By passing the mouse instance to the mouse constraint, we can ensure that the constraint responds to mouse movements and clicks, allowing players to click and drag the carrom pieces on the board during gameplay. This connection between the mouse input and the mouse constraint is essential for creating an interactive and engaging carrom game experience for players.
-    
-    constraint : { stiffness : 0.1 , render : { visible : false }}        // Set the stiffness of the mouse constraint to control how tightly it holds the carrom pieces when they are clicked and dragged. A lower stiffness value will allow for more flexible movement, while a higher stiffness value will create a stronger hold on the pieces. Additionally, we set the render option to make the constraint invisible, ensuring that it does not interfere with the visual representation of the carrom game while still allowing for effective user interaction with the pieces on the board.
-  });
-  render.mouse = mouse ;              // Link the mouse input to the renderer to ensure that mouse interactions are properly captured and processed during the physics simulation. By assigning the mouse instance to the render.mouse property, we can enable the renderer to track mouse movements and clicks on the canvas, allowing for seamless user interaction with the carrom pieces during gameplay. This connection between the mouse input and the renderer is essential for creating an interactive and engaging carrom game experience for players.
+      // note :- the render options for the striker will only work if wireframes is set to false in the renderer options, allowing us to see the custom colors and styles applied to the striker in the visual representation of the carrom game.
+    });
+    const mouse = Matter.Mouse.create(render.canvas);       // Create a mouse input for the renderer's canvas to enable user interaction with the carrom pieces. The Matter.Mouse.create() function initializes a new mouse instance that is linked to the canvas element used by the renderer. This allows us to track mouse movements and clicks on the canvas, enabling players to interact with the carrom pieces by clicking and dragging them to simulate shooting the striker or moving the coins on the board. By creating a mouse input, we can enhance the interactivity of the carrom game and provide a more engaging gaming experience for players.
+    const mouseConstraint = Matter.MouseConstraint.create(engine, {          // Create a mouse constraint to allow the user to interact with the carrom pieces using the mouse input. The Matter.MouseConstraint.create() function initializes a new mouse constraint that is linked to the physics engine and the mouse input. This constraint allows players to click and drag the carrom pieces on the board, simulating the action of shooting the striker or moving the coins during gameplay. By creating a mouse constraint, we can enable intuitive and interactive controls for the carrom game, enhancing the overall user experience and making it more enjoyable for players. The options for the mouse constraint include:
+      mouse: mouse,            // Link the mouse input to the mouse constraint to enable user interaction with the carrom pieces. By passing the mouse instance to the mouse constraint, we can ensure that the constraint responds to mouse movements and clicks, allowing players to click and drag the carrom pieces on the board during gameplay. This connection between the mouse input and the mouse constraint is essential for creating an interactive and engaging carrom game experience for players.
+      constraint: { stiffness: 0.1, render: { visible: false } }        // Set the stiffness of the mouse constraint to control how tightly it holds the carrom pieces when they are clicked and dragged. A lower stiffness value will allow for more flexible movement, while a higher stiffness value will create a stronger hold on the pieces. Additionally, we set the render option to make the constraint invisible, ensuring that it does not interfere with the visual representation of the carrom game while still allowing for effective user interaction with the pieces on the board.
+    });
+    render.mouse = mouse;              // Link the mouse input to the renderer to ensure that mouse interactions are properly captured and processed during the physics simulation. By assigning the mouse instance to the render.mouse property, we can enable the renderer to track mouse movements and clicks on the canvas, allowing for seamless user interaction with the carrom pieces during gameplay. This connection between the mouse input and the renderer is essential for creating an interactive and engaging carrom game experience for players.
 
-  Matter.Composite.add(engine.world , [...walls , striker , ...coins , mouseConstraint ]); // Add the walls, striker, coins, and mouse constraint to the physics engine's world. By using Matter.Composite.add(), we can add multiple bodies and constraints to the physics simulation at once. This allows us to set up the entire carrom game environment, including the boundaries (walls), the interactive striker, the coins that players will aim to pocket, and the mouse constraint that enables user interaction with the pieces on the board. By adding these elements to the engine's world, we can ensure that they are all part of the physics simulation and will interact with each other according to the defined physics properties and rules during gameplay.
+    Matter.Composite.add(engine.world, [...walls, striker, ...coins, mouseConstraint]); // Add the walls, striker, coins, and mouse constraint to the physics engine's world. By using Matter.Composite.add(), we can add multiple bodies and constraints to the physics simulation at once. This allows us to set up the entire carrom game environment, including the boundaries (walls), the interactive striker, the coins that players will aim to pocket, and the mouse constraint that enables user interaction with the pieces on the board. By adding these elements to the engine's world, we can ensure that they are all part of the physics simulation and will interact with each other according to the defined physics properties and rules during gameplay.
 
-  const runner = Matter.Runner.create();      // Create a runner to control the update loop of the physics simulation. The Matter.Runner.create() function initializes a new runner instance that will be responsible for continuously updating the physics engine and rendering the simulation. By using a runner, we can ensure that the physics simulation runs smoothly and consistently, allowing for real-time interactions and movements of the carrom pieces on the board. The runner will call the necessary functions to update the physics engine and render the changes on the screen, creating an immersive and interactive carrom game experience.
+    const runner = Matter.Runner.create();      // Create a runner to control the update loop of the physics simulation. The Matter.Runner.create() function initializes a new runner instance that will be responsible for continuously updating the physics engine and rendering the simulation. By using a runner, we can ensure that the physics simulation runs smoothly and consistently, allowing for real-time interactions and movements of the carrom pieces on the board. The runner will call the necessary functions to update the physics engine and render the changes on the screen, creating an immersive and interactive carrom game experience.
 
-  Matter.Runner.run(runner , engine);    // Start the runner to begin the physics simulation. By calling Matter.Runner.run() with the runner's engine, we initiate the continuous update loop of the physics simulation. This allows the engine to calculate the movements and interactions of the carrom pieces based on the defined physics properties and rules. As a result, players can see the pieces move and interact in real-time as they play the carrom game, creating an engaging and dynamic gaming experience.
+    Matter.Runner.run(runner, engine);    // Start the runner to begin the physics simulation. By calling Matter.Runner.run() with the runner's engine, we initiate the continuous update loop of the physics simulation. This allows the engine to calculate the movements and interactions of the carrom pieces based on the defined physics properties and rules. As a result, players can see the pieces move and interact in real-time as they play the carrom game, creating an engaging and dynamic gaming experience.
 
-  Matter.Render.run(render);          // Start the renderer to visualize the physics simulation. By calling Matter.Render.run() with the render instance, we begin the process of drawing the carrom board and pieces on the screen based on the current state of the physics simulation. This allows players to see the movements and interactions of the carrom pieces in real-time as they play the game, enhancing the overall visual experience and immersion in the carrom game environment.
+    Matter.Render.run(render);          // Start the renderer to visualize the physics simulation. By calling Matter.Render.run() with the render instance, we begin the process of drawing the carrom board and pieces on the screen based on the current state of the physics simulation. This allows players to see the movements and interactions of the carrom pieces in real-time as they play the game, enhancing the overall visual experience and immersion in the carrom game environment.
 
-  return () => {
-    Matter.Render.stop(render);         // Stop the renderer when the component is unmounted or when the effect is cleaned up. This ensures that the rendering process is properly terminated, preventing any potential memory leaks or performance issues that could arise from an active renderer running in the background after the component has been removed from the DOM. By calling Matter.Render.stop(), we can clean up the resources used by the renderer and ensure that it does not continue to run unnecessarily, allowing for better performance and resource management in the application.
-    Matter.Runner.stop(runner);             // Stop the runner to halt the physics simulation when the component is unmounted or when the effect is cleaned up. This ensures that the physics engine is properly terminated, preventing any potential memory leaks or performance issues that could arise from an active runner running in the background after the component has been removed from the DOM. By calling Matter.Runner.stop(), we can clean up the resources used by the runner and ensure that it does not continue to run unnecessarily, allowing for better performance and resource management in the application.
-    Matter.Engine.clear(engine);            // Clear the physics engine to reset its state and free up resources when the component is unmounted or when the effect is cleaned up. This ensures that any bodies, constraints, or other elements added to the engine are removed, preventing potential memory leaks and ensuring that the engine is ready for a fresh start if the component is remounted. By calling Matter.Engine.clear(), we can maintain optimal performance and resource management in the application by properly cleaning up the physics engine when it is no longer needed.
-  };
-}, [screenRef]);                        // The dependency array [screenRef] ensures that the effect runs whenever the screenRef changes, allowing us to set up the physics simulation correctly based on the current reference to the screen element.
+    return () => {
+      Matter.Render.stop(render);         // Stop the renderer when the component is unmounted or when the effect is cleaned up. This ensures that the rendering process is properly terminated, preventing any potential memory leaks or performance issues that could arise from an active renderer running in the background after the component has been removed from the DOM. By calling Matter.Render.stop(), we can clean up the resources used by the renderer and ensure that it does not continue to run unnecessarily, allowing for better performance and resource management in the application.
+      Matter.Runner.stop(runner);             // Stop the runner to halt the physics simulation when the component is unmounted or when the effect is cleaned up. This ensures that the physics engine is properly terminated, preventing any potential memory leaks or performance issues that could arise from an active runner running in the background after the component has been removed from the DOM. By calling Matter.Runner.stop(), we can clean up the resources used by the runner and ensure that it does not continue to run unnecessarily, allowing for better performance and resource management in the application.
+      Matter.Engine.clear(engine);            // Clear the physics engine to reset its state and free up resources when the component is unmounted or when the effect is cleaned up. This ensures that any bodies, constraints, or other elements added to the engine are removed, preventing potential memory leaks and ensuring that the engine is ready for a fresh start if the component is remounted. By calling Matter.Engine.clear(), we can maintain optimal performance and resource management in the application by properly cleaning up the physics engine when it is no longer needed.
+      Matter.World.clear(engine.world);
+      render.canvas.remove();
+      render.canvas = null;
+      render.context = null;
+      render.textures = {};
+    };
+  }, [screenRef]);                        // The dependency array [screenRef] ensures that the effect runs whenever the screenRef changes, allowing us to set up the physics simulation correctly based on the current reference to the screen element.
 
-    return engineRef.current;                     // Return the current value of the engine reference, allowing other components or functions to access and interact with the physics engine as needed. By returning engineRef.current, we can provide access to the initialized physics engine instance, enabling other parts of the application to utilize its functionality for managing the carrom game simulation, such as applying forces, handling collisions, or updating the state of the game based on user interactions or game events.
+  return engineRef.current;                     // Return the current value of the engine reference, allowing other components or functions to access and interact with the physics engine as needed. By returning engineRef.current, we can provide access to the initialized physics engine instance, enabling other parts of the application to utilize its functionality for managing the carrom game simulation, such as applying forces, handling collisions, or updating the state of the game based on user interactions or game events.
 }
