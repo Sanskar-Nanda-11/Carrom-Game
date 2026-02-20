@@ -38,6 +38,51 @@ export const useCarromPhysics = (screenRef ) =>{
 
   ];
 
+  // coin spawn logic here
+  const coins = [];
+  const centerX = 300;
+  const centerY = 300;
+  const coinRadius = 15;
+
+  // the queen ( center )           300     300           15
+  coins.push(Matter.Bodies.circle(centerX , centerY , coinRadius, {
+    restitution: 0.4,
+    frictionAir: 0.04,
+    render : {
+      fillStyle : "#ef4444" , strokeStyle : " b91c1c" , lineWidth : 2
+    }
+  }));
+
+  // inner circle ( 6 coins )
+  for(let i = 0 ; i < 6 ; i++ ){
+    const angle = ( i * Math.PI ) / 3;
+    const x = centerX  +  Math.cos(angle) * ( coinRadius * 2.1 );
+    const y = centerY + Math.sign(angle) * ( coinRadius * 2.1 );
+    const color = i%2 === 0 ?  "#ffffff" : "#262626" ;
+    coins.push(Matter.Bodies.circle(
+      x , y , coinRadius , {
+        restitution : 0.4,
+        frictionAir : 0.04,
+        render : {fillStyle : color , strokeStyle : "#404040" , lineWidth : 1 }
+      }
+    ));
+  }
+
+  // outer circle ( 12 coins )
+  for(let i = 0 ; i < 12 ; i++ ){
+    const angle = ( i * Math.PI ) / 6;
+    const x = centerX  +  Math.cos(angle) * ( coinRadius * 4.1 );
+    const y = centerY + Math.sign(angle) * ( coinRadius * 4.1 );
+    const color = i%2 === 0 ?  "#ffffff" : "#262626" ;
+    coins.push(Matter.Bodies.circle(
+      x , y , coinRadius , {
+        restitution : 0.4,
+        frictionAir : 0.04,
+        render : {fillStyle : color , strokeStyle : "#404040" , lineWidth : 1 }
+      }
+    ));
+  }
+
   const striker = Matter.Bodies.circle(300 , 400 , 25 , { // Create a circular body to represent the striker in the carrom game. The Matter.Bodies.circle() function is used to create a circular body with specified position (x and y coordinates), radius, and options. The options include properties such as mass, restitution, frictionAir, and render settings that define the physical behavior and appearance of the striker in the physics simulation. By creating the striker with these properties, we can ensure that it interacts realistically with the other pieces on the carrom board during gameplay.
     mass : 5,       // Higher mass → hits harder, Lower mass → moves easily
     restitution : 0.5,        // Higher restitution → bouncier, Lower restitution → less bouncy
@@ -47,8 +92,15 @@ export const useCarromPhysics = (screenRef ) =>{
 
     // note :- the render options for the striker will only work if wireframes is set to false in the renderer options, allowing us to see the custom colors and styles applied to the striker in the visual representation of the carrom game.
   });
+  const mouse = Matter.Mouse.create(render.canvas);       // Create a mouse input for the renderer's canvas to enable user interaction with the carrom pieces. The Matter.Mouse.create() function initializes a new mouse instance that is linked to the canvas element used by the renderer. This allows us to track mouse movements and clicks on the canvas, enabling players to interact with the carrom pieces by clicking and dragging them to simulate shooting the striker or moving the coins on the board. By creating a mouse input, we can enhance the interactivity of the carrom game and provide a more engaging gaming experience for players.
+  const mouseConstraint = Matter.MouseConstraint.create(engine , {          // Create a mouse constraint to allow the user to interact with the carrom pieces using the mouse input. The Matter.MouseConstraint.create() function initializes a new mouse constraint that is linked to the physics engine and the mouse input. This constraint allows players to click and drag the carrom pieces on the board, simulating the action of shooting the striker or moving the coins during gameplay. By creating a mouse constraint, we can enable intuitive and interactive controls for the carrom game, enhancing the overall user experience and making it more enjoyable for players. The options for the mouse constraint include:
+    mouse : mouse,            // Link the mouse input to the mouse constraint to enable user interaction with the carrom pieces. By passing the mouse instance to the mouse constraint, we can ensure that the constraint responds to mouse movements and clicks, allowing players to click and drag the carrom pieces on the board during gameplay. This connection between the mouse input and the mouse constraint is essential for creating an interactive and engaging carrom game experience for players.
+    
+    constraint : { stiffness : 0.1 , render : { visible : false }}        // Set the stiffness of the mouse constraint to control how tightly it holds the carrom pieces when they are clicked and dragged. A lower stiffness value will allow for more flexible movement, while a higher stiffness value will create a stronger hold on the pieces. Additionally, we set the render option to make the constraint invisible, ensuring that it does not interfere with the visual representation of the carrom game while still allowing for effective user interaction with the pieces on the board.
+  });
+  render.mouse = mouse ;              // Link the mouse input to the renderer to ensure that mouse interactions are properly captured and processed during the physics simulation. By assigning the mouse instance to the render.mouse property, we can enable the renderer to track mouse movements and clicks on the canvas, allowing for seamless user interaction with the carrom pieces during gameplay. This connection between the mouse input and the renderer is essential for creating an interactive and engaging carrom game experience for players.
 
-  Matter.Composite.add(engine.world , [...walls , striker]);  // Add the walls and striker to the physics engine's world. The Matter.Composite.add() function is used to add multiple bodies (in this case, the walls and striker) to the physics simulation. By adding these elements to the engine's world, we enable them to interact with each other based on the physics calculations performed by the engine. This allows for realistic movements, collisions, and interactions between the carrom pieces and the walls during gameplay, creating an engaging and dynamic carrom game experience.
+  Matter.Composite.add(engine.world , [...walls , striker , ...coins , mouseConstraint ]); // Add the walls, striker, coins, and mouse constraint to the physics engine's world. By using Matter.Composite.add(), we can add multiple bodies and constraints to the physics simulation at once. This allows us to set up the entire carrom game environment, including the boundaries (walls), the interactive striker, the coins that players will aim to pocket, and the mouse constraint that enables user interaction with the pieces on the board. By adding these elements to the engine's world, we can ensure that they are all part of the physics simulation and will interact with each other according to the defined physics properties and rules during gameplay.
 
   const runner = Matter.Runner.create();      // Create a runner to control the update loop of the physics simulation. The Matter.Runner.create() function initializes a new runner instance that will be responsible for continuously updating the physics engine and rendering the simulation. By using a runner, we can ensure that the physics simulation runs smoothly and consistently, allowing for real-time interactions and movements of the carrom pieces on the board. The runner will call the necessary functions to update the physics engine and render the changes on the screen, creating an immersive and interactive carrom game experience.
 
