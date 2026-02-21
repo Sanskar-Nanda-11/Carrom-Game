@@ -51,9 +51,9 @@ export const useCarromPhysics = (screenRef) => {
     const coinRadius = 15;
 
     // the queen ( center )           300     300           15
-    coins.push(Matter.Bodies.circle(centerX, centerY, coinRadius, {
-      restitution: 0.4,
-      frictionAir: 0.04,
+    coins.push(Matter.Bodies.circle(centerX, centerY, coinRadius, {           // Create a circular body to represent the queen coin in the carrom game. The Matter.Bodies.circle() function is used to create a circular body with specified position (centerX and centerY), radius (coinRadius), and options that define its physical properties and appearance in the physics simulation. By creating the queen coin with these properties, we can ensure that it interacts realistically with the other pieces on the carrom board during gameplay, adding an important element to the game as players aim to pocket the queen for additional points. The options for the queen coin include:
+      restitution: 0.4,         // Set restitution to 0.4 to make the queen coin moderately bouncy, allowing it to bounce off other pieces and walls with some elasticity. This option enhances the gameplay experience by adding a realistic bounce effect when the queen coin collides with other elements on the board, making the game more dynamic and enjoyable for players. By adjusting the restitution value, we can control how much energy is retained during collisions, creating a more engaging and interactive carrom game.
+      frictionAir: 0.04,        // Set frictionAir to 0.04 to provide a moderate amount of air resistance for the queen coin, allowing it to slow down gradually as it moves across the board. This option adds a layer of realism to the physics simulation, as it simulates the effect of air resistance on the movement of the coin, making the gameplay experience more immersive and enjoyable for players. By adjusting the frictionAir value, we can control how quickly the queen coin slows down, creating a more engaging and interactive carrom game.
       render: {
         fillStyle: "#ef4444"
         //  strokeStyle : " b91c1c" , lineWidth : 2
@@ -61,12 +61,12 @@ export const useCarromPhysics = (screenRef) => {
     }));
 
     // inner circle ( 6 coins )
-    for (let i = 0; i < 6; i++) {
-      const angle = (i * Math.PI) / 3;
-      const x = centerX + Math.cos(angle) * (coinRadius * 2.1);
-      const y = centerY + Math.sign(angle) * (coinRadius * 2.1);
+    for (let i = 0; i < 6; i++) {         // Create a loop to generate the inner circle of coins around the queen coin. The loop iterates 6 times, creating 6 coins that are evenly spaced around the center of the board. The position of each coin is calculated using trigonometric functions (cosine and sine) to determine their x and y coordinates based on their angle from the center. By creating these coins with the specified properties, we can ensure that they interact realistically with the other pieces on the carrom board during gameplay, adding an important element to the game as players aim to pocket these coins for points.
+      const angle = (i * Math.PI) / 3;            // Calculate the angle for each coin based on its position in the loop. By multiplying the loop index (i) by Math.PI and dividing by 3, we can determine the angle at which each coin will be placed around the center of the board. This calculation ensures that the coins are evenly spaced in a circular pattern around the queen coin, creating a visually appealing and balanced arrangement for the inner circle of coins in the carrom game.
+      const x = centerX + Math.cos(angle) * (coinRadius * 2.1);             // Calculate the x-coordinate for each coin based on its angle and distance from the center. By using the cosine function, we can determine how far along the x-axis each coin should be placed from the center of the board, creating a circular arrangement around the queen coin. The distance is determined by multiplying the coinRadius by 2.1, which provides enough space between the coins to prevent them from overlapping while still maintaining a visually appealing layout for the inner circle of coins in the carrom game.
+      const y = centerY + Math.sin(angle) * (coinRadius * 2.1);            // Calculate the y-coordinate for each coin based on its angle and distance from the center. By using the sine function, we can determine how far along the y-axis each coin should be placed from the center of the board, creating a circular arrangement around the queen coin. The distance is determined by multiplying the coinRadius by 2.1, which provides enough space between the coins to prevent them from overlapping while still maintaining a visually appealing layout for the inner circle of coins in the carrom game.
       // const color = i % 2 === 0 ? "#ffffff" : "#262626";
-      coins.push(Matter.Bodies.circle(
+      coins.push(Matter.Bodies.circle(              // Create a circular body for each coin in the inner circle using Matter.Bodies.circle() function. Each coin is defined by its calculated x and y coordinates, radius (coinRadius), and options that specify its physical properties and appearance in the physics simulation. By creating these coins with the appropriate properties, we can ensure that they interact realistically with the other pieces on the carrom board during gameplay, adding an important element to the game as players aim to pocket these coins for points. The options for each coin include:
         x, y, coinRadius, {
         // {
         // restitution: 0.4,
@@ -76,11 +76,11 @@ export const useCarromPhysics = (screenRef) => {
       ));
     }
 
-    // outer circle ( 12 coins )
+    // outer circle ( 12 coins )                  same comments for the loop as above but with 12 iterations and adjusted angle calculation to space the coins evenly around the center of the board, creating a larger circular arrangement for the outer circle of coins in the carrom game.
     for (let i = 0; i < 12; i++) {
       const angle = (i * Math.PI) / 6;
       const x = centerX + Math.cos(angle) * (coinRadius * 4.1);
-      const y = centerY + Math.sign(angle) * (coinRadius * 4.1);
+      const y = centerY + Math.sin(angle) * (coinRadius * 4.1);
       // const color = i % 2 === 0 ? "#ffffff" : "#262626";
       coins.push(Matter.Bodies.circle(
         x, y, coinRadius, {
@@ -119,11 +119,11 @@ export const useCarromPhysics = (screenRef) => {
       Matter.Render.stop(render);         // Stop the renderer when the component is unmounted or when the effect is cleaned up. This ensures that the rendering process is properly terminated, preventing any potential memory leaks or performance issues that could arise from an active renderer running in the background after the component has been removed from the DOM. By calling Matter.Render.stop(), we can clean up the resources used by the renderer and ensure that it does not continue to run unnecessarily, allowing for better performance and resource management in the application.
       Matter.Runner.stop(runner);             // Stop the runner to halt the physics simulation when the component is unmounted or when the effect is cleaned up. This ensures that the physics engine is properly terminated, preventing any potential memory leaks or performance issues that could arise from an active runner running in the background after the component has been removed from the DOM. By calling Matter.Runner.stop(), we can clean up the resources used by the runner and ensure that it does not continue to run unnecessarily, allowing for better performance and resource management in the application.
       Matter.Engine.clear(engine);            // Clear the physics engine to reset its state and free up resources when the component is unmounted or when the effect is cleaned up. This ensures that any bodies, constraints, or other elements added to the engine are removed, preventing potential memory leaks and ensuring that the engine is ready for a fresh start if the component is remounted. By calling Matter.Engine.clear(), we can maintain optimal performance and resource management in the application by properly cleaning up the physics engine when it is no longer needed.
-      Matter.World.clear(engine.world);
-      render.canvas.remove();
-      render.canvas = null;
-      render.context = null;
-      render.textures = {};
+      Matter.World.clear(engine.world);           // Clear the physics world to remove all bodies, constraints, and other elements from the simulation when the component is unmounted or when the effect is cleaned up. This ensures that the physics world is reset to an empty state, preventing any potential memory leaks or performance issues that could arise from lingering elements in the world after the component has been removed from the DOM. By calling Matter.World.clear(), we can maintain optimal performance and resource management in the application by properly cleaning up the physics world when it is no longer needed.
+      render.canvas.remove();           // remove all the canvas  elements created by the renderer to free up resources and prevent memory leaks when the component is unmounted or when the effect is cleaned up. This ensures that any canvas elements used for rendering the physics simulation are properly removed from the DOM, allowing for better performance and resource management in the application. By calling render.canvas.remove(), we can ensure that the visual elements associated with the renderer are cleaned up effectively when they are no longer needed.
+      render.canvas = null;               // Clear the reference to the canvas element in the renderer to prevent any potential memory leaks or issues with lingering references when the component is unmounted or when the effect is cleaned up. By setting render.canvas to null, we can ensure that any references to the canvas element are properly cleared, allowing for better performance and resource management in the application. This is an important step in the cleanup process to ensure that all resources associated with the renderer are properly released when they are no longer needed.
+      render.context = null;                          // Clear the reference to the rendering context in the renderer 
+      render.textures = {};                             // Clear the textures used by the renderer to free up resources and prevent memory leaks when the component is unmounted or when the effect is cleaned up. By setting render.textures to an empty object, we can ensure that any textures used for rendering the physics simulation are properly cleared, allowing for better performance and resource management in the application. This step is crucial in the cleanup process to ensure that all resources associated with the renderer are effectively released when they are no longer needed. By clearing the textures, we can prevent any potential issues that could arise from lingering texture references in the renderer after the component has been removed from the DOM, ensuring optimal performance and resource management in the application.
     };
   }, [screenRef]);                        // The dependency array [screenRef] ensures that the effect runs whenever the screenRef changes, allowing us to set up the physics simulation correctly based on the current reference to the screen element.
 
