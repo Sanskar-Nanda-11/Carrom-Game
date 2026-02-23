@@ -44,6 +44,23 @@ export const useCarromPhysics = (screenRef) => {
 
     ];
 
+    const pocketpositions = [           // Define the positions of the pockets on the carrom board. Each pocket is represented by an object with x and y coordinates, indicating its location on the board. These positions will be used to determine when a carrom piece has been pocketed during gameplay, allowing us to update the game state accordingly. By defining these pocket positions, we can create a more engaging and interactive carrom game experience for players as they aim to pocket their pieces into these designated areas.
+
+      { x : 35 , y : 35 },    // Define the positions of the pockets on the carrom board. Each pocket is represented by an object with x and y coordinates, indicating its location on the board. These positions will be used to determine when a carrom piece has been pocketed during gameplay, allowing us to update the game state accordingly. By defining these pocket positions, we can create a more engaging and interactive carrom game experience for players as they aim to pocket their pieces into these designated areas. ( this is top left pocket )
+      { x : 565 , y : 35 } ,      // top right pocket
+      { x : 35 , y : 565 } ,        // bottom left pocket
+      { x : 565 , y : 565 }         // bottom right pocket
+    ]
+
+    const pockets = pocketpositions.map( pos => 
+      Matter.Bodies.circle(pos.x , pos.y , 25 , {
+        isStatic: true,
+        isSensor: true,
+        render : { visible : false } 
+      })
+    );
+
+
     // coin spawn logic here
     const coins = [];
     const centerX = 300;
@@ -108,6 +125,25 @@ export const useCarromPhysics = (screenRef) => {
     render.mouse = mouse;              // Link the mouse input to the renderer to ensure that mouse interactions are properly captured and processed during the physics simulation. By assigning the mouse instance to the render.mouse property, we can enable the renderer to track mouse movements and clicks on the canvas, allowing for seamless user interaction with the carrom pieces during gameplay. This connection between the mouse input and the renderer is essential for creating an interactive and engaging carrom game experience for players.
 
     Matter.Composite.add(engine.world, [...walls, striker, ...coins, mouseConstraint]); // Add the walls, striker, coins, and mouse constraint to the physics engine's world. By using Matter.Composite.add(), we can add multiple bodies and constraints to the physics simulation at once. This allows us to set up the entire carrom game environment, including the boundaries (walls), the interactive striker, the coins that players will aim to pocket, and the mouse constraint that enables user interaction with the pieces on the board. By adding these elements to the engine's world, we can ensure that they are all part of the physics simulation and will interact with each other according to the defined physics properties and rules during gameplay.
+
+    Matter.Events.on(engine , 'collisionStart' , (event) => {
+      event.pairs.forEach((pair) => {
+        const{ bodyA , bodyB } = pair ;
+
+        const isPocket = pockets.includes(bodyA) || pockets.includes(bodyB); // declaration
+        const otherBody = pockets.includes( bodyA ) ? bodyB : bodyA ;    // declaration
+
+        if(isPocket){
+          if(otherBody.label === 'striker'){
+            Matter.Body.setPosition(otherBody ,{x : 300 , y : 480});
+            Matter.Body.setVelocity(otherBody ,{x : 0 , y : 0});
+          }else{
+            Matter.Composite.remove(engine.world , otherBody);
+            console.log(" Goal ! coin packed ");
+          }
+        }
+      });
+    });
 
     const runner = Matter.Runner.create();      // Create a runner to control the update loop of the physics simulation. The Matter.Runner.create() function initializes a new runner instance that will be responsible for continuously updating the physics engine and rendering the simulation. By using a runner, we can ensure that the physics simulation runs smoothly and consistently, allowing for real-time interactions and movements of the carrom pieces on the board. The runner will call the necessary functions to update the physics engine and render the changes on the screen, creating an immersive and interactive carrom game experience.
 
