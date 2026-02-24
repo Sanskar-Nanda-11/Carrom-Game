@@ -52,27 +52,30 @@ export const useCarromPhysics = (screenRef) => {
       { x : 565 , y : 565 }         // bottom right pocket
     ]
 
-    const pockets = pocketpositions.map( pos => 
-      Matter.Bodies.circle(pos.x , pos.y , 25 , {
-        isStatic: true,
-        isSensor: true,
-        render : { visible : false } 
+    const pockets = pocketpositions.map( pos =>             //  Create circular bodies to represent the pockets on the carrom board using Matter.Bodies.circle() function. Each pocket is defined by its position (x and y coordinates) and a radius of 25, along with options that specify its physical properties and appearance in the physics simulation. By creating these pocket bodies, we can detect when a carrom piece collides with a pocket during gameplay, allowing us to implement logic for pocketing pieces and updating the game state accordingly. The options for each pocket include:
+      Matter.Bodies.circle(pos.x , pos.y , 25 , {                   // Create circular bodies to represent the pockets on the carrom board using Matter.Bodies.circle() function. Each pocket is defined by its position (x and y coordinates) and a radius of 25, along with options that specify its physical properties and appearance in the physics simulation. By creating these pocket bodies, we can detect when a carrom piece collides with a pocket during gameplay, allowing us to implement logic for pocketing pieces and updating the game state accordingly. The options for each pocket include:
+        isStatic: true,                           // Set isStatic to true to ensure that the pocket bodies do not move or interact with other bodies in the physics simulation. This is important for creating a stable and consistent representation of the pockets on the carrom board, allowing us to accurately detect when a carrom piece collides with a pocket during gameplay. By setting isStatic to true, we can ensure that the pockets serve their intended purpose as stationary targets for players to aim for when trying to pocket their pieces.
+        isSensor: true,                   // Set isSensor to true to make the pocket bodies act as sensors in the physics simulation. This means that they will not physically interact with other bodies, but they will still trigger collision events when a carrom piece collides with them. This is important for implementing the logic of pocketing pieces during gameplay, as it allows us to detect when a piece has been pocketed without affecting the movement or behavior of the pieces in the simulation. By setting isSensor to true, we can create a more realistic and functional representation of the pockets in the carrom game.
+        render : { visible : false }                    // Set the render option to make the pocket bodies invisible in the visual representation of the carrom game. By setting visible to false, we can ensure that the pockets do not interfere with the visual aesthetics of the game while still allowing them to function as intended in the physics simulation. This allows players to focus on the carrom pieces and the board without being distracted by visible pocket bodies, creating a cleaner and more immersive gaming experience. By making the pockets invisible, we can enhance the overall visual appeal of the carrom game while maintaining their functionality in detecting when pieces are pocketed during gameplay.
       })
     );
 
 
     // coin spawn logic here
-    const coins = [];
+    const coins = [];                 // Initialize an empty array to hold the coin bodies that will be created for the carrom game. This array will be populated with the circular bodies representing the coins on the board, allowing us to manage and interact with them during gameplay. By using an array to store the coin bodies, we can easily access and manipulate them as needed, such as checking for collisions, updating their positions, or removing them from the board when they are pocketed. This structure helps us organize the coin bodies effectively within the physics simulation of the carrom game.
     const centerX = 300;
     const centerY = 300;
     const coinRadius = 15;
 
     // the queen ( center )           300     300           15
     coins.push(Matter.Bodies.circle(centerX, centerY, coinRadius, {           // Create a circular body to represent the queen coin in the carrom game. The Matter.Bodies.circle() function is used to create a circular body with specified position (centerX and centerY), radius (coinRadius), and options that define its physical properties and appearance in the physics simulation. By creating the queen coin with these properties, we can ensure that it interacts realistically with the other pieces on the carrom board during gameplay, adding an important element to the game as players aim to pocket the queen for additional points. The options for the queen coin include:
+
+      label : 'queen',       // Set the label of the queen coin body to 'queen' to identify it in the physics simulation. This label can be used to differentiate the queen coin from other bodies in the simulation, allowing us to apply specific logic or interactions when the queen coin collides with other pieces or pockets on the board during gameplay. By assigning a label to the queen coin, we can enhance the functionality and interactivity of the carrom game.
+
       restitution: 0.4,         // Set restitution to 0.4 to make the queen coin moderately bouncy, allowing it to bounce off other pieces and walls with some elasticity. This option enhances the gameplay experience by adding a realistic bounce effect when the queen coin collides with other elements on the board, making the game more dynamic and enjoyable for players. By adjusting the restitution value, we can control how much energy is retained during collisions, creating a more engaging and interactive carrom game.
       frictionAir: 0.04,        // Set frictionAir to 0.04 to provide a moderate amount of air resistance for the queen coin, allowing it to slow down gradually as it moves across the board. This option adds a layer of realism to the physics simulation, as it simulates the effect of air resistance on the movement of the coin, making the gameplay experience more immersive and enjoyable for players. By adjusting the frictionAir value, we can control how quickly the queen coin slows down, creating a more engaging and interactive carrom game.
       render: {
-        fillStyle: "#ef4444"
+        fillStyle: "#ef4444"              //  Set the fill style for the queen coin to a specific color (in this case, a bright red). This option allows us to customize the appearance of the queen coin in the carrom game, making it visually distinct from the other coins and enhancing the overall aesthetic of the game. By setting the fillStyle, we can create a more visually appealing and immersive carrom game environment, allowing players to easily identify and focus on the queen coin during gameplay. Note :- works only when wireframes is set to false in the renderer options.
         //  strokeStyle : " b91c1c" , lineWidth : 2
       }
     }));
@@ -88,6 +91,7 @@ export const useCarromPhysics = (screenRef) => {
         // {
         // restitution: 0.4,
         // frictionAir: 0.04,
+        label :'coin',     // Set the label of each coin body to 'coin' to identify them in the physics simulation. This label can be used to differentiate the coins from other bodies in the simulation, allowing us to apply specific logic or interactions when the coins collide with other pieces or pockets on the board during gameplay. By assigning a label to each coin, we can enhance the functionality and interactivity of the carrom game.
         render: { fillStyle: i % 2 === 0 ? "#ffffff" : "#262626" }, frictionAir: 0.04}
       // }
       ));
@@ -103,12 +107,14 @@ export const useCarromPhysics = (screenRef) => {
         x, y, coinRadius, {
         // restitution: 0.4,
         // frictionAir: 0.04,
+        label :'coin',
         render: { fillStyle: i % 2 === 0 ? "#ffffff" : "#262626" }, frictionAir: 0.04
       }
       ));
     }
 
     const striker = Matter.Bodies.circle(300, 480, 25, { // Create a circular body to represent the striker in the carrom game. The Matter.Bodies.circle() function is used to create a circular body with specified position (x and y coordinates), radius, and options. The options include properties such as mass, restitution, frictionAir, and render settings that define the physical behavior and appearance of the striker in the physics simulation. By creating the striker with these properties, we can ensure that it interacts realistically with the other pieces on the carrom board during gameplay.
+      label : 'striker',      // Set the label of the striker body to 'striker' to identify it in the physics simulation. This label can be used to differentiate the striker from other bodies in the simulation, allowing us to apply specific logic or interactions when the striker collides with other pieces or pockets on the board during gameplay. By assigning a label to the striker, we can enhance the functionality and interactivity of the carrom game.
       mass: 5,       // Higher mass → hits harder, Lower mass → moves easily
       restitution: 0.5,        // Higher restitution → bouncier, Lower restitution → less bouncy
       frictionAir: 0.04,       // Higher frictionAir → slows down faster, Lower frictionAir → retains speed longer
@@ -126,19 +132,20 @@ export const useCarromPhysics = (screenRef) => {
 
     Matter.Composite.add(engine.world, [...walls, striker, ...coins, mouseConstraint]); // Add the walls, striker, coins, and mouse constraint to the physics engine's world. By using Matter.Composite.add(), we can add multiple bodies and constraints to the physics simulation at once. This allows us to set up the entire carrom game environment, including the boundaries (walls), the interactive striker, the coins that players will aim to pocket, and the mouse constraint that enables user interaction with the pieces on the board. By adding these elements to the engine's world, we can ensure that they are all part of the physics simulation and will interact with each other according to the defined physics properties and rules during gameplay.
 
-    Matter.Events.on(engine , 'collisionStart' , (event) => {
-      event.pairs.forEach((pair) => {
-        const{ bodyA , bodyB } = pair ;
+    Matter.Events.on(engine , 'collisionStart' , (event) => {       // Set up an event listener for collision events in the physics engine. By using Matter.Events.on(), we can listen for the 'collisionStart' event, which is triggered whenever a collision occurs between bodies in the physics simulation. The callback function receives an event object that contains information about the collision, including the pairs of bodies that collided. This allows us to implement custom logic to handle specific interactions during gameplay, such as detecting when a coin has been pocketed or when the striker collides with other pieces on the board, enhancing the overall interactivity and functionality of the carrom game.
+      event.pairs.forEach((pair) => {               // Iterate through each pair of bodies that collided during the 'collisionStart' event. The event.pairs array contains information about all the collisions that occurred, and by using forEach, we can process each collision pair individually. This allows us to implement specific logic for each collision, such as checking if a coin has been pocketed or if the striker has collided with other pieces on the board, enabling us to update the game state accordingly and enhance the overall gameplay experience in the carrom game.
+        const{ bodyA , bodyB } = pair ;             // Destructure the bodyA and bodyB properties from the collision pair to access the two bodies that were involved in the collision. By extracting these properties, we can easily reference the specific bodies that collided and implement custom logic based on their labels or other properties during the 'collisionStart' event. This allows us to determine if a coin has been pocketed or if the striker has collided with other pieces on the board, enabling us to update the game state and enhance the overall interactivity of the carrom game.
 
-        const isPocket = pockets.includes(bodyA) || pockets.includes(bodyB); // declaration
-        const otherBody = pockets.includes( bodyA ) ? bodyB : bodyA ;    // declaration
+        const isPocket = pockets.includes(bodyA) || pockets.includes(bodyB); // declaration                           == can be true or false       // Check if either of the colliding bodies is a pocket by using the includes() method to see if bodyA or bodyB is present in the pockets array. This allows us to determine if a collision involves a pocket, which is important for implementing game logic related to pocketing coins during gameplay. By checking if either body is a pocket, we can execute specific actions, such as removing a coin from the board or resetting the striker's position when it collides with a pocket, enhancing the overall functionality and interactivity of the carrom game.
 
-        if(isPocket){
-          if(otherBody.label === 'striker'){
-            Matter.Body.setPosition(otherBody ,{x : 300 , y : 480});
-            Matter.Body.setVelocity(otherBody ,{x : 0 , y : 0});
+        const otherBody = pockets.includes( bodyA ) ? bodyB : bodyA ;    // declaration              == can be bodyA or bodyB depending on which one is the pocket       // Determine which of the colliding bodies is the non-pocket body by checking if bodyA is a pocket. If bodyA is a pocket, then otherBody will be set to bodyB; otherwise, it will be set to bodyA. This allows us to identify the specific body that collided with the pocket, which is important for implementing game logic related to pocketing coins during gameplay. By determining the otherBody, we can execute specific actions based on its properties, such as removing a coin from the board or resetting the striker's position when it collides with a pocket, enhancing the overall functionality and interactivity of the carrom game.
+
+        if(isPocket){             //  Check if the collision involves a pocket by evaluating the isPocket variable. If isPocket is true, it means that one of the colliding bodies is a pocket, and we can proceed to implement the logic for handling the collision with the pocket. This may include actions such as removing a coin from the board if it was pocketed or resetting the striker's position if it collided with a pocket, enhancing the overall gameplay experience in the carrom game.    
+          if(otherBody.label === 'striker'){                // Check if the other body involved in the collision is the striker by evaluating its label property. If otherBody.label is equal to 'striker', it means that the striker has collided with a pocket, and we can implement specific logic to handle this scenario. This may include resetting the striker's position to a default location on the board and setting its velocity to zero to stop its movement, allowing players to continue playing without any disruption caused by the striker being pocketed. By handling this case separately, we can ensure that the game remains enjoyable and functional even when the striker interacts with the pockets on the board.
+            Matter.Body.setPosition(otherBody ,{x : 300 , y : 480});          // Reset the position of the striker to a default location on the board (x: 300, y: 480) when it collides with a pocket. This allows players to continue playing without any disruption caused by the striker being pocketed, ensuring that the game remains enjoyable and functional even when the striker interacts with the pockets on the board. By setting the position of the striker back to its starting point, we can maintain a smooth gameplay experience for players as they aim to shoot the striker and pocket coins during the carrom game.
+            Matter.Body.setVelocity(otherBody ,{x : 0 , y : 0});                        // Set the velocity of the striker to zero when it collides with a pocket. This ensures that the striker stops moving immediately after being reset to its default position, preventing any unintended movement or interactions that could occur if the striker retained its velocity after being pocketed. By setting the velocity to zero, we can maintain a smooth and controlled gameplay experience for players as they continue to play the carrom game after the striker interacts with the pockets on the board.
           }else{
-            Matter.Composite.remove(engine.world , otherBody);
+            Matter.Composite.remove(engine.world , otherBody);            // Remove the other body (which is not the striker) from the physics engine's world when it collides with a pocket. This is typically done when a coin is pocketed during gameplay, allowing us to visually remove the coin from the board and update the game state accordingly. By removing the body from the engine's world, we can ensure that it no longer interacts with other pieces on the board, creating a more realistic and enjoyable gaming experience for players as they aim to pocket coins during the carrom game.
             console.log(" Goal ! coin packed ");
           }
         }
