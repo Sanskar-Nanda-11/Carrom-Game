@@ -18,10 +18,12 @@ export const useCarromPhysics = (screenRef , onScore , onQueenStatus) => {
         width: 600,
         height: 600,
         wireframes: false,     // Set wireframes to false to render solid shapes instead of wireframe outlines. This option allows us to create a more visually appealing representation of the carrom pieces and board, making it easier for players to see and interact with the game elements. By setting wireframes to false, we can enhance the overall visual experience of the carrom game.
-        background: 'transparent',
-        pixelRatio: window.devicePixelRatio || 1  // Set the background of the renderer to transparent and adjust the pixel ratio for better visual quality. By setting the background to transparent, we can allow the underlying elements of the carrom game, such as the board and pieces, to be visible without any background color interfering with the visual presentation. This creates a more immersive and visually appealing gaming experience. Additionally, setting the pixelRatio to window.devicePixelRatio ensures that the renderer will display the simulation with optimal clarity and sharpness on high-resolution screens, providing a better visual experience for players regardless of their device's display capabilities.
+        background: 'transparent',    // Set the background of the renderer to transparent to allow the underlying styles and colors of the screen element to show through. This option is important for creating a visually cohesive carrom game, as it allows us to maintain the aesthetic design of the game while still rendering the physics simulation on top. By using a transparent background, we can ensure that the carrom pieces and board are visually integrated with the overall design of the game, enhancing the player's immersion and enjoyment.
 
-        // Set the background of the renderer to transparent, allowing us to see the underlying elements of the carrom game, such as the board and pieces, without any background color interfering with the visual presentation. This option is particularly useful for creating a more immersive and visually appealing carrom game experience, as it allows the focus to be on the game elements rather than a distracting background. Additionally, setting the pixelRatio to window.devicePixelRatio ensures that the renderer will display the simulation with optimal clarity and sharpness on high-resolution screens, providing a better visual experience for players regardless of their device's display capabilities.
+
+        // pixelRatio: window.devicePixelRatio || 1  
+
+          // Set the pixel ratio for the renderer to ensure that the simulation is rendered at the appropriate resolution based on the device's display capabilities. By using window.devicePixelRatio, we can automatically adjust the rendering quality for high-resolution displays, providing a sharper and clearer visual experience for players. If window.devicePixelRatio is not available, we default to a pixel ratio of 1 to ensure that the simulation is still rendered correctly on standard displays. By setting the pixel ratio, we can enhance the overall visual quality of the carrom game across different devices and screen resolutions.
       },
     });
 
@@ -64,9 +66,9 @@ export const useCarromPhysics = (screenRef , onScore , onQueenStatus) => {
 
     // coin spawn logic here
     const coins = [];                 // Initialize an empty array to hold the coin bodies that will be created for the carrom game. This array will be populated with the circular bodies representing the coins on the board, allowing us to manage and interact with them during gameplay. By using an array to store the coin bodies, we can easily access and manipulate them as needed, such as checking for collisions, updating their positions, or removing them from the board when they are pocketed. This structure helps us organize the coin bodies effectively within the physics simulation of the carrom game.
-    const centerX = 300;
-    const centerY = 300;
-    const coinRadius = 15;
+    const centerX = 300;        // Define the x-coordinate for the center of the carrom board, which will be used as a reference point for positioning the coins. By setting centerX to 300, we can ensure that the coins are arranged symmetrically around the center of the board, creating a visually balanced and appealing layout for the carrom game. This center point will serve as the basis for calculating the positions of the coins in both the inner and outer circles, allowing us to create a cohesive and organized arrangement of pieces on the board during gameplay.
+    const centerY = 300;        // same as centerX but for y-coordinate, defining the vertical center of the carrom board for positioning the coins in a symmetrical arrangement around the center point during gameplay.
+    const coinRadius = 15;          // Define the radius for the coins in the carrom game. By setting coinRadius to 15, we can ensure that the coins are appropriately sized for the game, allowing for realistic interactions and collisions with other pieces on the board. This radius will be used when creating the circular bodies for the coins, determining their size and how they will fit within the layout of the carrom board during gameplay. By choosing an appropriate coin radius, we can enhance the overall visual appeal and functionality of the carrom game, providing a more enjoyable experience for players.
 
     // the queen ( center )           300     300           15
     coins.push(Matter.Bodies.circle(centerX, centerY, coinRadius, {           // Create a circular body to represent the queen coin in the carrom game. The Matter.Bodies.circle() function is used to create a circular body with specified position (centerX and centerY), radius (coinRadius), and options that define its physical properties and appearance in the physics simulation. By creating the queen coin with these properties, we can ensure that it interacts realistically with the other pieces on the carrom board during gameplay, adding an important element to the game as players aim to pocket the queen for additional points. The options for the queen coin include:
@@ -80,6 +82,8 @@ export const useCarromPhysics = (screenRef , onScore , onQueenStatus) => {
         //  strokeStyle : " b91c1c" , lineWidth : 2
       }
     }));
+
+    
 
     // inner circle ( 6 coins )
     for (let i = 0; i < 6; i++) {         // Create a loop to generate the inner circle of coins around the queen coin. The loop iterates 6 times, creating 6 coins that are evenly spaced around the center of the board. The position of each coin is calculated using trigonometric functions (cosine and sine) to determine their x and y coordinates based on their angle from the center. By creating these coins with the specified properties, we can ensure that they interact realistically with the other pieces on the carrom board during gameplay, adding an important element to the game as players aim to pocket these coins for points.
