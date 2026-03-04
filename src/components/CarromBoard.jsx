@@ -1,11 +1,20 @@
-import React, { useRef } from 'react'
+import React, { useRef , useState} from 'react'
 import { useCarromPhysics } from './useCarromPhysics'
 
 const CarromBoard = () => {
 
-    const boardRef = useRef(null);
+    const boardRef = useRef(null);              // Reference to the carrom board element
+    const [score, setScores] = useState({p1:0 , p2:0});                 // State to keep track of player scores
+    const [CurrentPlayer, setCurrentPlayer] = useState('p1');                   // State to keep track of the current player (p1 or p2)
 
-    useCarromPhysics(boardRef);
+    const handlescore = ()=>{
+        setScores(prev => ({
+            ...prev ,
+            [CurrentPlayer] : prev[CurrentPlayer] + 20
+        }));
+    };
+
+    useCarromPhysics(boardRef , handlescore);
     return (
         <>
             <div className='flex flex-col items-center justify-center min-h-screen bg-neutral-950 text-white font-sans p-4 select-none'>
@@ -19,14 +28,14 @@ const CarromBoard = () => {
                         </p>
                     </div>
                     <div className='flex items-center gap-4 bg-white/5 border border-white/10 px-6 py-2 rounded-2xl backdrop-blur-md'>
-                        <div className='text-center'>
+                        <div className={`text-center transition-opacity ${ CurrentPlayer === 'P1' ? 'opacity-100' : 'opacity-40'}`}>
                             <span className='block text-[10px] text-zinc-500 font-bold '> P1 </span>
-                            <span className='text-xl font-mono text-amber-500'> 00 </span>
+                            <span className='text-xl font-mono text-amber-500'> {score.p1.toString().padStart(2 , '0')} </span>
                         </div>
                         <div className='h-6 w-[1px] bg-white/20 ' />
-                        <div className='text-center'>
+                        <div className={`text-center transition-opacity ${ CurrentPlayer === 'P2' ? 'opacity-100' : 'opacity-40'}`}>
                             <span className='block text-[10px] text-zinc-500 font-bold '> P2 </span>
-                            <span className='text-xl font-mono text-zinc-300'> 00 </span>
+                            <span className='text-xl font-mono text-zinc-300'> {score.p2.toString().padStart(2 , '0')} </span>
                         </div>
                     </div>
                 </div>
@@ -49,7 +58,8 @@ const CarromBoard = () => {
                         <div className='w-9 h-9 -mt-[2px] rounded-full border-2 border-[#4e342e]/20' />
                         <div className='w-9 h-9 -mt-[2px] rounded-full border-2 border-[#4e342e]/20' />
                     </div> */}
-                <div className='mt-8 flex flex-col items-center gap-2 opacity-80'>
+                <div className='mt-8 flex flex-col items-center gap-4'>
+                    <button type="button" onClick={() => setCurrentPlayer(prev => prev === 'p1' ? 'p2' : 'p1' )} className='px-4 py-1 text-[10px] font-bold uppercase tracking-widest bg-amber-500 text-black rounded-full hover:bg-amber-400'></button>
                     <div className='px-6 py-2 bg-zinc-900/50 border border-white/5 rounded-full backdrop-blur-sm animate-pulse'>
                         <p className=' text-[10px] uppercase tracking-widest text-amber-500 font-bold '>
                             Pull & Release The Striker To Shoot
