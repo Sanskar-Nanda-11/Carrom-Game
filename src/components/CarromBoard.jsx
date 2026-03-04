@@ -6,6 +6,7 @@ const CarromBoard = () => {
     const boardRef = useRef(null);              // Reference to the carrom board element
     const [score, setScores] = useState({p1:0 , p2:0});                 // State to keep track of player scores
     const [CurrentPlayer, setCurrentPlayer] = useState('p1');                   // State to keep track of the current player (p1 or p2)
+    const [Winner , SetWinner] = useState(null);
 
     const handlescore = ()=>{
         setScores(prev => ({
@@ -13,6 +14,8 @@ const CarromBoard = () => {
             [CurrentPlayer] : prev[CurrentPlayer] + 20
         }));
     };
+
+    const Win_score = 100;
 
     useCarromPhysics(boardRef , handlescore);
     return (
@@ -59,7 +62,7 @@ const CarromBoard = () => {
                         <div className='w-9 h-9 -mt-[2px] rounded-full border-2 border-[#4e342e]/20' />
                     </div> */}
                 <div className='mt-8 flex flex-col items-center gap-4'>
-                    <button type="button" onClick={() => setCurrentPlayer(prev => prev === 'p1' ? 'p2' : 'p1' )} className='px-4 py-1 text-[10px] font-bold uppercase tracking-widest bg-amber-500 text-black rounded-full hover:bg-amber-400'></button>
+                    <button type="button" onClick={() => setCurrentPlayer(prev => prev === 'p1' ? 'p2' : 'p1' )} className='px-4 py-1 text-[10px] font-bold uppercase tracking-widest bg-amber-500 text-black rounded-full hover:bg-amber-400 transition-colors'> Switch Player </button>
                     <div className='px-6 py-2 bg-zinc-900/50 border border-white/5 rounded-full backdrop-blur-sm animate-pulse'>
                         <p className=' text-[10px] uppercase tracking-widest text-amber-500 font-bold '>
                             Pull & Release The Striker To Shoot
