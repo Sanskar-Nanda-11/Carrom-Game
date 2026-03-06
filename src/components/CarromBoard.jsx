@@ -1,4 +1,4 @@
-import React, { useRef , useState} from 'react'
+import React, { useRef , useState , useEffect} from 'react'
 import { useCarromPhysics } from './useCarromPhysics'
 
 const CarromBoard = () => {
@@ -22,16 +22,24 @@ const CarromBoard = () => {
                 setScores(prev => ({...prev , [CurrentPlayer] : prev[CurrentPlayer] + 20 }));               // If the pocketed type is 'coin', we check if the queen is in a 'waiting_confirm' state. If it is, we update the score for the current player by adding 70 points and change the queen's state to 'captured'. If the queen is not in a 'waiting_confirm' state, we simply add 20 points to the current player's score. This logic allows us to handle scoring based on whether the queen has been pocketed and whether it was waiting for confirmation, adding an extra layer of strategy to the carrom game as players aim to pocket coins while managing the status of the queen on the board.
             }
         }
-        
     };
 
     const endTurn = () => {
+        console.log(" Current Player Before Switch : " , CurrentPlayer); 
         if(queenState === 'waiting_confirm'){
             setQueenState('on_board');
             if(window.respawnQueen) window.respawnQueen();
         }
-        setCurrentPlayer(p => p === 'p1' ? 'p2' : ' p1');
+        setCurrentPlayer((prev) => (prev === 'p1' ? 'p2' : ' p1'));         // Switch the current player from 'p1' to 'p2' or vice versa at the end of each turn. This allows players to take turns in the carrom game, ensuring that both players have an opportunity to play and score points. By toggling the current player state, we can manage the flow of the game and provide a fair and engaging gaming experience for both players as they compete to pocket coins and score points in the carrom game.
     };
+
+// temporary win condition for testing
+ const temp = useEffect(() => {
+  console.log(" Turn Switched to : " , CurrentPlayer);
+}, [CurrentPlayer]);
+
+
+
     const Win_score = 100;
 
     useCarromPhysics(boardRef , handlescore);
@@ -59,6 +67,11 @@ const CarromBoard = () => {
                         </div>
                     </div>
                 </div>
+                <div className='mb-4 text-center'>
+                    <h2 className={`text-xl font-bold ${ queenState === 'waiting_confirm' ? 'text-red-500 animate-pulse' : 'text-white'}`}>
+                        {queenState === 'waiting_confirm' ? " CONFIRM THE QUEEN " : ` Turn : ${ CurrentPlayer.toUpperCase() }`}
+                    </h2>
+                </div>
             <div className='relative p-6 bg-[#2d1b19] rounded-[2.5rem] shadow-2xl border-b-8 border-[#1a0f0e] flex items-center justify-center '>
                 <div ref={boardRef} className=' relative w-[600px] h-[600px] bg-[#dfbb9d] rounded-sm overflow-hidden pointer-events-auto'/>
                     {/* <div className='absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle , _#8d6e63_1px , _transparent_1px)] bg-[size:20px_20px]' />
@@ -85,6 +98,9 @@ const CarromBoard = () => {
                             Pull & Release The Striker To Shoot
                         </p>
                     </div>
+                    <button onClick={endTurn} className='mt-6 px-10 py-3 bg-amber-500 text-black font-bold rounded-full'>
+                        END TURN / NEXT PLAYER
+                    </button>
                     <p className='text-zinc-600 text-[9px] uppercase font-bold tracking-widest'> 
                         Powered By :- Nothing Phone
                         {/* React + Matter.js + Tailwind v4 */}
