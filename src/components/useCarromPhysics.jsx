@@ -23,7 +23,7 @@ export const useCarromPhysics = (screenRef , onScore , onQueenStatus) => {
         background: 'transparent',    // Set the background of the renderer to transparent to allow the underlying styles and colors of the screen element to show through. This option is important for creating a visually cohesive carrom game, as it allows us to maintain the aesthetic design of the game while still rendering the physics simulation on top. By using a transparent background, we can ensure that the carrom pieces and board are visually integrated with the overall design of the game, enhancing the player's immersion and enjoyment.
 
 
-        // pixelRatio: window.devicePixelRatio || 1  
+        pixelRatio: window.devicePixelRatio || 1  
 
           // Set the pixel ratio for the renderer to ensure that the simulation is rendered at the appropriate resolution based on the device's display capabilities. By using window.devicePixelRatio, we can automatically adjust the rendering quality for high-resolution displays, providing a sharper and clearer visual experience for players. If window.devicePixelRatio is not available, we default to a pixel ratio of 1 to ensure that the simulation is still rendered correctly on standard displays. By setting the pixel ratio, we can enhance the overall visual quality of the carrom game across different devices and screen resolutions.
       },
