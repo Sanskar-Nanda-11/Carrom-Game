@@ -16,15 +16,21 @@ const CarromBoard = () => {
         if (Winner)      return;    // If there is already a winner, we return early from the function to prevent any further score updates. This ensures that once a player has won the game, no additional scoring can occur, maintaining the integrity of the game's outcome and preventing any unintended changes to the scores after a winner has been declared.
         if (type === 'queen'){                      // If the pocketed type is 'queen', we set the queen's state to 'waiting_confirm'. This indicates that the queen has been pocketed but is waiting for confirmation before updating the score. If the pocketed type is 'coin', we check if the queen is in a 'waiting_confirm' state. If it is, we update the score for the current player by adding 70 points and change the queen's state to 'captured'. If the queen is not in a 'waiting_confirm' state, we simply add 20 points to the current player's score. This logic allows us to handle scoring based on whether the queen has been pocketed and whether it was waiting for confirmation, adding an extra layer of strategy to the carrom game as players aim to pocket coins while managing the status of the queen on the board.
             setQueenState('waiting_confirm');                   // If the pocketed type is 'queen', we set the queen's state to 'waiting_confirm'. This indicates that the queen has been pocketed but is waiting for confirmation before updating the score. If the pocketed type is 'coin', we check if the queen is in a 'waiting_confirm' state. If it is, we update the score for the current player by adding 70 points and change the queen's state to 'captured'. If the queen is not in a 'waiting_confirm' state, we simply add 20 points to the current player's score. This logic allows us to handle scoring based on whether the queen has been pocketed and whether it was waiting for confirmation, adding an extra layer of strategy to the carrom game as players aim to pocket coins while managing the status of the queen on the board.
-            console.log(`${CurrentPlayer} captured the queen , need the confirmation !`)
-        }else 
-            if(type === 'coin'){                  // If the pocketed type is 'coin', we check if the queen is in a 'waiting_confirm' state. If it is, we update the score for the current player by adding 70 points and change the queen's state to 'captured'. If the queen is not in a 'waiting_confirm' state, we simply add 20 points to the current player's score. This logic allows us to handle scoring based on whether the queen has been pocketed and whether it was waiting for confirmation, adding an extra layer of strategy to the carrom game as players aim to pocket coins while managing the status of the queen on the board.
-            if(queenState === 'waiting_confirm'){               // If the pocketed type is 'coin', we check if the queen is in a 'waiting_confirm' state. If it is, we update the score for the current player by adding 70 points and change the queen's state to 'captured'. If the queen is not in a 'waiting_confirm' state, we simply add 20 points to the current player's score. This logic allows us to handle scoring based on whether the queen has been pocketed and whether it was waiting for confirmation, adding an extra layer of strategy to the carrom game as players aim to pocket coins while managing the status of the queen on the board.
+            console.log(`${CurrentPlayer} captured the queen , need the confirmation !`);
+            return ;  // We return early from the function after setting the queen's state to 'waiting_confirm' because we want to wait for the confirmation before updating the score. This allows us to handle the scenario where a player has pocketed the queen but has not yet confirmed it by pocketing a coin. By returning early, we ensure that the score is not updated until the player confirms the queen by pocketing a coin, adding an element of strategy to the game as players must decide whether to risk pocketing the queen without confirmation or to play it safe and wait for a better opportunity to score points.
+        }
+            if(type === 'coin'){                  
+                setScores(prev => {
+                    let pointsToAdd = 20;   // Default points for pocketing a coin
+
+                                if(queenState === 'waiting_confirm'){               // If the pocketed type is 'coin', we check if the queen is in a 'waiting_confirm' state. If it is, we update the score for the current player by adding 70 points and change the queen's state to 'captured'. If the queen is not in a 'waiting_confirm' state, we simply add 20 points to the current player's score. This logic allows us to handle scoring based on whether the queen has been pocketed and whether it was waiting for confirmation, adding an extra layer of strategy to the carrom game as players aim to pocket coins while managing the status of the queen on the board.
+                                    console.log(`${CurrentPlayer} confirmed the queen and got 70 points!`); // If the queen is in a 'waiting_confirm' state, we log a message indicating that the current player has confirmed the queen and earned 70 points. This provides feedback to the players about their successful confirmation of the queen, adding to the excitement and engagement of the game as players aim to pocket coins while managing the status of the queen on the board.
                 setScores(prev => ({...prev , [CurrentPlayer] : prev[CurrentPlayer] + 70 }));           // If the pocketed type is 'queen', we set the queen's state to 'waiting_confirm'. This indicates that the queen has been pocketed but is waiting for confirmation before updating the score. If the pocketed type is 'coin', we check if the queen is in a 'waiting_confirm' state. If it is, we update the score for the current player by adding 70 points and change the queen's state to 'captured'. If the queen is not in a 'waiting_confirm' state, we simply add 20 points to the current player's score. This logic allows us to handle scoring based on whether the queen has been pocketed and whether it was waiting for confirmation, adding an extra layer of strategy to the carrom game as players aim to pocket coins while managing the status of the queen on the board.
                 setQueenState('captured');      // If the pocketed type is 'queen', we set the queen's state to 'waiting_confirm'. This indicates that the queen has been pocketed but is waiting for confirmation before updating the score. If the pocketed type is 'coin', we check if the queen is in a 'waiting_confirm' state. If it is, we update the score for the current player by adding 70 points and change the queen's state to 'captured'. If the queen is not in a 'waiting_confirm' state, we simply add 20 points to the current player's score. This logic allows us to handle scoring based on whether the queen has been pocketed and whether it was waiting for confirmation, adding an extra layer of strategy to the carrom game as players aim to pocket coins while managing the status of the queen on the board.
             }else{
                 setScores(prev => ({...prev , [CurrentPlayer] : prev[CurrentPlayer] + 20 }));               // If the pocketed type is 'coin', we check if the queen is in a 'waiting_confirm' state. If it is, we update the score for the current player by adding 70 points and change the queen's state to 'captured'. If the queen is not in a 'waiting_confirm' state, we simply add 20 points to the current player's score. This logic allows us to handle scoring based on whether the queen has been pocketed and whether it was waiting for confirmation, adding an extra layer of strategy to the carrom game as players aim to pocket coins while managing the status of the queen on the board.
             }
+                })
         }
     };
 
@@ -46,10 +52,19 @@ const CarromBoard = () => {
 
     const Win_score = 100;
 
-    useCarromPhysics(boardRef , handlescore);
+    useCarromPhysics(boardRef , handlescore , CurrentPlayer);
     return (
         <>
-            <div className='flex flex-col items-center justify-center min-h-screen bg-neutral-950 text-white font-sans p-4 select-none'>
+            <div className='flex flex-col items-center justify-center min-h-screen bg-neutral-950 text-white font-sans p-4 select-none relative'>
+                {
+                    Winner && (
+                        <div className='absolute insert-0 z-[100] flex flex-col items-center justify-center bg-black/90 backdrop-blur-md'>
+                        <h2 className='text-6xl font-black text-amber-500 italic '> WINNER! </h2>
+                        <p className=' text-2xl mt-2 '> {Winner} takes it all </p>
+                        <button onClick={ () => window.location.reload()} className='mt-8 px-8 py-3 bg-amber-500 text-black font-bold rounded-full'> REPLAY </button>
+                    </div>
+                    )
+                }
                 <div className=' flex justify-between items-end w-[650px] mb-6'>
                     <div>
                         <h1 className=' text-4xl font-black tracking-tighter text-white italic drop-shadow-lg'>
