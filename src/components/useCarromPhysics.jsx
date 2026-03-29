@@ -8,7 +8,11 @@ export const useCarromPhysics = (screenRef , onScore , onQueenStatus) => {
 
     screenRef.current.innerHTML = '';   // Clear the inner HTML of the screen element to ensure that we have a clean slate for rendering the physics simulation. This step is important to prevent any existing content from interfering with the visual representation of the carrom game, allowing us to create a clear and focused gaming experience for players. By setting innerHTML to an empty string, we can ensure that the screen element is ready to display the carrom board and pieces without any distractions or visual clutter.
 
-    const engine = Matter.Engine.create();     // Create a new Matter.js engine to manage the physics simulation for the carrom game. The Matter.Engine.create() function initializes a new engine instance that will be responsible for calculating the physics interactions between the carrom pieces, walls, and pockets during gameplay. By creating an engine, we can simulate realistic movements and collisions based on the defined physics properties of the game elements, enhancing the overall gaming experience for players.  
+    const engine = Matter.Engine.create({
+      enableSleeping: true,   // Enable sleeping in the physics engine to optimize performance by allowing bodies that are at rest to enter a sleep state, reducing unnecessary calculations and improving the overall efficiency of the simulation. This is particularly beneficial for a carrom game where many pieces may come to rest on the board, allowing the engine to focus its resources on active interactions and movements, enhancing the gameplay experience for players.
+      positionIterations : 10,
+      velocityIterations : 10
+    });     // Create a new Matter.js engine to manage the physics simulation for the carrom game. The Matter.Engine.create() function initializes a new engine instance that will be responsible for calculating the physics interactions between the carrom pieces, walls, and pockets during gameplay. By creating an engine, we can simulate realistic movements and collisions based on the defined physics properties of the game elements, enhancing the overall gaming experience for players.  
 
     engineRef.current = engine;    // Store the engine reference in the engineRef to allow access to the physics simulation throughout the component's lifecycle. By assigning the created engine to engineRef.current, we can ensure that we have a persistent reference to the engine that can be used in other parts of the component, such as event handlers or cleanup functions, allowing us to manage and manipulate the physics simulation effectively during gameplay.
     engine.gravity.y = 0; // Disable gravity for a top-down view of the carrom board , Set the gravity of the engine to zero along the y-axis to create a top-down view of the carrom board. By setting engine.gravity.y to 0, we can prevent the carrom pieces from being affected by gravity, allowing them to move freely across the board without falling or being pulled downwards. This is important for creating a realistic and enjoyable carrom game experience, as it allows players to focus on the interactions between the pieces and the board without worrying about gravity affecting their movements during gameplay.
@@ -34,18 +38,18 @@ export const useCarromPhysics = (screenRef , onScore , onQueenStatus) => {
 
       render: { fillStyle: '#3e2723' },  // Set the fill style for the walls to a specific color (in this case, a dark brown). This option allows us to customize the appearance of the walls in the carrom game, making them visually distinct from the carrom pieces and enhancing the overall aesthetic of the game. By setting the fillStyle, we can create a more visually appealing and immersive carrom game environment.             Note :- works only when wireframes is set to false in the renderer options.
 
-      restitution: 0.9  // Set restitution to 0.9 to make the walls bouncy, allowing the carrom pieces to bounce off them with some elasticity. This option enhances the gameplay experience by adding a realistic bounce effect when the pieces collide with the walls, making the game more dynamic and enjoyable for players. By adjusting the restitution value, we can control how much energy is retained during collisions, creating a more engaging and interactive carrom game.
+      restitution: 0.6  
     };
 
     const walls = [       // Create an array of walls for the carrom board. Each wall is defined using the Matter.Bodies.rectangle() function, which creates a rectangular body with specified position, dimensions, and options. The walls are positioned around the edges of the carrom board to create boundaries for the pieces to interact with during gameplay. By defining these walls with the appropriate options, we can ensure that they behave as intended in the physics simulation, providing a realistic and enjoyable gaming experience for players.
 
-      Matter.Bodies.rectangle(300, 5, 600, 10, wallOptions),    // Create the top walls of the carrom board using Matter.Bodies.rectangle() function. Each wall is defined by its position (x and y coordinates), dimensions (width and height), and the wallOptions that we defined earlier. By creating these walls, we establish the boundaries of the carrom board, preventing the pieces from moving outside of the designated play area. The walls will interact with the carrom pieces based on the physics simulation, allowing for realistic collisions and bounces during gameplay.
+      Matter.Bodies.rectangle(300, -50, 800, 100, wallOptions),    // Create the top walls of the carrom board using Matter.Bodies.rectangle() function. Each wall is defined by its position (x and y coordinates), dimensions (width and height), and the wallOptions that we defined earlier. By creating these walls, we establish the boundaries of the carrom board, preventing the pieces from moving outside of the designated play area. The walls will interact with the carrom pieces based on the physics simulation, allowing for realistic collisions and bounces during gameplay.
 
-      Matter.Bodies.rectangle(300, 595, 600, 10, wallOptions),  // Create the bottom wall of the carrom board with specified position, dimensions, and options. This wall will serve as the lower boundary of the play area, ensuring that the carrom pieces do not fall off the board during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
+      Matter.Bodies.rectangle(300, 650, 800, 100, wallOptions),  // Create the bottom wall of the carrom board with specified position, dimensions, and options. This wall will serve as the lower boundary of the play area, ensuring that the carrom pieces do not fall off the board during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
 
-      Matter.Bodies.rectangle(5, 300, 10, 600, wallOptions),  // Create the left wall of the carrom board  with specified position, dimensions, and options. This wall will serve as the left boundary of the play area, preventing the carrom pieces from moving outside of the designated area during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
+      Matter.Bodies.rectangle(-50, 300, 100, 800, wallOptions),  // Create the left wall of the carrom board  with specified position, dimensions, and options. This wall will serve as the left boundary of the play area, preventing the carrom pieces from moving outside of the designated area during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
 
-      Matter.Bodies.rectangle(595, 300, 10, 600, wallOptions)       // Create the right wall of the carrom board with specified position, dimensions, and options. This wall will serve as the right boundary of the play area, ensuring that the carrom pieces do not move outside of the designated area during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
+      Matter.Bodies.rectangle(650, 300, 100, 800, wallOptions)       // Create the right wall of the carrom board with specified position, dimensions, and options. This wall will serve as the right boundary of the play area, ensuring that the carrom pieces do not move outside of the designated area during gameplay. By defining this wall with the appropriate options, we can control its behavior in the physics simulation, allowing for realistic interactions with the carrom pieces when they collide with it.
 
     ];
 
@@ -96,12 +100,13 @@ export const useCarromPhysics = (screenRef , onScore , onQueenStatus) => {
       // const color = i % 2 === 0 ? "#ffffff" : "#262626";
       coins.push(Matter.Bodies.circle(              // Create a circular body for each coin in the inner circle using Matter.Bodies.circle() function. Each coin is defined by its calculated x and y coordinates, radius (coinRadius), and options that specify its physical properties and appearance in the physics simulation. By creating these coins with the appropriate properties, we can ensure that they interact realistically with the other pieces on the carrom board during gameplay, adding an important element to the game as players aim to pocket these coins for points. The options for each coin include:
         x, y, coinRadius, {
-        // {
-        // restitution: 0.4,
-        // frictionAir: 0.04,
+        restitution: 0.4,     // Set restitution to 0.4 to make the coins moderately bouncy, allowing them to bounce off other pieces and walls with some elasticity. This option enhances the gameplay experience by adding a realistic bounce effect when the coins collide with other elements on the board, making the game more dynamic and enjoyable for players. By adjusting the restitution value, we can control how much energy is retained during collisions, creating a more engaging and interactive carrom game.
+        frictionAir: 0.04,    // Set frictionAir to 0.04 to provide a moderate amount of air resistance for the coins, allowing them to slow down gradually as they move across the board. This option adds a layer of realism to the physics simulation, as it simulates the effect of air resistance on the movement of the coins, making the gameplay experience more immersive and enjoyable for players. By adjusting the frictionAir value, we can control how quickly the coins slow down, creating a more engaging and interactive carrom game.
+        friction: 0.02,       // Set friction to 0.02 to provide a small amount of surface friction for the coins, allowing them to interact with the board and other pieces in a more realistic manner. This option helps to prevent the coins from sliding indefinitely across the board, adding a sense of realism to the physics simulation and enhancing the overall gameplay experience for players. By adjusting the friction value, we can control how much resistance the coins encounter when moving across the board, creating a more engaging and interactive carrom game.
+        slop: 0.01,  // Set slop to 0.01 to allow for a small amount of penetration between the coins and other bodies in the physics simulation. This option helps to prevent issues with collision detection, such as coins getting stuck or jittering when they come into contact with other pieces or walls on the board. By allowing a small amount of slop, we can ensure smoother interactions between the coins and other elements in the carrom game, enhancing the overall gameplay experience for players.
         label :'coin',     // Set the label of each coin body to 'coin' to identify them in the physics simulation. This label can be used to differentiate the coins from other bodies in the simulation, allowing us to apply specific logic or interactions when the coins collide with other pieces or pockets on the board during gameplay. By assigning a label to each coin, we can enhance the functionality and interactivity of the carrom game.
-        render: { fillStyle: i % 2 === 0 ? "#ffffff" : "#262626" }, frictionAir: 0.04}
-      // }
+        render: { fillStyle: i % 2 === 0 ? "#ffffff" : "#262626" }
+      }
       ));
     }
 
@@ -113,10 +118,12 @@ export const useCarromPhysics = (screenRef , onScore , onQueenStatus) => {
       // const color = i % 2 === 0 ? "#ffffff" : "#262626";
       coins.push(Matter.Bodies.circle(
         x, y, coinRadius, {
-        // restitution: 0.4,
-        // frictionAir: 0.04,
+        restitution: 0.4,
+        frictionAir: 0.04,
+        friction: 0.02,
+        slop: 0.01,
         label :'coin',
-        render: { fillStyle: i % 2 === 0 ? "#ffffff" : "#262626" }, frictionAir: 0.04
+        render: { fillStyle: i % 2 === 0 ? "#ffffff" : "#262626" }
       }
       ));
     }
