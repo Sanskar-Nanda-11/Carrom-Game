@@ -136,6 +136,8 @@ export const useCarromPhysics = (screenRef , onScore , onQueenStatus) => {
 
 
       // note :- the render options for the striker will only work if wireframes is set to false in the renderer options, allowing us to see the custom colors and styles applied to the striker in the visual representation of the carrom game.
+
+      
     });
     const mouse = Matter.Mouse.create(render.canvas);       // Create a mouse input for the renderer's canvas to enable user interaction with the carrom pieces. The Matter.Mouse.create() function initializes a new mouse instance that is linked to the canvas element used by the renderer. This allows us to track mouse movements and clicks on the canvas, enabling players to interact with the carrom pieces by clicking and dragging them to simulate shooting the striker or moving the coins on the board. By creating a mouse input, we can enhance the interactivity of the carrom game and provide a more engaging gaming experience for players.
     const mouseConstraint = Matter.MouseConstraint.create(engine, {          // Create a mouse constraint to allow the user to interact with the carrom pieces using the mouse input. The Matter.MouseConstraint.create() function initializes a new mouse constraint that is linked to the physics engine and the mouse input. This constraint allows players to click and drag the carrom pieces on the board, simulating the action of shooting the striker or moving the coins during gameplay. By creating a mouse constraint, we can enable intuitive and interactive controls for the carrom game, enhancing the overall user experience and making it more enjoyable for players. The options for the mouse constraint include:

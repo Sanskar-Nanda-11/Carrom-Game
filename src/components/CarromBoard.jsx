@@ -18,8 +18,8 @@ const CarromBoard = () => {
         setScores((prevScore) => {
             let points = 0;
             if(type === 'white_coin') points = 20;
-            else if (type === ' black_coin') points = 10;
-            else if ( type === 'queen'){
+            if (type === ' black_coin') points = 10;
+            if ( type === 'queen'){
                 setQueenState('wating_confirm');
                 return prevScore;
             }
