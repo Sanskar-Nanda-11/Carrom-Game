@@ -17,17 +17,19 @@ const CarromBoard = () => {
         if( Winner ) return;
         setScores((prevScore) => {
             let points = 0;
-            if(type === 'white_coin') points = 20;
-            if (type === ' black_coin') points = 10;
+            const activeKey = CurrentPlayer.trim().toLowerCase();
             if ( type === 'queen'){
                 setQueenState('wating_confirm');
                 return prevScore;
             }
+            if(type === 'white_coin') points = 20;
+            if (type === 'black_coin') points = 10;
+            let currentQueenState = queenState;
             if ( queenState === 'wating_confirm' && points > 0){
                 points += 50;
                 setQueenState('captured');
             }
-            const activeKey = CurrentPlayer.trim().toLowerCase();
+            
             const newScore = prevScore[activeKey] + points;
 
             if ( newScore >= Win_score && (queenState === 'captured')){
