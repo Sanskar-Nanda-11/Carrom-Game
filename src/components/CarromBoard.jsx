@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { useCarromPhysics } from './useCarromPhysics'
+import React, { useRef, useState, useEffect } from 'react';
+import { useCarromPhysics } from './useCarromPhysics';
 
 const CarromBoard = () => {
 
@@ -28,12 +28,13 @@ const CarromBoard = () => {
             if ( queenState === 'wating_confirm' && points > 0){
                 points += 50;
                 setQueenState('captured');
+                currentQueenState = 'captured';
             }
             
             const newScore = prevScore[activeKey] + points;
-
-            if ( newScore >= Win_score && (queenState === 'captured')){
-                SetWinner(activeKey === 'p1' ? 'Player 1' : 'Player 2')
+                                        //   (queenState === 'captured')
+            if ( newScore >= Win_score && currentQueenState === 'captured'){
+                SetWinner(activeKey === 'p1' ? 'Player 1' : 'Player 2');
             }
             return {...prevScore , [activeKey] : newScore} ;
         });
