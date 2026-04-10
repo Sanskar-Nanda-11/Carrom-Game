@@ -13,30 +13,34 @@ const CarromBoard = () => {
 
     // The handlescore function is responsible for updating the game state and scores based on the type of piece that has been pocketed (either a 'queen' or a 'coin'). When a piece is pocketed, this function is called with the type of the piece as an argument. If the pocketed piece is a 'queen', we set the queen's state to 'waiting_confirm', indicating that it has been pocketed but is waiting for confirmation before updating the score. If the pocketed piece is a 'coin', we check if the queen is in a 'waiting_confirm' state. If it is, we update the score for the current player by adding 70 points and change the queen's state to 'captured'. If the queen is not in a 'waiting_confirm' state, we simply add 20 points to the current player's score. This logic allows us to handle scoring based on whether the queen has been pocketed and whether it was waiting for confirmation, adding an extra layer of strategy to the carrom game as players aim to pocket coins while managing the status of the queen on the board.
 
+    const playerRef = useRef(CurrentPlayer);
+    useEffect(() => {
+        playerRef.current = CurrentPlayer;
+    }, [CurrentPlayer]);
+
     const handlescore = (type) => {
-        if( Winner ) return;
+        if (Winner) return;
+        const activeKey = playerRef.current.trim().toLowerCase();
         setScores((prevScore) => {
             let points = 0;
-            const activeKey = CurrentPlayer.trim().toLowerCase();
-            if ( type === 'queen'){
+            if (type === 'queen') {
                 setQueenState('wating_confirm');
                 return prevScore;
             }
-            if(type === 'white_coin') points = 20;
+            if (type === 'white_coin') points = 20;
             if (type === 'black_coin') points = 10;
-            let currentQueenState = queenState;
-            if ( queenState === 'wating_confirm' && points > 0){
-                points += 50;
+            let currentPoints = points;
+            if (queenState === 'wating_confirm' && points > 0) {
+                currentPoints += 50;
                 setQueenState('captured');
-                currentQueenState = 'captured';
             }
-            
-            const newScore = prevScore[activeKey] + points;
-                                        //   (queenState === 'captured')
-            if ( newScore >= Win_score && currentQueenState === 'captured'){
+
+            const newScore = prevScore[activeKey] + currentPoints;
+            //   (queenState === 'captured')
+            if (newScore >= Win_score && queenState === 'captured') {
                 SetWinner(activeKey === 'p1' ? 'Player 1' : 'Player 2');
             }
-            return {...prevScore , [activeKey] : newScore} ;
+            return { ...prevScore, [activeKey]: newScore };
         });
     };
 
@@ -54,11 +58,8 @@ const CarromBoard = () => {
         console.log(" Turn Switched to : ", CurrentPlayer);
     }, [CurrentPlayer]);
 
-
-
-
-
-    useCarromPhysics(boardRef, handlescore, CurrentPlayer);
+    useCarromPhysics(boardRef, handlescore);
+    
     return (
         <>
             <div className='flex flex-col items-center justify-center min-h-screen bg-neutral-950 text-white font-sans p-4 select-none relative'>
@@ -125,7 +126,7 @@ const CarromBoard = () => {
                             INTERACT TO INITATE THE GAME (DRAG & SHOOT)
                         </p>
                     </div>
-                    
+
                     {/* <div className='mt-4 text-center group cursor-help'>
                         <p className='text-zinc-700 text-[9px] uppercase font-bold tracking-[0.4em] transition-colors group-hover:text-amber-500'>
                             ORIGIN : [ REDACTED ]
