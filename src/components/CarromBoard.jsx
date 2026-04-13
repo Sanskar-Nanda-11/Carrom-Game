@@ -99,7 +99,7 @@ const CarromBoard = () => {
                     </h2>
                 </div>
                 <div className='relative p-6 bg-[#2d1b19] rounded-[2.5rem] shadow-2xl border-b-8 border-[#1a0f0e] flex items-center justify-center z-10'>
-                    <div ref={boardRef} className=' relative w-[600px] h-[600px] bg-[#dfbb9d] rounded-sm overflow-hidden shadow-inner z-20' />
+                    <div ref={boardRef} className=' relative w-[600px] h-[600px] bg-[#dfbb9d] rounded-sm overflow-visible shadow-inner z-20' />
                     {/* <div className='absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle , _#8d6e63_1px , _transparent_1px)] bg-[size:20px_20px]' />
                     <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>
                         <div className='w-32 h-32 border border-[#4e342e]/20 rounded-full'></div>
