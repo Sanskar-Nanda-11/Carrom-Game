@@ -20,12 +20,16 @@ const CarromBoard = () => {
 
     const handlescore = (type) => {
         if (Winner) return;
-        const activeKey = playerRef.current.trim().toLowerCase();
         setScores((prevScore) => {
+            const activeKey = playerRef.current.trim().toLowerCase();
             let points = 0;
             if (type === 'queen') {
                 setQueenState('wating_confirm');
+                console.log(" Queen Pocketed, waiting for confirmation... ");
                 return prevScore;
+            }
+            if(type === 'Striker_foul') {
+                return {...prevScore , [activeKey] : Math.max(0 , prevScore[activeKey] - 10 )}
             }
             if (type === 'white_coin') points = 20;
             if (type === 'black_coin') points = 10;
@@ -33,15 +37,25 @@ const CarromBoard = () => {
             if (queenState === 'wating_confirm' && points > 0) {
                 currentPoints += 50;
                 setQueenState('captured');
+                console.log(" Queen Captured! Bonus points awarded. ");
             }
 
-            const newScore = prevScore[activeKey] + currentPoints;
+            const newScore = Math.max(0 , prevScore[activeKey] + currentPoints);
             //   (queenState === 'captured')
-            if (newScore >= Win_score && queenState === 'captured') {
+            if (newScore >= Win_score){
                 SetWinner(activeKey === 'p1' ? 'Player 1' : 'Player 2');
             }
             return { ...prevScore, [activeKey]: newScore };
         });
+    };
+    const handleEndTurn = () => {
+        if(queenState === 'wating_confirm'){
+            setQueenState('on_board');
+            if(window.respawnQueen) window.respawnQueen();
+            console.log("Queen returned to center - failed to confirm");
+            alert("Queen returned to center - failed to confirm");
+        }
+        setCurrentPlayer(CurrentPlayer === 'p1' ? 'p2' : 'p1');
     };
 
     const endTurn = () => {     // Function to end the current turn and switch to the next player
@@ -108,10 +122,10 @@ const CarromBoard = () => {
                     </div> */}
                     {/* --------------error---------------- */}
                     {/* </div>  */}
-                    <div className='absolute top-10 left-10 w-14 h-14 bg-zinc-900 rounded-full shadow-[inset_0_8px_15px_rgba(0,0,0,1)] border-2 border-white/5 z-50 ' />
-                    <div className='absolute top-10 right-10 w-14 h-14 bg-zinc-900 rounded-full shadow-[inset_0_8px_15px_rgba(0,0,0,1)] border-2 border-white/5 z-50 ' />
-                    <div className='absolute bottom-10 left-10 w-14 h-14 bg-zinc-900 rounded-full shadow-[inset_0_8px_15px_rgba(0,0,0,1)] border-2 border-white/5 z-50 ' />
-                    <div className='absolute bottom-10 right-10 w-14 h-14 bg-zinc-900 rounded-full shadow-[inset_0_8px_15px_rgba(0,0,0,1)] border-2 border-white/5 z-50 ' />
+                    <div className='absolute top-10 left-10 w-14 h-14 bg-black rounded-full shadow-[inset_0_0_15px_rgba(0,0,0,0,5)] border border-white/5 z-50 ' />
+                    <div className='absolute top-10 right-10 w-14 h-14 bg-black rounded-full shadow-[inset_0_0_15px_rgba(0,0,0,0,5)] border border-white/5 z-50 ' />
+                    <div className='absolute bottom-10 left-10 w-14 h-14 bg-black rounded-full shadow-[inset_0_0_15px_rgba(0,0,0,0,5)] border border-white/5 z-50 ' />
+                    <div className='absolute bottom-10 right-10 w-14 h-14 bg-black rounded-full shadow-[inset_0_0_15px_rgba(0,0,0,0,5)] border border-white/5 z-50 ' />
                 </div>
                 {/* <div className='absolute bottom-[115px] left-1/2 -translate-x-1/2 w-380px h-10 border-y-2 border-[#4e342e]/30 pointer-events-none flex justify-between px-2 '>
                         <div className='w-9 h-9 -mt-[2px] rounded-full border-2 border-[#4e342e]/20' />
