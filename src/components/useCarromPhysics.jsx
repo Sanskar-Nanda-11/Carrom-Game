@@ -98,7 +98,7 @@ const pocketpositions = [           // Define the positions of the pockets on th
 ]
 
 const pockets = pocketpositions.map(pos =>             //  Create circular bodies to represent the pockets on the carrom board using Matter.Bodies.circle() function. Each pocket is defined by its position (x and y coordinates) and a radius of 25, along with options that specify its physical properties and appearance in the physics simulation. By creating these pocket bodies, we can detect when a carrom piece collides with a pocket during gameplay, allowing us to implement logic for pocketing pieces and updating the game state accordingly. The options for each pocket include:
-  Matter.Bodies.circle(pos.x, pos.y, 25, {                   // Create circular bodies to represent the pockets on the carrom board using Matter.Bodies.circle() function. Each pocket is defined by its position (x and y coordinates) and a radius of 25, along with options that specify its physical properties and appearance in the physics simulation. By creating these pocket bodies, we can detect when a carrom piece collides with a pocket during gameplay, allowing us to implement logic for pocketing pieces and updating the game state accordingly. The options for each pocket include:
+  Matter.Bodies.circle(pos.x, pos.y, 15, {                   // Create circular bodies to represent the pockets on the carrom board using Matter.Bodies.circle() function. Each pocket is defined by its position (x and y coordinates) and a radius of 15, along with options that specify its physical properties and appearance in the physics simulation. By creating these pocket bodies, we can detect when a carrom piece collides with a pocket during gameplay, allowing us to implement logic for pocketing pieces and updating the game state accordingly. The options for each pocket include:
     isStatic: true,                           // Set isStatic to true to ensure that the pocket bodies do not move or interact with other bodies in the physics simulation. This is important for creating a stable and consistent representation of the pockets on the carrom board, allowing us to accurately detect when a carrom piece collides with a pocket during gameplay. By setting isStatic to true, we can ensure that the pockets serve their intended purpose as stationary targets for players to aim for when trying to pocket their pieces.
     isSensor: true,                   // Set isSensor to true to make the pocket bodies act as sensors in the physics simulation. This means that they will not physically interact with other bodies, but they will still trigger collision events when a carrom piece collides with them. This is important for implementing the logic of pocketing pieces during gameplay, as it allows us to detect when a piece has been pocketed without affecting the movement or behavior of the pieces in the simulation. By setting isSensor to true, we can create a more realistic and functional representation of the pockets in the carrom game.
     collisionFilter : {
@@ -163,7 +163,7 @@ for (let i = 0; i < 12; i++) {
   const angle = (i * Math.PI) / 6;
   const x = centerX + Math.cos(angle) * (coinRadius * 4.1);
   const y = centerY + Math.sin(angle) * (coinRadius * 4.1);
-  const isBlack = i % 3 === 0;
+  const isBlack = i % 2 === 0;
   coins.push(Matter.Bodies.circle(
     x, y, coinRadius, {
     restitution: 0.4,
