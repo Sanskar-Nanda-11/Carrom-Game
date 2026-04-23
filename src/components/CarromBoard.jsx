@@ -118,25 +118,9 @@ const CarromBoard = () => {
                         {queenState === 'waiting_confirm' ? " CONFIRM THE QUEEN " : ` Turn : ${CurrentPlayer.toUpperCase()}`}
                     </h2>
                 </div>
-                <div className='relative p-6 bg-[#2d1b19] rounded-[2.5rem] shadow-2xl border-b-8 border-[#1a0f0e] flex items-center justify-center z-10'>
-                    <div ref={boardRef} className=' relative w-[600px] h-[600px] bg-[#dfbb9d] rounded-sm overflow-visible shadow-inner z-20' />
-                    {/* <div className='absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle , _#8d6e63_1px , _transparent_1px)] bg-[size:20px_20px]' />
-                    <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>
-                        <div className='w-32 h-32 border border-[#4e342e]/20 rounded-full'></div>
-                        <div className='absolute w-full h-[1px] bg-[#4e342e]/10 rotate-45'></div>
-                        <div className='absolute w-full h-[1px] bg-[#4e342e]/10 -rotate-45'></div>
-                    </div> */}
-                    {/* --------------error---------------- */}
-                    {/* </div>  */}
-                    <div className='absolute top-10 left-10 w-14 h-14 bg-black rounded-full shadow-[inset_0_0_15px_rgba(0,0,0,0,5)] border border-white/5 z-50 ' />
-                    <div className='absolute top-10 right-10 w-14 h-14 bg-black rounded-full shadow-[inset_0_0_15px_rgba(0,0,0,0,5)] border border-white/5 z-50 ' />
-                    <div className='absolute bottom-10 left-10 w-14 h-14 bg-black rounded-full shadow-[inset_0_0_15px_rgba(0,0,0,0,5)] border border-white/5 z-50 ' />
-                    <div className='absolute bottom-10 right-10 w-14 h-14 bg-black rounded-full shadow-[inset_0_0_15px_rgba(0,0,0,0,5)] border border-white/5 z-50 ' />
+                <div className='relative w-[680]px h-[680]px bg-[#2d1b18] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-center justify-center p-10 border-[18]px border-[#1b110f]'>
+
                 </div>
-                {/* <div className='absolute bottom-[115px] left-1/2 -translate-x-1/2 w-380px h-10 border-y-2 border-[#4e342e]/30 pointer-events-none flex justify-between px-2 '>
-                        <div className='w-9 h-9 -mt-[2px] rounded-full border-2 border-[#4e342e]/20' />
-                        <div className='w-9 h-9 -mt-[2px] rounded-full border-2 border-[#4e342e]/20' />
-                    </div> */}
                 <div className='mt-8 flex flex-col items-center gap-4'>
 
 
