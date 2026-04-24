@@ -118,7 +118,17 @@ const CarromBoard = () => {
                         {queenState === 'waiting_confirm' ? " CONFIRM THE QUEEN " : ` Turn : ${CurrentPlayer.toUpperCase()}`}
                     </h2>
                 </div>
-                <div className='relative w-[680]px h-[680]px bg-[#2d1b18] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-center justify-center p-10 border-[18]px border-[#1b110f]'>
+                <div className='relative w-[680px] h-[680px] rounded-xl shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] flex items-center justify-center p-10 border-[16px] border-[#1b110f] ring-4 ring-black/20'>
+                <div 
+                ref={boardRef} 
+                className='relative w-[600px] h-[600px] cursor-crosshair overflow-hidden shadow-[insert_0_0_50px__rgba(0,0,0,0.4)]'
+                style={{
+                    background:'radial-gradient( circle al center , #e9ccb1 0% , #c19a7b 100% )',
+                }}>
+                    <svg>
+                        
+                    </svg>
+                </div>
 
                 </div>
                 <div className='mt-8 flex flex-col items-center gap-4'>
