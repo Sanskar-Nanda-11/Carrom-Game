@@ -91,10 +91,10 @@ const walls = [       // Create an array of walls for the carrom board. Each wal
 
 const pocketpositions = [           // Define the positions of the pockets on the carrom board. Each pocket is represented by an object with x and y coordinates, indicating its location on the board. These positions will be used to determine when a carrom piece has been pocketed during gameplay, allowing us to update the game state accordingly. By defining these pocket positions, we can create a more engaging and interactive carrom game experience for players as they aim to pocket their pieces into these designated areas.
 
-  { x: 35, y: 35 },    // Define the positions of the pockets on the carrom board. Each pocket is represented by an object with x and y coordinates, indicating its location on the board. These positions will be used to determine when a carrom piece has been pocketed during gameplay, allowing us to update the game state accordingly. By defining these pocket positions, we can create a more engaging and interactive carrom game experience for players as they aim to pocket their pieces into these designated areas. ( this is top left pocket )
-  { x: 565, y: 35 },      // top right pocket
-  { x: 35, y: 565 },        // bottom left pocket
-  { x: 565, y: 565 }         // bottom right pocket
+  { x: 15, y: 15 },    // Define the positions of the pockets on the carrom board. Each pocket is represented by an object with x and y coordinates, indicating its location on the board. These positions will be used to determine when a carrom piece has been pocketed during gameplay, allowing us to update the game state accordingly. By defining these pocket positions, we can create a more engaging and interactive carrom game experience for players as they aim to pocket their pieces into these designated areas. ( this is top left pocket )
+  { x: 585, y: 15 },      // top right pocket
+  { x: 15, y: 585 },        // bottom left pocket
+  { x: 585, y: 585 }         // bottom right pocket
 ]
 
 const pockets = pocketpositions.map(pos =>             //  Create circular bodies to represent the pockets on the carrom board using Matter.Bodies.circle() function. Each pocket is defined by its position (x and y coordinates) and a radius of 25, along with options that specify its physical properties and appearance in the physics simulation. By creating these pocket bodies, we can detect when a carrom piece collides with a pocket during gameplay, allowing us to implement logic for pocketing pieces and updating the game state accordingly. The options for each pocket include:
@@ -233,12 +233,24 @@ Matter.Events.on(engine, 'collisionStart', (event) => {       // Set up an event
     const otherBody = pockets.includes(bodyA) ? bodyB : bodyA;    // declaration              == can be bodyA or bodyB depending on which one is the pocket       // Determine which of the colliding bodies is the non-pocket body by checking if bodyA is a pocket. If bodyA is a pocket, then otherBody will be set to bodyB; otherwise, it will be set to bodyA. This allows us to identify the specific body that collided with the pocket, which is important for implementing game logic related to pocketing coins during gameplay. By determining the otherBody, we can execute specific actions based on its properties, such as removing a coin from the board or resetting the striker's position when it collides with a pocket, enhancing the overall functionality and interactivity of the carrom game.
 
     if (isPocket) {             //  Check if the collision involves a pocket by evaluating the isPocket variable. If isPocket is true, it means that one of the colliding bodies is a pocket, and we can proceed to implement the logic for handling the collision with the pocket. This may include actions such as removing a coin from the board if it was pocketed or resetting the striker's position if it collided with a pocket, enhancing the overall gameplay experience in the carrom game.    
+
+
+
+
+
       const type = otherBody.label === queen;
       Matter.Composite.remove(engine.world , otherBody);
       onScore(type);
 
+
+
+
+
+
+
+
       if (otherBody.label === 'striker') {                // Check if the other body involved in the collision is the striker by evaluating its label property. If otherBody.label is equal to 'striker', it means that the striker has collided with a pocket, and we can implement specific logic to handle this scenario. This may include resetting the striker's position to a default location on the board and setting its velocity to zero to stop its movement, allowing players to continue playing without any disruption caused by the striker being pocketed. By handling this case separately, we can ensure that the game remains enjoyable and functional even when the striker interacts with the pockets on the board.
-        Matter.Body.setPosition(otherBody, { x: 300, y: 480 });          // Reset the position of the striker to a default location on the board (x: 300, y: 480) when it collides with a pocket. This allows players to continue playing without any disruption caused by the striker being pocketed, ensuring that the game remains enjoyable and functional even when the striker interacts with the pockets on the board. By setting the position of the striker back to its starting point, we can maintain a smooth gameplay experience for players as they aim to shoot the striker and pocket coins during the carrom game.
+        Matter.Body.setPosition(otherBody, { x: 300, y: 495 });          // Reset the position of the striker to a default location on the board (x: 300, y: 480) when it collides with a pocket. This allows players to continue playing without any disruption caused by the striker being pocketed, ensuring that the game remains enjoyable and functional even when the striker interacts with the pockets on the board. By setting the position of the striker back to its starting point, we can maintain a smooth gameplay experience for players as they aim to shoot the striker and pocket coins during the carrom game.
         Matter.Body.setVelocity(otherBody, { x: 0, y: 0 });                        // Set the velocity of the striker to zero when it collides with a pocket. This ensures that the striker stops moving immediately after being reset to its default position, preventing any unintended movement or interactions that could occur if the striker retained its velocity after being pocketed. By setting the velocity to zero, we can maintain a smooth and controlled gameplay experience for players as they continue to play the carrom game after the striker interacts with the pockets on the board.
         Matter.Body.setAngularVelocity( otherBody , 0);
         onScore('Striker_foul');

@@ -124,7 +124,7 @@ const CarromBoard = () => {
                     {/* the polished wood surface */}
                     <div
                         ref={boardRef}
-                        className='relative w-[600px] h-[600px] cursor-crosshair overflow-hidden shadow-[insert_0_0_50px__rgba(0,0,0,0.4)]'
+                        className='absolute inset-0 z-10 w-[600px] h-[600px] cursor-crosshair shadow-[inset_0_0_50px__rgba(0,0,0,0.4)] bg-[#dfhb9d] '
                         style={{
                             background: 'radial-gradient( circle al center , #e9ccb1 0% , #c19a7b 100% )',
                         }}>
@@ -133,7 +133,7 @@ const CarromBoard = () => {
                         <svg className='absolute inset-0 w-full h-full pointer-events-none opacity-70 mix-blend-multiply'>
 
                             {/* Central Design  */}
-                            <g transform='translate (300 ,, 300)'>
+                            <g transform='translate (300  300)'>
                                 <circle r="85" fill='none' stroke='#4e342e' strokeWidth="1" strokeDasharray="4 2" />
                                 <circle r="75" fill='none' stroke='#4e342e' strokeWidth="1.5" />
                                 <circle r="18" fill='#4e324e' className='opacity-10' />
@@ -145,7 +145,7 @@ const CarromBoard = () => {
                             {/* Corner Arrows */}
                             {
                                 [45, 135, 225, 315].map((angle) => (
-                                    <g key={angle} transform={`rotate(${angle} 300 300})`}>
+                                    <g key={angle} transform={`rotate(${angle} 300 300)`}>
                                         <line x1="300" y1="45" x2="300" y2="160" stroke="#4e324e" strokeWidth="1.5" />
                                         {/* below d mean data or path data and now ' M ' means starting point and ' L ' means drawing till  */}
                                         <path d="M 285 145 L 300 165 L 315 145" fill="none" stroke="#4e324e" strokeWidth="2" strokeLinejoin="round"/>
@@ -167,10 +167,10 @@ const CarromBoard = () => {
                             }
                         </svg>
                         {/* The Pockets  */}
-                        <div className='absolute -top-3 -left-3 w-20 h-20 bg-black rounded-full shadow-[inset_0_8px_15px_rgba(0,0,0,1) , 0_2px_4px_rgba(255,255,255,0.2)]'/>
-                        <div className='absolute -top-3 -right-3 w-20 h-20 bg-black rounded-full shadow-[inset_0_8px_15px_rgba(0,0,0,1) , 0_2px_4px_rgba(255,255,255,0.2)]'/>
-                        <div className='absolute -bottom-3 -left-3 w-20 h-20 bg-black rounded-full shadow-[inset_0_8px_15px_rgba(0,0,0,1) , 0_2px_4px_rgba(255,255,255,0.2)]'/>
-                        <div className='absolute -bottom-3 -right-3 w-20 h-20 bg-black rounded-full shadow-[inset_0_8px_15px_rgba(0,0,0,1) , 0_2px_4px_rgba(255,255,255,0.2)]'/>
+                        <div className='absolute top-0 left- w-16 h-16 bg-black rounded-full z-20 shadow-inner'/>
+                        <div className='absolute top-0 left- w-16 h-16 bg-black rounded-full z-20 shadow-inner'/>
+                        <div className='absolute top-0 left- w-16 h-16 bg-black rounded-full z-20 shadow-inner'/>
+                        <div className='absolute top-0 left- w-16 h-16 bg-black rounded-full z-20 shadow-inner'/>
                     </div>
                 </div>
                 <div className='mt-8 flex flex-col items-center gap-4'>
