@@ -29,7 +29,7 @@ const CarromBoard = () => {
             const activeKey = playerRef.current.trim().toLowerCase();
             let points = 0;
             if (type === 'queen') {
-                setQueenState('wating_confirm');
+                setQueenState('waiting_confirm');
                 console.log(" Queen Pocketed, waiting for confirmation... ");
                 return prevScore;
             }
@@ -40,7 +40,7 @@ const CarromBoard = () => {
             if (type === 'black_coin') points = 10;
             let currentPoints = points;
             const currentQueenStatus = queenStateRef.current;
-            if (currentQueenStatus === 'wating_confirm' && points > 0) {
+            if (currentQueenStatus === 'waiting_confirm' && points > 0) {
                 currentPoints += 50;
                 setQueenState('captured');
                 console.log(" Queen Captured! Bonus points awarded. ");
@@ -55,7 +55,7 @@ const CarromBoard = () => {
         });
     };
     const handleEndTurn = () => {
-        if (queenState === 'wating_confirm') {
+        if (queenState === 'waiting_confirm') {
             setQueenState('on_board');
             if (window.respawnQueen) window.respawnQueen();
             console.log("Queen returned to center - failed to confirm");
@@ -119,21 +119,21 @@ const CarromBoard = () => {
                     </h2>
                 </div>
                 {/* Wooden Frame */}
-                <div className='relative w-[680px] h-[680px] rounded-xl shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] flex items-center justify-center p-10 border-[16px] border-[#1b110f] ring-4 ring-black/20'>
+                <div className='relative w-[680px] h-[600px] rounded-xl shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] flex items-center justify-center p-10 border-[16px] border-[#1b110f] ring-4 ring-black/20'>
 
                     {/* the polished wood surface */}
                     <div
                         ref={boardRef}
-                        className='absolute inset-0 z-10 w-[600px] h-[600px] cursor-crosshair shadow-[inset_0_0_50px__rgba(0,0,0,0.4)] bg-[#dfhb9d] '
+                        className='absolute inset-0 z-10 w-[600px] h-[600px] cursor-crosshair shadow-[inset_0_0_50px__rgba(0,0,0,0.4)] bg-transparent '
                         style={{
-                            background: 'radial-gradient( circle al center , #e9ccb1 0% , #c19a7b 100% )',
+                            background: 'radial-gradient( circle al center , rgba(233 , 204 , 177 ,0.8) 0% , rgba(193 , 154 , 123 , 0.8) 100% )',
                         }}>
 
                         {/* Authentic patterns */}
                         <svg className='absolute inset-0 w-full h-full pointer-events-none opacity-70 mix-blend-multiply'>
 
                             {/* Central Design  */}
-                            <g transform='translate (300  300)'>
+                            <g transform='translate(300  300)'>
                                 <circle r="85" fill='none' stroke='#4e342e' strokeWidth="1" strokeDasharray="4 2" />
                                 <circle r="75" fill='none' stroke='#4e342e' strokeWidth="1.5" />
                                 <circle r="18" fill='#4e324e' className='opacity-10' />
@@ -148,29 +148,29 @@ const CarromBoard = () => {
                                     <g key={angle} transform={`rotate(${angle} 300 300)`}>
                                         <line x1="300" y1="45" x2="300" y2="160" stroke="#4e324e" strokeWidth="1.5" />
                                         {/* below d mean data or path data and now ' M ' means starting point and ' L ' means drawing till  */}
-                                        <path d="M 285 145 L 300 165 L 315 145" fill="none" stroke="#4e324e" strokeWidth="2" strokeLinejoin="round"/>
-                                        <circle cx="300" cy="180" r="5" fill='none' stroke="#4e324e" strokeWidth="1.5"/>
+                                        <path d="M 285 145 L 300 165 L 315 145" fill="none" stroke="#4e324e" strokeWidth="2" strokeLinejoin="round" />
+                                        <circle cx="300" cy="180" r="5" fill='none' stroke="#4e324e" strokeWidth="1.5" />
                                     </g>
                                 ))
                             }
 
                             {/* Baselines */}
                             {
-                                [0, 90, 180, 270].map((angle)=> (
+                                [0, 90, 180, 270].map((angle) => (
                                     <g key={angle} transform={`rotate(${angle} 300 300)`}>
                                         <line x1="120" y1="485" x2="480" y2="485" stroke='#4e324e' strokeWidth="2" />
-                                        <line x1="120" y1="505" x2="480" y2="505" stroke='#4e324e' strokeWidth="2"/>
-                                        <circle cx="120" cy="495" r="14" fill='#b71c1c' stroke='#4e324e' strokeWidth="1"/>
-                                        <circle cx="480" cy="495" r="14" fill='#b71c1c' stroke='#4e324e' strokeWidth="1"/>
+                                        <line x1="120" y1="505" x2="480" y2="505" stroke='#4e324e' strokeWidth="2" />
+                                        <circle cx="120" cy="495" r="14" fill='#b71c1c' stroke='#4e324e' strokeWidth="1" />
+                                        <circle cx="480" cy="495" r="14" fill='#b71c1c' stroke='#4e324e' strokeWidth="1" />
                                     </g>
                                 ))
                             }
                         </svg>
                         {/* The Pockets  */}
-                        <div className='absolute top-0 left- w-16 h-16 bg-black rounded-full z-20 shadow-inner'/>
-                        <div className='absolute top-0 left- w-16 h-16 bg-black rounded-full z-20 shadow-inner'/>
-                        <div className='absolute top-0 left- w-16 h-16 bg-black rounded-full z-20 shadow-inner'/>
-                        <div className='absolute top-0 left- w-16 h-16 bg-black rounded-full z-20 shadow-inner'/>
+                        <div className='absolute top-0 left-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
+                        <div className='absolute top-0 right-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
+                        <div className='absolute bottom-0 left-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
+                        <div className='absolute bottom-0 right-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
                     </div>
                 </div>
                 <div className='mt-8 flex flex-col items-center gap-4'>
