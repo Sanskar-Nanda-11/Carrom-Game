@@ -122,14 +122,13 @@ const CarromBoard = () => {
                 <div className='relative w-[680px] h-[600px] rounded-xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)] flex items-center justify-center p-10 border-[20px] border-[#1b110f] after:absolute after:inset-10 after:shadow-[inset_0_0_0_30px_rgba(0,0,0,0.6)] after:pointer-events-none'>
 
                     {/* Authentic patterns */}
-                    <svg className='absolute inset-0 w-full h-full pointer-events-none opacity-70 mix-blend-multiply'>
-
+                    <svg className='absolute inset-0 w-full h-full pointer-events-none opacity-85 mix-blend-multiply z-0'>
                         {/* Central Design  */}
                         <g transform='translate(300  300)'>
                             {/* <circle r="85" fill='none' stroke='#4e342e' strokeWidth="1" strokeDasharray="4 2" /> */}
-                            <circle r="76" fill='none' stroke='#4e342e' strokeWidth="2" />
+                            {/* <circle r="76" fill='none' stroke='#4e342e' strokeWidth="2" /> */}
 
-                            {/* <circle r="75" fill='none' stroke='#4e342e' strokeWidth="1.5" /> */}
+                            <circle r="75" fill='none' stroke='#4e342e' strokeWidth="1.5" />
                             <circle r="80" fill='none' stroke='#4e342e' strokeWidth="0.5" />
 
                             <circle r="18" fill='#4e324e' className='opacity-10' />
@@ -140,11 +139,14 @@ const CarromBoard = () => {
 
                             {[...Array(8)].map((_, i) => (
                                 <path key={i}
-                                    d="M 0 -75 L 10 -20 L 0 0 L -10 -20 Z"
+                                    d="M 0 -75 L 8 -25 L 0 -15 L -8 -25 Z"
                                     fill={i % 2 === 0 ? '#4e324e' : 'none'}
+                                    stroke='#4e324e'
+                                    strokeWidth="1"
                                     transform={`rotate(${i * 45})`} />
                             ))}
-                            <circle r="15" fill='#b71c1c' stroke='#4e324e' strokeWidth="1" />
+                            <circle r="16" fill='#b71c1c' stroke='#4e324e' strokeWidth="1" />
+                            <circle r="4" fill='#4e342e' />
                         </g>
 
                         {/* Corner Arrows */}
@@ -152,16 +154,16 @@ const CarromBoard = () => {
                             [45, 135, 225, 315].map((angle) => (
                                 <g key={angle} transform={`rotate(${angle} 300 300)`}>
                                     {/* <line x1="300" y1="45" x2="300" y2="160" stroke="#4e324e" strokeWidth="1.5" /> */}
-                                    <line x1="300" y1="110" x2="300" y2="160" stroke="#4e324e" strokeWidth="1" />
+                                    <line x1="300" y1="100" x2="300" y2="165" stroke="#4e324e" strokeWidth="1.2" />
                                     {/* below d mean data or path data and now ' M ' means starting point and ' L ' means drawing till  */}
 
 
                                     {/* <path d="M 285 145 L 300 165 L 315 145" fill="none" stroke="#4e324e" strokeWidth="2" strokeLinejoin="round" /> */}
 
 
-                                    <path d="M 285 145 L 300 165 L 315 145" fill="none" stroke="#4e324e" strokeWidth="2" strokeLinejoin="round" />
+                                    <path d="M 288 150 Q 300 175 L 312 150" fill="none" stroke="#4e324e" strokeWidth="1.5" strokeLinejoin="round" />
 
-                                    <circle cx="300" cy="180" r="5" fill='none' stroke="#4e324e" strokeWidth="1.5" />
+                                    <circle cx="300" cy="178" r="3" fill="#4e324e" />
                                 </g>
                             ))
                         }

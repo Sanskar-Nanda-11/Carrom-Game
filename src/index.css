@@ -10,10 +10,12 @@ canvas {
 }
 
 .canvas-surface {
-  background: radial-gradient(circle at center, #f3d5b5 0%, #e7bc91 100%);
+  background-color: #f1d2d1;
+  /* background: radial-gradient(circle at center, #f3d5b5 0%, #e7bc91 100%); */
   background-image:
-    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02) 0px, rgba(0, 0, 0, 0.02) 2px, transparent 2px, transparent 4px),
-    radial-gradient(circle at center, #f3d5b5 0%, #e7bc91 100%);
+    repeating-linear-gradient(90deg, rgba(78, 52, 46, 0.03) 0px, rgba(78, 52, 46, 0.03) 2px, transparent 1px, transparent 15px),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.4) 0%,  rgba(0, 0, 0, 0.1) 100%);
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.2);
 }
 
 
