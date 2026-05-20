@@ -119,80 +119,87 @@ const CarromBoard = () => {
                     </h2>
                 </div>
                 {/* Wooden Frame */}
-                <div className='relative w-[680px] h-[600px] rounded-xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)] flex items-center justify-center p-10 border-[20px] border-[#1b110f] after:absolute after:inset-10 after:shadow-[inset_0_0_0_30px_rgba(0,0,0,0.6)] after:pointer-events-none'>
+                <div className='relative w-[680px] h-[680px] rounded-xl shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] flex items-center justify-center p-10 border-[16px] border-[#1b110f] ring-4 ring-black/20'>
 
-                    {/* Authentic patterns */}
-                    <svg className='absolute inset-0 w-full h-full pointer-events-none opacity-85 mix-blend-multiply z-0'>
-                        {/* Central Design  */}
-                        <g transform='translate(300  300)'>
-                            {/* <circle r="85" fill='none' stroke='#4e342e' strokeWidth="1" strokeDasharray="4 2" /> */}
-                            {/* <circle r="76" fill='none' stroke='#4e342e' strokeWidth="2" /> */}
+                    <div className='carrom-surface relative w-[600px] h-[600px] overflow-hidden rounded-sm cursor-crosshair'>
+                            {/* Authentic patterns */}
+                            <svg className='absolute inset-0 w-full h-full pointer-events-none opacity-85 mix-blend-multiply z-0'>
+                                {/* Central Design  */}
+                                <g transform='translate(300  300)'>
+                                    {/* <circle r="85" fill='none' stroke='#4e342e' strokeWidth="1" strokeDasharray="4 2" /> */}
+                                    {/* <circle r="76" fill='none' stroke='#4e342e' strokeWidth="2" /> */}
 
-                            <circle r="75" fill='none' stroke='#4e342e' strokeWidth="1.5" />
-                            <circle r="80" fill='none' stroke='#4e342e' strokeWidth="0.5" />
+                                    <circle r="75" fill='none' stroke='#4e342e' strokeWidth="1.5" />
+                                    <circle r="80" fill='none' stroke='#4e342e' strokeWidth="0.5" />
 
-                            <circle r="18" fill='#4e324e' className='opacity-10' />
+                                    <circle r="18" fill='#4e324e' className='opacity-10' />
 
-                            {/* {[...Array(12)].map((_, i) => (
+                                    {/* {[...Array(12)].map((_, i) => (
                                 <line key={i} y1="75" y2="85" transform={`rotate(${i * 30})`} stroke="#4e324e" strokeWidth="1.2" />
                             ))} */}
 
-                            {[...Array(8)].map((_, i) => (
-                                <path key={i}
-                                    d="M 0 -75 L 8 -25 L 0 -15 L -8 -25 Z"
-                                    fill={i % 2 === 0 ? '#4e324e' : 'none'}
-                                    stroke='#4e324e'
-                                    strokeWidth="1"
-                                    transform={`rotate(${i * 45})`} />
-                            ))}
-                            <circle r="16" fill='#b71c1c' stroke='#4e324e' strokeWidth="1" />
-                            <circle r="4" fill='#4e342e' />
-                        </g>
-
-                        {/* Corner Arrows */}
-                        {
-                            [45, 135, 225, 315].map((angle) => (
-                                <g key={angle} transform={`rotate(${angle} 300 300)`}>
-                                    {/* <line x1="300" y1="45" x2="300" y2="160" stroke="#4e324e" strokeWidth="1.5" /> */}
-                                    <line x1="300" y1="100" x2="300" y2="165" stroke="#4e324e" strokeWidth="1.2" />
-                                    {/* below d mean data or path data and now ' M ' means starting point and ' L ' means drawing till  */}
-
-
-                                    {/* <path d="M 285 145 L 300 165 L 315 145" fill="none" stroke="#4e324e" strokeWidth="2" strokeLinejoin="round" /> */}
-
-
-                                    <path d="M 288 150 Q 300 175 L 312 150" fill="none" stroke="#4e324e" strokeWidth="1.5" strokeLinejoin="round" />
-
-                                    <circle cx="300" cy="178" r="3" fill="#4e324e" />
+                                    {[...Array(8)].map((_, i) => (
+                                        <path key={i}
+                                            d="M 0 -75 L 8 -25 L 0 -15 L -8 -25 Z"
+                                            fill={i % 2 === 0 ? '#4e324e' : 'none'}
+                                            stroke='#4e324e'
+                                            strokeWidth="1"
+                                            transform={`rotate(${i * 45})`} />
+                                    ))}
+                                    <circle r="16" fill='#b71c1c' stroke='#4e324e' strokeWidth="1" />
+                                    <circle r="4" fill='#4e342e' />
                                 </g>
-                            ))
-                        }
 
-                        {/* Baselines */}
-                        {
-                            [0, 90, 180, 270].map((angle) => (
-                                <g key={angle} transform={`rotate(${angle} 300 300)`}>
-                                    <line x1="120" y1="485" x2="480" y2="485" stroke='#4e324e' strokeWidth="2" />
-                                    <line x1="120" y1="505" x2="480" y2="505" stroke='#4e324e' strokeWidth="2" />
-                                    <circle cx="120" cy="495" r="14" fill='#b71c1c' stroke='#4e324e' strokeWidth="1" />
-                                    <circle cx="480" cy="495" r="14" fill='#b71c1c' stroke='#4e324e' strokeWidth="1" />
-                                </g>
-                            ))
-                        }
-                    </svg>
+                                {/* Corner Arrows */}
+                                {
+                                    [45, 135, 225, 315].map((angle) => (
+                                        <g key={angle} transform={`rotate(${angle} 300 300)`}>
+                                            {/* <line x1="300" y1="45" x2="300" y2="160" stroke="#4e324e" strokeWidth="1.5" /> */}
+                                            <line x1="300" y1="100" x2="300" y2="165" stroke="#4e324e" strokeWidth="1.2" />
+                                            {/* below d mean data or path data and now ' M ' means starting point and ' L ' means drawing till  */}
 
-                    {/* the polished wood surface */}
-                    <div
-                        ref={boardRef}
-                        className=' canvas-surface absolute inset-0 z-10 w-[600px] h-[600px] cursor-crosshair shadow-inner bg-transparent overflow-hidden '
-                        style={{
-                            background: 'radial-gradient( circle al center , rgba(233 , 204 , 177 ,0.8) 0% , rgba(193 , 154 , 123 , 0.8) 100% )',
-                        }} />
-                    {/* The Pockets  */}
-                    <div className='absolute top-0 left-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
-                    <div className='absolute top-0 right-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
-                    <div className='absolute bottom-0 left-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
-                    <div className='absolute bottom-0 right-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
+
+                                            {/* <path d="M 285 145 L 300 165 L 315 145" fill="none" stroke="#4e324e" strokeWidth="2" strokeLinejoin="round" /> */}
+
+
+                                            <path d="M 288 150 Q 300 175 L 312 150" fill="none" stroke="#4e324e" strokeWidth="1.5" strokeLinejoin="round" />
+
+                                            <circle cx="300" cy="178" r="3" fill="#4e324e" />
+                                        </g>
+                                    ))
+                                }
+
+                                {/* Baselines */}
+                                {
+                                    [0, 90, 180, 270].map((angle) => (
+                                        <g key={angle} transform={`rotate(${angle} 300 300)`}>
+                                            <line x1="120" y1="485" x2="480" y2="485" stroke='#4e324e' strokeWidth="2" />
+                                            <line x1="120" y1="505" x2="480" y2="505" stroke='#4e324e' strokeWidth="2" />
+                                            <circle cx="120" cy="495" r="14" fill='#b71c1c' stroke='#4e324e' strokeWidth="1" />
+                                            <circle cx="480" cy="495" r="14" fill='#b71c1c' stroke='#4e324e' strokeWidth="1" />
+                                        </g>
+                                    ))
+                                }
+                            </svg>
+
+
+                            {/* The Pockets  */}
+                            <div className='absolute top-0 left-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
+                            <div className='absolute top-0 right-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
+                            <div className='absolute bottom-0 left-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
+                            <div className='absolute bottom-0 right-0 w-16 h-16 bg-black rounded-full z-20 shadow-inner -translate-x-1/2 -translate-y-1/2' />
+
+                            {/* the polished wood surface */}
+                        <div
+                            ref={boardRef}
+                            className=' absolute inset-0 z-10 bg-transparent '
+                            style={{
+                                background: 'radial-gradient( circle al center , rgba(233 , 204 , 177 ,0.8) 0% , rgba(193 , 154 , 123 , 0.8) 100% )',
+                            }}/>
+
+                    </div>
+
+
                 </div>
                 <div className='mt-8 flex flex-col items-center gap-4'>
                     <button type="button" onClick={() => setCurrentPlayer(prev => prev.trim() === 'p1' ? 'p2' : 'p1')} className='px-4 py-1 text-[10px] font-bold uppercase tracking-widest bg-zinc-800 text-zinc-400 border border-zinc-700 rounded-full hover:bg-zinc-700 transition-all'> ACCESS_TURN_CONTROL </button>
