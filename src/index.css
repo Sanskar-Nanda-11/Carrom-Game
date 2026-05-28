@@ -25,6 +25,39 @@ canvas {
   box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.25);
 }
 
+svg {
+  transform: translateZ(0px);
+  z-index: 0 !important;
+}
+
+canvas,
+[ref=boardRef] {
+  transform: translateZ(10px);
+  z-index: 10 !important ;
+}
+
+.front-pocket{
+  transform: translateZ(20px);
+  z-index: 20 !important ;
+}
+
+@keyframes pulse-slow{
+  0% , 100%{ opacity: 0.4; transform: scale(1);}
+  50% { opacity : 0.9; transform: scale(1.02);}
+}
+
+@keyframes glow{
+  0% , 100%{ filter :drop-shadow( 0 0 5px rgba(245 , 158 , 11 , 0.2));}
+  50% { filter : drop-shadow(0  0 20px rgba(245 , 158 , 11 , 0.6 ) );}
+}
+
+.animated-pulse-slow{
+  animation: pulse-slow 3s infinite ease-in-out;
+}
+
+.animate-glow{
+  animation: glow 2s infinite ease-in-out;
+}
 
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
