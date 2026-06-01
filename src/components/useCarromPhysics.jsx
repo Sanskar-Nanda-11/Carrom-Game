@@ -79,7 +79,10 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
       render: { fillStyle: '#3e2723', visible: false },  // Set the render options for the walls to customize their appearance in the carrom game. By setting fillStyle to a specific color (in this case, a dark brown), we can create a visually distinct representation of the walls in the game. Additionally, by setting visible to false, we can make the walls invisible in the visual representation of the game while still allowing them to function as boundaries in the physics simulation. This allows players to focus on the carrom pieces and the board without being distracted by visible wall bodies, creating a cleaner and more immersive gaming experience. Note :- works only when wireframes is set to false in the renderer options.
 
-      restitution: 0.4      // Set restitution to 0.6 for the walls to make them moderately bouncy, allowing the carrom pieces to bounce off the walls with some elasticity during collisions. This option enhances the gameplay experience by adding a realistic bounce effect when the pieces collide with the walls, making the game more dynamic and enjoyable for players. By adjusting the restitution value, we can control how much energy is retained during collisions with the walls, creating a more engaging and interactive carrom game.
+      restitution: 0.8,      // Set the restitution of the walls to 0.8 to control the bounciness of the carrom pieces when they collide with the walls. By setting restitution to a value less than 1, we can create a more realistic interaction between the pieces and the walls, allowing them to bounce off with some energy loss rather than perfectly elastic collisions. This helps to enhance the gameplay experience by providing a more natural and enjoyable interaction between the carrom pieces and the boundaries of the board during gameplay.
+
+      friction: 0.0,     // Set the friction of the walls to 0.0 to ensure that the carrom pieces do not experience any resistance when sliding along the walls during gameplay. By setting friction to zero, we can create a smoother and more enjoyable gaming experience, allowing players to focus on their shots and interactions with the pieces without worrying about additional frictional forces affecting their movements when they come into contact with the walls of the carrom board.
+      frictionStatic: 0.0  // Set the static friction of the walls to 0.0 to ensure that the carrom pieces do not experience any resistance when they are at rest against the walls during gameplay. By setting frictionStatic to zero, we can create a more realistic and enjoyable gaming experience, allowing players to focus on their shots and interactions with the pieces without worrying about additional static frictional forces affecting their movements when they come into contact with the walls of the carrom board. This helps to enhance the overall interactivity and responsiveness of the game during gameplay.
     };
 
     const walls = [       // Create an array of walls for the carrom board. Each wall is defined using the Matter.Bodies.rectangle() function, which creates a rectangular body with specified position, dimensions, and options. The walls are positioned around the edges of the carrom board to create boundaries for the pieces to interact with during gameplay. By defining these walls with the appropriate options, we can ensure that they behave as intended in the physics simulation, providing a realistic and enjoyable gaming experience for players.
@@ -149,10 +152,12 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
       const isWhite = i % 2 === 0; // Determine the color of each coin based on its index in the loop. By using the modulus operator (i % 2), we can alternate the color of the coins between white and black, creating a visually distinct pattern for the inner circle of coins in the carrom game. This adds an element of visual interest and helps players easily differentiate between the coins during gameplay, enhancing the overall aesthetic and functionality of the game.
       coins.push(Matter.Bodies.circle(              // Create a circular body for each coin in the inner circle using Matter.Bodies.circle() function. Each coin is defined by its calculated x and y coordinates, radius (coinRadius), and options that specify its physical properties and appearance in the physics simulation. By creating these coins with the appropriate properties, we can ensure that they interact realistically with the other pieces on the carrom board during gameplay, adding an important element to the game as players aim to pocket these coins for points. The options for each coin include:
         x, y, coinRadius, {
-        restitution: 0.4,     // Set restitution to 0.4 to make the coins moderately bouncy, allowing them to bounce off other pieces and walls with some elasticity. This option enhances the gameplay experience by adding a realistic bounce effect when the coins collide with other elements on the board, making the game more dynamic and enjoyable for players. By adjusting the restitution value, we can control how much energy is retained during collisions, creating a more engaging and interactive carrom game.
-        frictionAir: 0.04,    // Set frictionAir to 0.04 to provide a moderate amount of air resistance for the coins, allowing them to slow down gradually as they move across the board. This option adds a layer of realism to the physics simulation, as it simulates the effect of air resistance on the movement of the coins, making the gameplay experience more immersive and enjoyable for players. By adjusting the frictionAir value, we can control how quickly the coins slow down, creating a more engaging and interactive carrom game.
-        friction: 0.02,       // Set friction to 0.02 to provide a small amount of surface friction for the coins, allowing them to interact with the board and other pieces in a more realistic manner. This option helps to prevent the coins from sliding indefinitely across the board, adding a sense of realism to the physics simulation and enhancing the overall gameplay experience for players. By adjusting the friction value, we can control how much resistance the coins encounter when moving across the board, creating a more engaging and interactive carrom game.
-        slop: 0.01,  // Set slop to 0.01 to allow for a small amount of penetration between the coins and other bodies in the physics simulation. This option helps to prevent issues with collision detection, such as coins getting stuck or jittering when they come into contact with other pieces or walls on the board. By allowing a small amount of slop, we can ensure smoother interactions between the coins and other elements in the carrom game, enhancing the overall gameplay experience for players.
+        restitution: 0.7,       // Set restitution to 0.7 to make the coins moderately bouncy, allowing them to bounce off other pieces and walls with some elasticity. This option enhances the gameplay experience by adding a realistic bounce effect when the coins collide with other elements on the board, making the game more dynamic and enjoyable for players. By adjusting the restitution value, we can control how much energy is retained during collisions, creating a more engaging and interactive carrom game.
+        density : 0.04,      // Set density to 0.04 to control the mass and inertia of the coins in the physics simulation. By adjusting the density value, we can influence how the coins interact with other pieces on the board during gameplay, such as how they respond to collisions and how they move when struck by the striker. A higher density will make the coins heavier and less affected by forces, while a lower density will make them lighter and more responsive to interactions. By choosing an appropriate density value, we can enhance the overall realism and enjoyment of the carrom game for players.
+        friction: 0.005,       // Set friction to 0.005 to provide a small amount of resistance when the coins slide across the board during gameplay. This option adds a layer of realism to the physics simulation, as it simulates the effect of friction on the movement of the coins, making the gameplay experience more immersive and enjoyable for players. By adjusting the friction value, we can control how easily the coins slide across the board, creating a more engaging and interactive carrom game.
+        frictionAir : 0.015,  // Set frictionAir to 0.015 to provide a moderate amount of air resistance for the coins, allowing them to slow down gradually as they move across the board. This option adds a layer of realism to the physics simulation, as it simulates the effect of air resistance on the movement of the coins, making the gameplay experience more immersive and enjoyable for players. By adjusting the frictionAir value, we can control how quickly the coins slow down, creating a more engaging and interactive carrom game.
+        frictionStatic : 0.002 , // Set frictionStatic to 0.002 to provide a small amount of resistance when the coins are at rest against the board during gameplay. This option adds a layer of realism to the physics simulation, as it simulates the effect of static friction on the movement of the coins, making the gameplay experience more immersive and enjoyable for players. By adjusting the frictionStatic value, we can control how easily the coins start moving when they are at rest, creating a more engaging and interactive carrom game.
+        // slop: 0.01,  // Set slop to 0.01 to allow for a small amount of penetration between the coins and other bodies in the physics simulation. This option helps to prevent issues with collision detection, such as coins getting stuck or jittering when they come into contact with other pieces or walls on the board. By allowing a small amount of slop, we can ensure smoother interactions between the coins and other elements in the carrom game, enhancing the overall gameplay experience for players.
         label: isWhite ? 'white_coin' : 'black_coin',      // Set the label of each coin body based on its color to differentiate between white and black coins in the physics simulation. By assigning a label of 'white_coin' for white coins and 'black_coin' for black coins, we can easily identify and manage the different types of coins during gameplay, allowing us to implement specific logic or interactions based on their labels when they collide with other pieces or pockets on the board. This labeling system enhances the functionality and interactivity of the carrom game by providing a way to distinguish between the different coins in the physics simulation.
         collisionFilter: {
           category: Coins_Catagory,
@@ -171,9 +176,11 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
       const isBlack = i % 2 === 0;
       coins.push(Matter.Bodies.circle(
         x, y, coinRadius, {
-        restitution: 0.4,
-        frictionAir: 0.04,
-        friction: 0.02,
+        restitution: 0.7,
+        frictionAir: 0.015,
+        density: 0.04,
+        friction: 0.005,
+        frictionStatic : 0.002 ,
         slop: 0.01,
         label: isBlack ? 'black_coin' : 'white_coin',
         collisionFilter: {
@@ -187,9 +194,12 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
     const striker = Matter.Bodies.circle(300, 500, 20, { // Create a circular body to represent the striker in the carrom game. The Matter.Bodies.circle() function is used to create a circular body with specified position (x and y coordinates), radius, and options. The options include properties such as mass, restitution, frictionAir, and render settings that define the physical behavior and appearance of the striker in the physics simulation. By creating the striker with these properties, we can ensure that it interacts realistically with the other pieces on the carrom board during gameplay.
       label: 'striker',      // Set the label of the striker body to 'striker' to identify it in the physics simulation. This label can be used to differentiate the striker from other bodies in the simulation, allowing us to apply specific logic or interactions when the striker collides with other pieces or pockets on the board during gameplay. By assigning a label to the striker, we can enhance the functionality and interactivity of the carrom game.
-      mass: 5,       // Higher mass → hits harder, Lower mass → moves easily
-      //  restitution: 0.5,        // Higher restitution → bouncier, Lower restitution → less bouncy
-      frictionAir: 0.04,       // Higher frictionAir → slows down faster, Lower frictionAir → retains speed longer
+      // mass: 5,       // Higher mass → hits harder, Lower mass → moves easily
+      restitution: 0.6,        // Higher restitution → bouncier, Lower restitution → less bouncy
+      friction: 0.0,            // Higher friction → more resistance to sliding, Lower friction → slides more easily ( affects how the striker interacts with the board and other pieces )
+      frictionStatic: 0.0,       // Higher frictionStatic → more resistance ( pressure ) to start moving, Lower frictionStatic → easier to start moving ( affects how the striker initially interacts with the board and other pieces )
+      density: 0.08,   //   Higher density → heavier, Lower density → lighter ( affects mass and inertia )
+      frictionAir: 0.0012,       // Higher frictionAir → slows down faster, Lower frictionAir → retains speed longer
       collisionFilter: {   // Define the collision filter for the striker to control how it interacts with other bodies in the physics simulation. The collisionFilter property allows us to specify which categories of bodies the striker belongs to and which categories it can collide with. By setting the category to Striker_Catagory and the mask to include Striker_Catagory, Coins_Catagory, and Mouse_Catagory, we can ensure that the striker will interact with other strikers, coins, and mouse interactions during gameplay, while ignoring collisions with bodies that do not match these categories. This allows us to create a more controlled and realistic interaction between the striker and other elements in the carrom game.
         category: Striker_Catagory,        // This category defines the group that the striker belongs to in the collision filtering system. By assigning the striker to the Striker_Catagory, we can control how it interacts with other bodies in the physics simulation based on their categories, allowing for specific collision behaviors during gameplay.
 
@@ -288,14 +298,14 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
     const runner = Matter.Runner.create();
 
-Matter.Runner.run(runner, engine);
-Matter.Render.run(render);
+    Matter.Runner.run(runner, engine);
+    Matter.Render.run(render);
 
 
-// const runner = Matter.Runner.create();         
-                                                                              // i need to check these 3 lines what is actully difference between above and these 
-// Matter.Runner.run(runner, engine);
-// Matter.Render.run(render);
+    // const runner = Matter.Runner.create();         
+    // i need to check these 3 lines what is actully difference between above and these 
+    // Matter.Runner.run(runner, engine);
+    // Matter.Render.run(render);
 
     return () => {
       Matter.Render.stop(render);
@@ -310,7 +320,7 @@ Matter.Render.run(render);
       render.textures = {};
       window.respawnQueen = null;
     };
-  }, [ ]);
+  }, []);
 
   return engineRef.current;
 };
