@@ -245,29 +245,15 @@ const CarromBoard = () => {
 
                 {/* Wooden Frame */}
 
-                <div className='relative w-[680px] h-[680px] rounded-xl shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] flex items-center justify-center p-10 border-[16px] border-[#1b110f] ring-4 ring-black/20'>
-
-
+                <div className='relative w-[92vw] max-w-[680px] aspect-square rounded-xl shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] flex items-center justify-center p-[5.8%] border-[2.3vw] md:border-[16px] border-[#1b110f] ring-4 ring-black/20'>
 
                     {/* The Playing Field Core - All surface layers are cleanly self-contained inside here */}
 
-                    <div className='carrom-surface relative w-[600px] h-[600px] overflow-hidden rounded-sm cursor-crosshair shadow-[inset_0_0_50px_rgba(0,0,0,0.4)]' style={{ transformStyle: 'preserve-3d', background: 'radial-gradient(circle at center, #deb887, #c68642)' }}>
-
-                        {/* LAYER 2: Physics Interactive Canvas (Pure Transparent Sibling over the SVG) */}
-
-                        <div
-
-                            ref={boardRef}
-
-                            className='absolute top-0 left-0 w-[600px] h-[600px] bg-transparent z-'
-
-                            style={{ transform: 'translateZ(10px)', zIndex: 10 }}
-
-                        />
+                    <div className='carrom-surface relative w-full h-full overflow-hidden rounded-sm cursor-crosshair shadow-[inset_0_0_50px_rgba(0,0,0,0.4)]' style={{ transformStyle: 'preserve-3d', background: 'radial-gradient(circle at center, #deb887, #c68642)' }}>
 
                         {/* LAYER 1: SVG Markings (Deep Background) */}
-
-                        <svg className='absolute inset-0 w-full h-full pointer-events-none opacity-90 ' style={{ transform: 'translateZ(0px)', zIndex: 0 }}>
+                        {/* view box is the absolute magic key here . It tells the svg to scale its internal coordinates to fit the given width and height while maintaining the aspect ratio. By setting viewBox='0 0 600 600', we define a coordinate system that goes from (0,0) in the top-left corner to (600,600) in the bottom-right corner. This allows us to use consistent coordinates for drawing the carrom board markings, regardless of the actual size of the SVG element on the page. The SVG will automatically scale its contents to fit within the specified width and height while preserving the aspect ratio defined by the viewBox, ensuring that the carrom board markings are displayed correctly and proportionally on different screen sizes and resolutions.  , in-short :- ' viewBox is the absolute magic key here. It tells the browser that the vector lines are drawn on a 600x600 virtual map, but scales them smoothly to match whatever size the parent element container grows or shrinks to! ' */}
+                        <svg viewBox='0 0 600 600 ' className='absolute inset-0 w-full h-full pointer-events-none opacity-90 ' style={{ transform: 'translateZ(0px)', zIndex: 0 }}>
 
                             {/* Central Design */}
 
@@ -295,23 +281,23 @@ const CarromBoard = () => {
                             {/* Corner Arrows */}
                             <>
                                 {/* Top Left Corner */}
-                                <g transform="translate(145 , 145) rotate(-45)">           {/* 0 */}
+                                <g transform="translate(145 , 145) rotate(-45)">           {/* previously :- 0 */}
                                     <line x1="0" y1="-20" x2="0" y2="80" stroke='#4a2c11' strokeWidth='1.5' />
                                     <path d=" M -12 68 L 0 82 L 12 68 " fill='none' stroke='#4a2c11' strokeWidth='2' strokeLinejoin='round' />
                                     <circle cx='0' cy='-15' r='10' fill='none' stroke='#4a2c11' strokeWidth='1.5' />
                                 </g>
 
                                 {/* Top Right Corner */}
-                                <g transform="translate(455 , 145) rotate(45)">        {/* 45 */}
+                                <g transform="translate(455 , 145) rotate(45)">        {/* previously :- 45 */}
                                     <line x1="0" y1="-20" x2="0" y2="80" stroke='#4a2c11' strokeWidth='1.5' />
                                     <path d="M -12 68 L 0 82 L 12 68 " fill='none' stroke='#4a2c11' strokeWidth='2' strokeLinejoin='round' />
                                     <circle cx='0' cy='-15' r='10' fill='none' stroke='#4a2c11' strokeWidth='1.5' />
                                 </g>
 
                                 {/* Bottom Right Corner */}
-                                <g transform="translate(455 , 455) rotate(135)">   {/* 135 */}
+                                <g transform="translate(455 , 455) rotate(135)">   {/* previously :- 135 */}
                                     <line x1="0" y1="-20" x2="0" y2="80" stroke='#4a2c11' strokeWidth='1.5' />
-                                    <path d="M -12 68 L 0 82 L 12 68 " fill='none' stroke='#4a2c11' strokeWidth='2' strokeLinejoin='round' />
+                                    <path d="M -12 68 L 0 82 L 12 68 " fill='none' stroke='#4a2c11' strokeWidth='2'  strokeLinejoin='round' />
                                     <circle cx='0' cy='-15' r='10' fill='none' stroke='#4a2c11' strokeWidth='1.5' />
                                 </g>
 
@@ -343,6 +329,18 @@ const CarromBoard = () => {
                             ))}
 
                         </svg>
+
+                        {/* LAYER 2: Physics Interactive Canvas (Pure Transparent Sibling over the SVG) */}
+
+                        <div
+
+                            ref={boardRef}
+
+                            className='absolute inset-0 z-10 bg-transparent [&>canvas]:w-full [&>canvas]:h-full [&>canvas]:object-contain'
+
+                            style={{ transform: 'translateZ(10px)', zIndex: 10 }}
+
+                        />
 
                         {/* LAYER 3: 3D Corner Pockets (Front Layer - Masks lines and lets coins drop under) */}
 
