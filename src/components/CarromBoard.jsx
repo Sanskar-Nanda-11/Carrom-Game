@@ -181,7 +181,7 @@ const CarromBoard = () => {
 
                 }
 
-                <div className=' flex justify-between items-end w-[650px] mb-6'>
+                <div className=' flex justify-between items-end w-[92vw] mx-w-[650px] mb-6'>
 
                     <div>
 
@@ -344,13 +344,13 @@ const CarromBoard = () => {
 
                         {/* LAYER 3: 3D Corner Pockets (Front Layer - Masks lines and lets coins drop under) */}
 
-                        <div className='front-pocket absolute top-[18px] left-[18px] w-14 h-14 bg-[#090909] rounded-full shadow-[inset_0_6px_12px_rgba(0,0,0,0.9)] border border-amber-900/20 pointer-events-none' style={{ transform: 'translateZ(20px)', zIndex: 20 }} />
+                        <div className='front-pocket absolute top-[3%] left-[3%] w-[9.3%] h-[9.3%] bg-[#090909] rounded-full shadow-[inset_0_6px_12px_rgba(0,0,0,0.9)] border border-amber-900/20 pointer-events-none' style={{ transform: 'translateZ(20px)', zIndex: 20 }} />
 
-                        <div className='front-pocket absolute top-[18px] right-[18px] w-14 h-14 bg-[#090909] rounded-full shadow-[inset_0_6px_12px_rgba(0,0,0,0.9)] border border-amber-900/20 pointer-events-none' style={{ transform: 'translateZ(20px)', zIndex: 20 }} />
+                        <div className='front-pocket absolute top-[3%] right-[3%] w-[9.3%] h-[9.3%] bg-[#090909] rounded-full shadow-[inset_0_6px_12px_rgba(0,0,0,0.9)] border border-amber-900/20 pointer-events-none' style={{ transform: 'translateZ(20px)', zIndex: 20 }} />
 
-                        <div className='front-pocket absolute bottom-[18px] left-[18px] w-14 h-14 bg-[#090909] rounded-full shadow-[inset_0_6px_12px_rgba(0,0,0,0.9)] border border-amber-900/20 pointer-events-none' style={{ transform: 'translateZ(20px)', zIndex: 20 }} />
+                        <div className='front-pocket absolute bottom-[3%] left-[3%] w-[9.3%] h-[9.3%] bg-[#090909] rounded-full shadow-[inset_0_6px_12px_rgba(0,0,0,0.9)] border border-amber-900/20 pointer-events-none' style={{ transform: 'translateZ(20px)', zIndex: 20 }} />
 
-                        <div className='front-pocket absolute bottom-[18px] right-[18px] w-14 h-14 bg-[#090909] rounded-full shadow-[inset_0_6px_12px_rgba(0,0,0,0.9)] border border-amber-900/20 pointer-events-none' style={{ transform: 'translateZ(20px)', zIndex: 20 }} />
+                        <div className='front-pocket absolute bottom-[3%] right-[3%] w-[9.3%] h-[9.3%] bg-[#090909] rounded-full shadow-[inset_0_6px_12px_rgba(0,0,0,0.9)] border border-amber-900/20 pointer-events-none' style={{ transform: 'translateZ(20px)', zIndex: 20 }} />
 
                     </div>
 
