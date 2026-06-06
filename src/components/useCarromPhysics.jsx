@@ -30,7 +30,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
 
 
-        // Commented From here 
+    // Commented From here 
 
 
 
@@ -41,7 +41,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
 
 
-   
+
 
 
 
@@ -97,7 +97,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
 
 
-     Matter.Events.on(engine, 'afterUpdate', () => {           // Add an event listener to the Matter.js engine that triggers after each update of the physics simulation. The 'afterUpdate' event allows us to execute custom logic after the engine has processed all the physics calculations for a given frame, enabling us to implement additional functionality such as checking for collisions, updating game state, or applying custom forces to the bodies in the simulation. By using this event, we can enhance the interactivity and responsiveness of the carrom game, creating a more engaging experience for players as they interact with the game elements during gameplay.
+    Matter.Events.on(engine, 'afterUpdate', () => {           // Add an event listener to the Matter.js engine that triggers after each update of the physics simulation. The 'afterUpdate' event allows us to execute custom logic after the engine has processed all the physics calculations for a given frame, enabling us to implement additional functionality such as checking for collisions, updating game state, or applying custom forces to the bodies in the simulation. By using this event, we can enhance the interactivity and responsiveness of the carrom game, creating a more engaging experience for players as they interact with the game elements during gameplay.
       const allBodies = Matter.Composite.allBodies(engine.world);  //  Retrieve all the bodies currently present in the physics simulation by accessing the engine's world composite. The Matter.Composite.allBodies() function returns an array of all the bodies that are part of the physics simulation, allowing us to iterate through them and apply custom logic based on their properties and interactions. This is particularly useful for implementing game mechanics such as checking for collisions, applying boundary constraints, or updating the state of the game based on the positions and velocities of the bodies during gameplay.
       const padding = 15;                     //  Define a padding value to be used for boundary constraints in the physics simulation. This padding will be applied to the edges of the carrom board to prevent the pieces from moving outside of the designated play area during gameplay. By using a padding value, we can ensure that the carrom pieces remain within the boundaries of the board, creating a more realistic and enjoyable gaming experience for players. The padding helps to maintain the integrity of the game by keeping the pieces within the intended play area, enhancing the overall functionality and interactivity of the carrom game.
       allBodies.forEach(body => {     // Iterate through all the bodies in the physics simulation to apply custom logic based on their properties and interactions. This loop allows us to check for conditions such as boundary constraints, collisions, or other game mechanics that we want to implement during gameplay. By iterating through each body, we can ensure that our custom logic is applied consistently across all elements in the carrom game, enhancing the overall interactivity and responsiveness of the game for players.
@@ -137,9 +137,10 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
     const wallOptions = {       // Define options for the walls of the carrom board. These options include:
       isStatic: true,      // Define options for the walls of the carrom board. By setting isStatic to true, we ensure that the walls will not move or be affected by forces in the physics simulation. This is important for creating a stable boundary for the carrom pieces to interact with, preventing them from falling off the board or moving outside of the designated play area. The wallOptions can be used when creating the walls of the carrom board to ensure they behave as intended in the physics simulation.
 
-      render: { 
+      render: {
         // fillStyle: '#3e2723',
-         visible: false },  // Set the render options for the walls to customize their appearance in the carrom game. By setting fillStyle to a specific color (in this case, a dark brown), we can create a visually distinct representation of the walls in the game. Additionally, by setting visible to false, we can make the walls invisible in the visual representation of the game while still allowing them to function as boundaries in the physics simulation. This allows players to focus on the carrom pieces and the board without being distracted by visible wall bodies, creating a cleaner and more immersive gaming experience. Note :- works only when wireframes is set to false in the renderer options.
+        visible: false
+      },  // Set the render options for the walls to customize their appearance in the carrom game. By setting fillStyle to a specific color (in this case, a dark brown), we can create a visually distinct representation of the walls in the game. Additionally, by setting visible to false, we can make the walls invisible in the visual representation of the game while still allowing them to function as boundaries in the physics simulation. This allows players to focus on the carrom pieces and the board without being distracted by visible wall bodies, creating a cleaner and more immersive gaming experience. Note :- works only when wireframes is set to false in the renderer options.
 
       restitution: 0.8,      // Set the restitution of the walls to 0.8 to control the bounciness of the carrom pieces when they collide with the walls. By setting restitution to a value less than 1, we can create a more realistic interaction between the pieces and the walls, allowing them to bounce off with some energy loss rather than perfectly elastic collisions. This helps to enhance the gameplay experience by providing a more natural and enjoyable interaction between the carrom pieces and the boundaries of the board during gameplay.
 
@@ -254,7 +255,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
       ));
     }
 
-    const STRIKER_START_X = 300 ;
+    const STRIKER_START_X = 300;
     const STRIKER_START_Y = 500;   // Define the starting x and y coordinates for the striker in the carrom game. By setting STRIKER_START_X to 300 and STRIKER_START_Y to 500, we can position the striker at a specific location on the board where players will typically place it to take their shots during gameplay. This starting position allows for a balanced and strategic placement of the striker, giving players a good vantage point to aim at the coins and pockets on the board. By defining these starting coordinates, we can enhance the overall gameplay experience by providing a consistent and intuitive location for players to interact with the striker in the carrom game.
 
     const striker = Matter.Bodies.circle(STRIKER_START_X, STRIKER_START_Y, 20, { // Create a circular body to represent the striker in the carrom game. The Matter.Bodies.circle() function is used to create a circular body with specified position (x and y coordinates), radius, and options. The options include properties such as mass, restitution, frictionAir, and render settings that define the physical behavior and appearance of the striker in the physics simulation. By creating the striker with these properties, we can ensure that it interacts realistically with the other pieces on the carrom board during gameplay.
@@ -268,9 +269,9 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
       collisionFilter: {   // Define the collision filter for the striker to control how it interacts with other bodies in the physics simulation. The collisionFilter property allows us to specify which categories of bodies the striker belongs to and which categories it can collide with. By setting the category to Striker_Catagory and the mask to include Striker_Catagory, Coins_Catagory, and Mouse_Catagory, we can ensure that the striker will interact with other strikers, coins, and mouse interactions during gameplay, while ignoring collisions with bodies that do not match these categories. This allows us to create a more controlled and realistic interaction between the striker and other elements in the carrom game.
         category: Striker_Catagory,        // This category defines the group that the striker belongs to in the collision filtering system. By assigning the striker to the Striker_Catagory, we can control how it interacts with other bodies in the physics simulation based on their categories, allowing for specific collision behaviors during gameplay.
 
-        mask: Striker_Catagory | Coins_Catagory 
-        // | Mouse_Catagory
-         | Pocket_Catagory // This mask defines which categories of bodies the striker can collide with in the physics simulation. By including Striker_Catagory, Coins_Catagory, Mouse_Catagory, and Pocket_Catagory in the mask, we can ensure that the striker will interact with other strikers, coins, mouse interactions, and pockets during gameplay, while ignoring collisions with bodies that do not match these categories. This allows us to create a more controlled and realistic interaction between the striker and other elements in the carrom game.
+        mask: Striker_Catagory | Coins_Catagory
+          // | Mouse_Catagory
+          | Pocket_Catagory // This mask defines which categories of bodies the striker can collide with in the physics simulation. By including Striker_Catagory, Coins_Catagory, Mouse_Catagory, and Pocket_Catagory in the mask, we can ensure that the striker will interact with other strikers, coins, mouse interactions, and pockets during gameplay, while ignoring collisions with bodies that do not match these categories. This allows us to create a more controlled and realistic interaction between the striker and other elements in the carrom game.
       },
       render: { fillStyle: '#ffeb3b', strokeStyle: '#fbc02d', lineWidth: 4 } // Set the fill style, stroke style, and line width for the striker to customize its appearance in the carrom game. The fillStyle defines the color used to fill the striker, while the strokeStyle specifies the color of the outline around the striker. The LineWidth option determines the thickness of the outline. By setting these render options, we can create a visually distinct and appealing striker that stands out on the carrom board, enhancing the overall aesthetic of the game.
 
@@ -278,14 +279,97 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
       // note :- the render options for the striker will only work if wireframes is set to false in the renderer options, allowing us to see the custom colors and styles applied to the striker in the visual representation of the carrom game.
 
 
-      
+
     });
 
     let ShortFired = false;       // Initialize a variable called ShortFired to keep track of whether the striker has been fired during the current turn in the carrom game. This variable can be used to implement logic that prevents the player from firing the striker multiple times in a single turn, ensuring that the game rules are followed and providing a more structured gameplay experience. By setting ShortFired to false at the beginning of each turn, we can allow the player to fire the striker once, and then set it to true after the striker is fired to prevent additional shots until the next turn begins.
 
     let isInteractionActive = false; // Initialize a variable called isInteractionActive to keep track of whether the player is currently interacting with the striker using the mouse in the carrom game. This variable can be used to implement logic that allows for specific interactions, such as clicking and dragging the striker to aim and shoot, while preventing unintended interactions when the player is not actively engaging with the striker. By setting isInteractionActive to true when the player starts interacting with the striker and false when they stop, we can create a more intuitive and responsive gameplay experience that enhances player control over the striker during their turn in the carrom game.
 
-    let dragMode = "placement"
+
+
+
+
+
+
+
+
+
+
+    // redo the space 
+
+
+
+
+
+// written yesterday
+
+
+
+
+    let dragMode = "placement" // Initialize a variable called dragMode to keep track of the current mode of interaction when the player is clicking and dragging the striker in the carrom game. This variable can be used to implement different behaviors based on whether the player is in "placement" mode (positioning the striker on the board) or "aiming" mode (aiming and shooting the striker). By setting dragMode to "placement" when the player starts dragging the striker and switching it to "aiming" when they release it, we can create a more dynamic and engaging gameplay experience that allows for intuitive control over the striker during different stages of interaction in the carrom game.
+
+    let currentDragCoords = { x: STRIKER_START_X, y: STRIKER_START_Y };  // Initialize an object called currentDragCoords to keep track of the current coordinates of the mouse during a click-and-drag interaction with the striker in the carrom game. This object can be used to implement logic that updates the position of the striker based on the mouse movement, allowing for intuitive control when positioning and aiming the striker during gameplay. By updating currentDragCoords with the current mouse coordinates during a drag interaction, we can create a more responsive and engaging gameplay experience that enhances player control over the striker in the carrom game.
+
+    const getTranslatedCoordinates = (event) => {
+      const rect = canvasElement.getBoundingClientRect(); // Get the bounding rectangle of the canvas element to calculate the offset for translating mouse coordinates to canvas coordinates. This is important for ensuring that the mouse interactions are accurately mapped to the correct positions on the canvas, allowing for precise control when interacting with the striker and other pieces in the carrom game. By using getBoundingClientRect(), we can account for any scrolling or resizing of the window that may affect the position of the canvas on the screen, ensuring that mouse interactions remain consistent and accurate during gameplay.
+      const clientX = event.touches ? event.touches[0].clientX : event.clientX;   // Determine the clientX coordinate from the event object, accounting for both mouse events and touch events. If the event is a touch event, we access the first touch point's clientX coordinate; otherwise, we use the clientX property directly from the event object. This allows us to support both mouse and touch interactions when controlling the striker in the carrom game, providing a more versatile and accessible gameplay experience for players on different devices.
+      const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+      const relativeX = clientX - rect.left;
+      const relativeY = clientY - rect.top;  // Calculate the relative x and y coordinates of the mouse or touch event with respect to the canvas element by subtracting the left and top offsets of the canvas from the clientX and clientY coordinates. This translation is crucial for ensuring that mouse interactions are accurately mapped to the correct positions on the canvas, allowing for precise control when interacting with the striker and other pieces in the carrom game. By calculating these relative coordinates, we can create a more responsive and engaging gameplay experience that enhances player control over the striker in the carrom game.
+
+      return {
+        x: (relativeX / rect.width) * BASE_SIZE,                // Translate the relative x coordinate to the canvas coordinate system by dividing it by the width of the canvas and multiplying by a base size (BASE_SIZE). This translation allows us to map mouse interactions to the correct positions on the canvas, ensuring that player interactions with the striker and other pieces in the carrom game are accurate and responsive during gameplay.
+        y: (relativeY / rect.height) * BASE_SIZE
+
+      };
+
+    };
+
+const handleInteractionStart = (e) => {                   
+  if(ShortFired) return;
+  const coords = getTranslatedCoordinates(e);
+
+  const distanceToStriker = Matter.Vector.magnitude(Matter.Vector.sub(striker.position , coords));
+
+  if(distanceToStriker < 35 ){
+    isInteractionActive = true;
+    dragMode = coords.y < striker.position.y ? "placement": "aiming";
+    currentDragCoords = coords;
+    if(e.cancelable) e.preventDefault();
+  }
+};
+
+const handleInteractionMove = (e) => {
+  if(!isInteractionActive || ShortFired ) return ; 
+  isInteractionActive = false;
+
+  if(dragMode === )
+}
+
+
+
+
+
+
+
+
+
+
+
+// undo the space 
+
+
+
+
+
+
+
+
+
+
+
     const mouse = Matter.Mouse.create(render.canvas);       // Create a mouse input for the renderer's canvas to enable user interaction with the carrom pieces. The Matter.Mouse.create() function initializes a new mouse instance that is linked to the canvas element used by the renderer. This allows us to track mouse movements and clicks on the canvas, enabling players to interact with the carrom pieces by clicking and dragging them to simulate shooting the striker or moving the coins on the board. By creating a mouse input, we can enhance the interactivity of the carrom game and provide a more engaging gaming experience for players.
     const mouseConstraint = Matter.MouseConstraint.create(engine, {          // Create a mouse constraint to allow the user to interact with the carrom pieces using the mouse input. The Matter.MouseConstraint.create() function initializes a new mouse constraint that is linked to the physics engine and the mouse input. This constraint allows players to click and drag the carrom pieces on the board, simulating the action of shooting the striker or moving the coins during gameplay. By creating a mouse constraint, we can enable intuitive and interactive controls for the carrom game, enhancing the overall user experience and making it more enjoyable for players. The options for the mouse constraint include:
       mouse: mouse,            // Link the mouse input to the mouse constraint to enable user interaction with the carrom pieces. By passing the mouse instance to the mouse constraint, we can ensure that the constraint responds to mouse movements and clicks, allowing players to click and drag the carrom pieces on the board during gameplay. This connection between the mouse input and the mouse constraint is essential for creating an interactive and engaging carrom game experience for players.
@@ -303,7 +387,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
     // Matter.Events.on( mouseConstraint , 'startdrag' , (event) => {   // Set up an event listener for the 'startdrag' event on the mouse constraint to handle the beginning of a drag interaction with the carrom pieces. By using Matter.Events.on(), we can listen for when the user starts dragging a piece on the canvas, allowing us to determine which body is being dragged and implement specific logic based on that interaction. This is important for enabling players to click and drag the carrom pieces during gameplay, providing a more interactive and engaging gaming experience. The callback function receives an event object that contains information about the drag interaction, including the body that is being dragged, allowing us to implement custom behavior based on the user's actions.
 
 
-    
+
     Matter.Events.on(mouseConstraint, 'enddrag', (event) => {             // Set up an event listener for the 'enddrag' event on the mouse constraint to handle the end of a drag interaction with the carrom pieces. By using Matter.Events.on(), we can listen for when the user releases a piece after dragging it on the canvas, allowing us to determine which body was released and implement specific logic based on that interaction. This is important for enabling players to click and drag the carrom pieces during gameplay, providing a more interactive and engaging gaming experience. The callback function receives an event object that contains information about the drag interaction, including the body that was released, allowing us to implement custom behavior based on the user's actions.
       if (event.body === striker) {                    // Check if the body that was released is the striker by comparing the event's body property to the striker variable. This allows us to determine if the user has released the striker after dragging it, which is important for implementing game logic related to firing the striker during gameplay. By checking if the released body is the striker, we can set the ShortFired variable to true, preventing the player from firing the striker multiple times in a single turn and ensuring that the game rules are followed for a more structured gameplay experience.
         ShortFired = true;                        //  Set the ShortFired variable to true when the striker is released after being dragged. This indicates that the striker has been fired during the current turn in the carrom game, allowing us to implement logic that prevents the player from firing the striker multiple times in a single turn. By setting ShortFired to true, we can ensure that the game rules are followed and provide a more structured gameplay experience for players. This variable can be reset to false at the beginning of the next turn to allow for firing the striker again.
