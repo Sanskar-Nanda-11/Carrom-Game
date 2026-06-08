@@ -289,20 +289,8 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
 
 
+    // need to understand the code from here 
 
-
-
-
-
-
-
-    // redo the space 
-
-
-
-
-
-// written yesterday
 
 
 
@@ -327,26 +315,68 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
     };
 
-const handleInteractionStart = (e) => {                   
-  if(ShortFired) return;
-  const coords = getTranslatedCoordinates(e);
+    const handleInteractionStart = (e) => {
+      if (ShortFired) return;
+      const coords = getTranslatedCoordinates(e);
 
-  const distanceToStriker = Matter.Vector.magnitude(Matter.Vector.sub(striker.position , coords));
+      const distanceToStriker = Matter.Vector.magnitude(Matter.Vector.sub(striker.position, coords));
 
-  if(distanceToStriker < 35 ){
-    isInteractionActive = true;
-    dragMode = coords.y < striker.position.y ? "placement": "aiming";
-    currentDragCoords = coords;
-    if(e.cancelable) e.preventDefault();
-  }
-};
+      if (distanceToStriker < 35) {
+        isInteractionActive = true;
+        dragMode = coords.y < striker.position.y ? "placement" : "aiming";
+        currentDragCoords = coords;
+        if (e.cancelable) e.preventDefault();
+      }
+    };
 
-const handleInteractionMove = (e) => {
-  if(!isInteractionActive || ShortFired ) return ; 
-  isInteractionActive = false;
+    const handleInteractionMove = (e) => {
+      if(!isInteractionActive || ShortFired ) return;
+      const coords = getTranslatedCoordinates(e);
+      currentDragCoords = coords;
 
-  if(dragMode === )
-}
+      if(dragMode === "placement"){
+        const lockedX = Math.max(145 , Math.min(455 , coords.x));
+        Matter.Body.setPosition(striker , {x : lockedX , y : STRIKER_START_Y});
+      }
+      if(e.cancelable) e.preventDefault();
+    };
+
+    const handleInteractionEnd = (e) => {
+      if (!isInteractionActive || ShortFired) return;
+      isInteractionActive = false;
+
+      if (dragMode === " aiming ") {
+        const dragVector = Matter.Vector.sub(currentDragCoords, striker.position);
+        const forceMagnitude = Matter.Vector.magnitude(dragVector);
+
+        if (forceMagnitude > 15) {
+          ShortFired = true;
+          const lunchForce = 0.0018;
+          const forceVector = Matter.Vector.mult(Matter.Vector.normalise(dragVector), -forceMagnitude * lunchForce);
+          Matter.Body.applyForce(striker, striker.position, forceVector);
+        }
+      }
+    };
+
+
+    canvasElement.addEventListener('mousedown', handleInteractionStart);
+    canvasElement.addEventListener('touchstart', handleInteractionStart, { passive: false });
+    window.addEventListener('mousemove', handleInteractionMove);
+    window.addEventListener('touchmove', handleInteractionMove, { passive: false });
+    window.addEventListener('mouseup' , handleInteractionEnd);
+    window.addEventListener('touchend' , handleInteractionEnd);
+
+    Matter.Events.on(render , 'afterRender' , () => {
+      if(isInteractionActive && dragMode === " aiming"){
+        const sPos = striker.position;
+        const dragVector = Matter.Vector.sub(currentDragCoords , sPos);
+        const distance = Matter.Vector.magnitude(dragVector);
+
+        if(distance > 15){
+          const aimDirection = Matter.Vector.normalise(dragVector)
+        }
+      }
+    })
 
 
 
@@ -354,21 +384,12 @@ const handleInteractionMove = (e) => {
 
 
 
+    // till here 
 
 
 
 
-// undo the space 
-
-
-
-
-
-
-
-
-
-
+    
 
     const mouse = Matter.Mouse.create(render.canvas);       // Create a mouse input for the renderer's canvas to enable user interaction with the carrom pieces. The Matter.Mouse.create() function initializes a new mouse instance that is linked to the canvas element used by the renderer. This allows us to track mouse movements and clicks on the canvas, enabling players to interact with the carrom pieces by clicking and dragging them to simulate shooting the striker or moving the coins on the board. By creating a mouse input, we can enhance the interactivity of the carrom game and provide a more engaging gaming experience for players.
     const mouseConstraint = Matter.MouseConstraint.create(engine, {          // Create a mouse constraint to allow the user to interact with the carrom pieces using the mouse input. The Matter.MouseConstraint.create() function initializes a new mouse constraint that is linked to the physics engine and the mouse input. This constraint allows players to click and drag the carrom pieces on the board, simulating the action of shooting the striker or moving the coins during gameplay. By creating a mouse constraint, we can enable intuitive and interactive controls for the carrom game, enhancing the overall user experience and making it more enjoyable for players. The options for the mouse constraint include:
