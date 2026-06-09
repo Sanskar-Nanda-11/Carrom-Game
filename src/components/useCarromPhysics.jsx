@@ -21,7 +21,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
     const engine = Matter.Engine.create({
 
-      enableSleeping: true,   // Enable sleeping in the physics engine to optimize performance by allowing bodies that are at rest to enter a sleep state, reducing unnecessary calculations and improving the overall efficiency of the simulation. This is particularly beneficial for a carrom game where many pieces may come to rest on the board, allowing the engine to focus its resources on active interactions and movements, enhancing the gameplay experience for players.
+      // enableSleeping: true,   // Enable sleeping in the physics engine to optimize performance by allowing bodies that are at rest to enter a sleep state, reducing unnecessary calculations and improving the overall efficiency of the simulation. This is particularly beneficial for a carrom game where many pieces may come to rest on the board, allowing the engine to focus its resources on active interactions and movements, enhancing the gameplay experience for players.
       positionIterations: 10,  // Set the number of position iterations for the physics engine to 10 to improve the accuracy of collision resolution and body positioning during the simulation. By increasing the position iterations, we can ensure that the physics engine calculates more precise positions for the bodies after collisions, resulting in a more realistic and visually appealing carrom game experience for players. This setting helps to enhance the overall quality of the physics simulation, making the interactions between the carrom pieces and the board more accurate and enjoyable during gameplay.
       velocityIterations: 10,   // Set the number of velocity iterations for the physics engine to 10 to improve the accuracy of velocity calculations and collision responses during the simulation. By increasing the velocity iterations, we can ensure that the physics engine calculates more precise velocities for the bodies after collisions, resulting in a more realistic and visually appealing carrom game experience for players. This setting helps to enhance the overall quality of the physics simulation, making the interactions between the carrom pieces and the board more accurate and enjoyable during gameplay.
       constraintIteration: 4    //  Set the number of constraint iterations for the physics engine to 4 to improve the accuracy of constraint resolution during the simulation. By increasing the constraint iterations, we can ensure that the physics engine calculates more precise positions and forces for bodies that are connected by constraints (such as joints or springs), resulting in a more realistic and visually appealing carrom game experience for players. This setting helps to enhance the overall quality of the physics simulation, making the interactions between constrained bodies (like the striker and coins) more accurate and enjoyable during gameplay.
@@ -72,7 +72,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
         wireframes: false,     // Set wireframes to false to render solid shapes instead of wireframe outlines. This option allows us to create a more visually appealing representation of the carrom pieces and board, making it easier for players to see and interact with the game elements. By setting wireframes to false, we can enhance the overall visual experience of the carrom game.
         background: 'transparent',    // Set the background of the renderer to transparent to allow the underlying styles and colors of the screen element to show through. This option is important for creating a visually cohesive carrom game, as it allows us to maintain the aesthetic design of the game while still rendering the physics simulation on top. By using a transparent background, we can ensure that the carrom pieces and board are visually integrated with the overall design of the game, enhancing the player's immersion and enjoyment.
-
+ 
 
         // hasBounds: true, // Enable bounds for the renderer to allow for a more focused view of the carrom board and pieces. By setting hasBounds to true, we can define specific boundaries for the renderer to focus on, ensuring that the visual representation of the physics simulation is centered around the play area of the carrom board. This helps to enhance the player's experience by providing a clear and focused view of the game elements during gameplay.
 
@@ -86,6 +86,10 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
       },
     });
 
+
+
+
+    
     const canvasElement = render.canvas;         // Get the canvas element from the renderer to allow for further manipulation or event handling as needed during gameplay. By accessing render.canvas, we can obtain a reference to the actual HTML canvas element that is being used to render the physics simulation, enabling us to add event listeners, apply custom styles, or perform other operations on the canvas to enhance the interactivity and visual appeal of the carrom game for players.
 
     const ctx = canvasElement.getContext('2d');   // Get the 2D rendering context from the canvas element to allow for custom drawing operations on the canvas during gameplay. By using canvasElement.getContext('2d'), we can obtain a reference to the 2D context, which provides a set of methods and properties for drawing shapes, images, and text on the canvas. This allows us to enhance the visual representation of the carrom game by adding custom graphics, effects, or UI elements on top of the physics simulation, creating a more engaging and enjoyable gaming experience for players.
@@ -197,7 +201,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
       collisionFilter: {
         category: Coins_Catagory,
         mask: Striker_Catagory | Coins_Catagory | Pocket_Catagory
-      },
+      }, 
       render: {
         fillStyle: "#ef4444"              //  Set the fill style for the queen coin to a specific color (in this case, a bright red). This option allows us to customize the appearance of the queen coin in the carrom game, making it visually distinct from the other coins and enhancing the overall aesthetic of the game. By setting the fillStyle, we can create a more visually appealing and immersive carrom game environment, allowing players to easily identify and focus on the queen coin during gameplay. Note :- works only when wireframes is set to false in the renderer options.
         //  strokeStyle : " b91c1c" , lineWidth : 2
@@ -330,15 +334,15 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
     };
 
     const handleInteractionMove = (e) => {
-      if(!isInteractionActive || ShortFired ) return;
+      if (!isInteractionActive || ShortFired) return;
       const coords = getTranslatedCoordinates(e);
       currentDragCoords = coords;
 
-      if(dragMode === "placement"){
-        const lockedX = Math.max(145 , Math.min(455 , coords.x));
-        Matter.Body.setPosition(striker , {x : lockedX , y : STRIKER_START_Y});
+      if (dragMode === "placement") {
+        const lockedX = Math.max(145, Math.min(455, coords.x));
+        Matter.Body.setPosition(striker, { x: lockedX, y: STRIKER_START_Y });
       }
-      if(e.cancelable) e.preventDefault();
+      if (e.cancelable) e.preventDefault();
     };
 
     const handleInteractionEnd = (e) => {
@@ -363,17 +367,42 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
     canvasElement.addEventListener('touchstart', handleInteractionStart, { passive: false });
     window.addEventListener('mousemove', handleInteractionMove);
     window.addEventListener('touchmove', handleInteractionMove, { passive: false });
-    window.addEventListener('mouseup' , handleInteractionEnd);
-    window.addEventListener('touchend' , handleInteractionEnd);
+    window.addEventListener('mouseup', handleInteractionEnd);
+    window.addEventListener('touchend', handleInteractionEnd);
 
-    Matter.Events.on(render , 'afterRender' , () => {
-      if(isInteractionActive && dragMode === " aiming"){
+    Matter.Events.on(render, 'afterRender', () => {
+      if (isInteractionActive && dragMode === " aiming") {
         const sPos = striker.position;
-        const dragVector = Matter.Vector.sub(currentDragCoords , sPos);
+        const dragVector = Matter.Vector.sub(currentDragCoords, sPos);
         const distance = Matter.Vector.magnitude(dragVector);
 
-        if(distance > 15){
-          const aimDirection = Matter.Vector.normalise(dragVector)
+        if (distance > 15) {
+          const aimDirection = Matter.Vector.normalise(dragVector);
+          const tragetX = sPos.x - aimDirection.x * (distance * 1.5);
+          const targetY = sPos.y - aimDirection.y * (distance * 1.5);
+          ctx.save();
+
+          // Draw a dotted laser sight targeting Guidance vector line
+          ctx.beginPath();
+          ctx.setLineDash([6, 6]);
+          ctx.moveTo(sPos.x, sPos.y);
+          ctx.lineTo(tragetX, targetY);
+          ctx.strokeStyle = '#22c55e';
+          ctx.lineWidth = 3;
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = '#22c55e';
+          ctx.stroke();
+
+          // Draw rubber elastic pull line anchor visual bounds
+          ctx.beginPath();
+          ctx.setLineDash([]);
+          ctx.moveTo(sPos.x, sPos.y);
+          ctx.lineTo(currentDragCoords.x, currentDragCoords.y);
+          ctx.strokeStyle = 'rgba(239 , 68 , 68 , 0.6)';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          ctx.restore();
         }
       }
     })
@@ -389,7 +418,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
 
 
-    
+
 
     const mouse = Matter.Mouse.create(render.canvas);       // Create a mouse input for the renderer's canvas to enable user interaction with the carrom pieces. The Matter.Mouse.create() function initializes a new mouse instance that is linked to the canvas element used by the renderer. This allows us to track mouse movements and clicks on the canvas, enabling players to interact with the carrom pieces by clicking and dragging them to simulate shooting the striker or moving the coins on the board. By creating a mouse input, we can enhance the interactivity of the carrom game and provide a more engaging gaming experience for players.
     const mouseConstraint = Matter.MouseConstraint.create(engine, {          // Create a mouse constraint to allow the user to interact with the carrom pieces using the mouse input. The Matter.MouseConstraint.create() function initializes a new mouse constraint that is linked to the physics engine and the mouse input. This constraint allows players to click and drag the carrom pieces on the board, simulating the action of shooting the striker or moving the coins during gameplay. By creating a mouse constraint, we can enable intuitive and interactive controls for the carrom game, enhancing the overall user experience and making it more enjoyable for players. The options for the mouse constraint include:
