@@ -402,10 +402,15 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
           ctx.lineWidth = 2;
           ctx.stroke();
 
+
+          
           ctx.restore();
         }
       }
     })
+
+
+
 
 
 
