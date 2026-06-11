@@ -303,7 +303,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
 
     let currentDragCoords = { x: STRIKER_START_X, y: STRIKER_START_Y };  // Initialize an object called currentDragCoords to keep track of the current coordinates of the mouse during a click-and-drag interaction with the striker in the carrom game. This object can be used to implement logic that updates the position of the striker based on the mouse movement, allowing for intuitive control when positioning and aiming the striker during gameplay. By updating currentDragCoords with the current mouse coordinates during a drag interaction, we can create a more responsive and engaging gameplay experience that enhances player control over the striker in the carrom game.
 
-    const getTranslatedCoordinates = (event) => {
+    const getTranslatedCoordinates = (event) => {  // Define a function called getTranslatedCoordinates that takes an event object as an argument and translates the mouse or touch coordinates from the event into the coordinate system of the canvas element used in the carrom game. This function is essential for accurately mapping user interactions with the striker and other pieces on the board, allowing for precise control during gameplay. By calculating the relative coordinates of the mouse or touch event with respect to the canvas element, we can ensure that player interactions are accurately reflected in the game, enhancing the overall interactivity and enjoyment of the carrom game experience.
       const rect = canvasElement.getBoundingClientRect(); // Get the bounding rectangle of the canvas element to calculate the offset for translating mouse coordinates to canvas coordinates. This is important for ensuring that the mouse interactions are accurately mapped to the correct positions on the canvas, allowing for precise control when interacting with the striker and other pieces in the carrom game. By using getBoundingClientRect(), we can account for any scrolling or resizing of the window that may affect the position of the canvas on the screen, ensuring that mouse interactions remain consistent and accurate during gameplay.
       const clientX = event.touches ? event.touches[0].clientX : event.clientX;   // Determine the clientX coordinate from the event object, accounting for both mouse events and touch events. If the event is a touch event, we access the first touch point's clientX coordinate; otherwise, we use the clientX property directly from the event object. This allows us to support both mouse and touch interactions when controlling the striker in the carrom game, providing a more versatile and accessible gameplay experience for players on different devices.
       const clientY = event.touches ? event.touches[0].clientY : event.clientY;
@@ -402,8 +402,6 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
           ctx.lineWidth = 2;
           ctx.stroke();
 
-
-          
           ctx.restore();
         }
       }
