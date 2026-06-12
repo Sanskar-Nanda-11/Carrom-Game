@@ -349,7 +349,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
       if (!isInteractionActive || ShortFired) return;
       isInteractionActive = false;
 
-      if (dragMode === " aiming ") {
+      if (dragMode === "aiming") {
         const dragVector = Matter.Vector.sub(currentDragCoords, striker.position);
         const forceMagnitude = Matter.Vector.magnitude(dragVector);
 
