@@ -153,7 +153,7 @@ const CarromBoard = () => {
 
 
 
-    useCarromPhysics(boardRef, handlescore, endTurn);     // Custom hook to initialize the carrom physics simulation and handle scoring and turn management. By passing the boardRef, handlescore function, and endTurn function as arguments to the useCarromPhysics hook, we can set up the physics simulation for the carrom game and ensure that scoring and turn management are properly integrated into the gameplay experience. This allows us to create a dynamic and interactive carrom game where players can pocket coins, score points, and take turns in a seamless manner.
+    useCarromPhysics(boardRef, handlescore, handleEndTurn);     // Custom hook to initialize the carrom physics simulation and handle scoring and turn management. By passing the boardRef, handlescore function, and endTurn function as arguments to the useCarromPhysics hook, we can set up the physics simulation for the carrom game and ensure that scoring and turn management are properly integrated into the gameplay experience. This allows us to create a dynamic and interactive carrom game where players can pocket coins, score points, and take turns in a seamless manner.
 
 
 
