@@ -570,7 +570,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete) => {
       };
 
 
-      // commented from here
+      // commented from here ( done for now but need to check these lines also what is actually difference between above and these )
 
 
       /* // window.removeEventListener('mouseup', handleGlobalMouseUp);             // Remove the global mouseup event listener when the component unmounts to prevent memory leaks and ensure that the event listener is properly cleaned up when the component is no longer in use. This is important for maintaining optimal performance and preventing unintended side effects in the application, especially when dealing with global event listeners that can affect the entire window. By removing this event listener, we can ensure that our application remains efficient and responsive without any lingering event handlers after the component has been unmounted.
