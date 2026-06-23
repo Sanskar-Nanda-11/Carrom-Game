@@ -297,7 +297,7 @@ const CarromBoard = () => {
                                 {/* Bottom Right Corner */}
                                 <g transform="translate(455 , 455) rotate(135)">   {/* previously :- 135 */}
                                     <line x1="0" y1="-20" x2="0" y2="80" stroke='#4a2c11' strokeWidth='1.5' />
-                                    <path d="M -12 68 L 0 82 L 12 68 " fill='none' stroke='#4a2c11' strokeWidth='2'  strokeLinejoin='round' />
+                                    <path d="M -12 68 L 0 82 L 12 68 " fill='none' stroke='#4a2c11' strokeWidth='2' strokeLinejoin='round' />
                                     <circle cx='0' cy='-15' r='10' fill='none' stroke='#4a2c11' strokeWidth='1.5' />
                                 </g>
 
@@ -343,6 +343,7 @@ const CarromBoard = () => {
                         />
 
                         {/* LAYER 3: 3D Corner Pockets (Front Layer - Masks lines and lets coins drop under) */}
+                        <canvas id="aim-hud-canvas" width="600" height="600" className='absolute inset-0 w-full pointer-events-none z-15 bg-transparent' style={{ transform: 'translateZ(15px)', zIndex: 15 }} />
 
                         <div className='front-pocket absolute top-[3%] left-[3%] w-[9.3%] h-[9.3%] bg-[#090909] rounded-full shadow-[inset_0_6px_12px_rgba(0,0,0,0.9)] border border-amber-900/20 pointer-events-none' style={{ transform: 'translateZ(20px)', zIndex: 20 }} />
 
