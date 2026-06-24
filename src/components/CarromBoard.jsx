@@ -17,6 +17,7 @@ const CarromBoard = () => {
     const [Winner, SetWinner] = useState(null);                        // State to keep track of the winner of the game (null if no winner yet)
 
     const [queenState, setQueenState] = useState('on_board');             // on_board , waiting_confirmed , captured   // State to keep track of the queen's status in the game (whether it's on the board, waiting for confirmation, or captured)
+    const [AimLine, setAimLine] = useState(null);       // State to keep track of the aim line for the striker (used for visualizing the aiming direction)              { StartX , StartY , endX , endX}
 
     const Win_score = 100;
 
@@ -153,7 +154,7 @@ const CarromBoard = () => {
 
 
 
-    useCarromPhysics(boardRef, handlescore, handleEndTurn);     // Custom hook to initialize the carrom physics simulation and handle scoring and turn management. By passing the boardRef, handlescore function, and endTurn function as arguments to the useCarromPhysics hook, we can set up the physics simulation for the carrom game and ensure that scoring and turn management are properly integrated into the gameplay experience. This allows us to create a dynamic and interactive carrom game where players can pocket coins, score points, and take turns in a seamless manner.
+    useCarromPhysics(boardRef, handlescore, endTurn, setAimLine);     // Custom hook to handle the physics of the carrom game, including coin movements, collisions, and scoring. It takes in the board reference, score handling function, end turn function, and aim line state setter as arguments. This hook encapsulates the complex physics logic of the game, allowing us to manage the interactions between coins and the striker on the carrom board. By using this custom hook, we can keep the main component clean and focused on rendering the UI while delegating the physics calculations and game mechanics to a separate module.
 
 
 
@@ -245,7 +246,7 @@ const CarromBoard = () => {
 
                 {/* Wooden Frame */}
 
-                <div className='relative w-[92vw] max-w-[680px] aspect-square rounded-xl shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] flex items-center justify-center p-[5.8%] border-[2.3vw] md:border-[16px] border-[#1b110f] ring-4 ring-black/20'>
+                <div className='relative w-[92vw] max-w-[680px] aspect-square rounded-xl shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] flex items-center justify-center p-[5.8%] border-[16px] border-[#1b110f] ring-4 ring-black/20'>
 
                     {/* The Playing Field Core - All surface layers are cleanly self-contained inside here */}
 
@@ -253,7 +254,7 @@ const CarromBoard = () => {
 
                         {/* LAYER 1: SVG Markings (Deep Background) */}
                         {/* view box is the absolute magic key here . It tells the svg to scale its internal coordinates to fit the given width and height while maintaining the aspect ratio. By setting viewBox='0 0 600 600', we define a coordinate system that goes from (0,0) in the top-left corner to (600,600) in the bottom-right corner. This allows us to use consistent coordinates for drawing the carrom board markings, regardless of the actual size of the SVG element on the page. The SVG will automatically scale its contents to fit within the specified width and height while preserving the aspect ratio defined by the viewBox, ensuring that the carrom board markings are displayed correctly and proportionally on different screen sizes and resolutions.  , in-short :- ' viewBox is the absolute magic key here. It tells the browser that the vector lines are drawn on a 600x600 virtual map, but scales them smoothly to match whatever size the parent element container grows or shrinks to! ' */}
-                        <svg viewBox='0 0 600 600 ' className='absolute inset-0 w-full h-full pointer-events-none opacity-90 ' style={{ transform: 'translateZ(0px)', zIndex: 0 }}>
+                        <svg viewBox='0 0 600 600 ' className='absolute inset-0 w-full h-full pointer-events-none opacity-90 z-0' style={{ transform: 'translateZ(0px)', zIndex: 0 }}>
 
                             {/* Central Design */}
 
@@ -328,6 +329,28 @@ const CarromBoard = () => {
 
                             ))}
 
+                            {/* Live Laser Sight Targeting OverLay Line ( Dynamic SVG Rendering ) */}
+
+                            {
+                                AimLine && (    
+                                    <>
+                                        {/* Forward Guide to Target the Ray Line  */}
+                                        <line
+                                            x1={AimLine.startX} y1={AimLine.startY}
+                                            x2={AimLine.endX} y2={AimLine.endY}
+                                            stroke="#22c55e" strokeWidth="3" strokeDasharray="6 6"
+                                            style={{ filter: 'drop-shadow(0px 0px 6px #22c55e)' }}
+                                        />
+                                        {/* BackWards fingers Drag Tension Rubber Rope Line  */}
+                                        <line
+                                            x1={AimLine.startX} y1={AimLine.startY}
+                                            x2={AimLine.dragX} y2={AimLine.dragY}
+                                            stroke='rgba(239 , 68 , 68 , 0.6 )' strokeWidth='2'
+                                        />
+                                    </>
+                                )
+                            }
+
                         </svg>
 
                         {/* LAYER 2: Physics Interactive Canvas (Pure Transparent Sibling over the SVG) */}
@@ -343,7 +366,7 @@ const CarromBoard = () => {
                         />
 
                         {/* LAYER 3: 3D Corner Pockets (Front Layer - Masks lines and lets coins drop under) */}
-                        <canvas id="aim-hud-canvas" width="600" height="600" className='absolute inset-0 w-full pointer-events-none z-15 bg-transparent' style={{ transform: 'translateZ(15px)', zIndex: 15 }} />
+                        {/* <canvas id="aim-hud-canvas" width="600" height="600" className='absolute inset-0 w-full pointer-events-none z-15 bg-transparent' style={{ transform: 'translateZ(15px)', zIndex: 15 }} /> */}
 
                         <div className='front-pocket absolute top-[3%] left-[3%] w-[9.3%] h-[9.3%] bg-[#090909] rounded-full shadow-[inset_0_6px_12px_rgba(0,0,0,0.9)] border border-amber-900/20 pointer-events-none' style={{ transform: 'translateZ(20px)', zIndex: 20 }} />
 
