@@ -246,27 +246,20 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
     };
 
 
+    const onStart = (e) => {    // 441 Define a function called onStart that is triggered when the player begins interacting with the striker in the carrom game. This function initializes the interaction state and sets the appropriate drag mode based on the player's position relative to the striker.
+      if (ctrlState.ShotFired) return;    //  Check if a shot has already been fired in the carrom game. If a shot has been fired, the function returns early, preventing any further interaction with the striker until the game state is reset. This ensures that players cannot manipulate the striker after taking their shot, maintaining the integrity of the gameplay and enforcing turn-based mechanics.
+      const pos = getCoords(e);   //  Get the coordinates of the mouse or touch event relative to the canvas element.
+      const dist = Matter.Vector.magnitude(Matter.Vector.sub(striker.position, pos)); // Calculate the distance between the striker's position and the mouse or touch event position using Matter.Vector.magnitude() and Matter.Vector.sub(). This distance is used to determine if the player is close enough to the striker to initiate interaction, allowing for intuitive control over the striker's placement and aiming during gameplay.
 
-    // left overs will do next day
-
-
-
-
-
-    const onStart = (e) => {
-      if (ctrlState.ShotFired) return;
-      const pos = getCoords(e);
-      const dist = Matter.Vector.magnitude(Matter.Vector.sub(striker.position, pos));
-
-      if (dist < 40) {
-        ctrlState.isActive = true;
-        ctrlState.mode = pos.y < striker.position.y ? "placement" : "aiming";
-        if(e.cancelable) e.preventDefault();
+      if (dist < 40) {    // Check if the distance between the striker and the mouse or touch event position is less than 40 units. If the distance is within this threshold, it indicates that the player is close enough to the striker to initiate interaction. This threshold allows for a more forgiving and user-friendly control scheme, enabling players to easily engage with the striker without requiring precise positioning. If the condition is met, the function proceeds to activate the control state and determine the appropriate drag mode based on the player's position relative to the striker.
+        ctrlState.isActive = true;  // Set the isActive property of the control state to true, indicating that the player has initiated interaction with the striker. This activation allows the game to respond to subsequent mouse or touch movements, enabling intuitive control over the striker's placement and aiming during gameplay.
+        ctrlState.mode = pos.y < striker.position.y ? "placement" : "aiming";   //  Determine the appropriate drag mode based on the player's position relative to the striker. If the y-coordinate of the mouse or touch event position is less than the y-coordinate of the striker's position, the mode is set to "placement," allowing the player to move the striker horizontally along the board. If the y-coordinate is greater than or equal to the striker's position, the mode is set to "aiming," enabling the player to aim and prepare for a shot. This logic provides an intuitive control scheme that adapts to the player's actions, enhancing the overall gameplay experience in the carrom game.
+        if(e.cancelable) e.preventDefault();      // Check if the event is cancelable and, if so, call e.preventDefault() to prevent the default behavior of the event. This is important for ensuring that the player's interaction with the striker does not trigger unintended actions, such as scrolling or zooming on touch devices, allowing for a more controlled and immersive gameplay experience. By preventing the default behavior of the event, we can ensure that the player's interactions with the striker are focused solely on the intended gameplay mechanics, enhancing the overall interactivity and enjoyment of the carrom game.
       }
     };
 
 
-    const onMove = (e) => {
+    const onMove = (e) => {     // Define a function called onMove that is triggered when the player moves the mouse or touch input while interacting with the striker in the carrom game. This function updates the position of the striker based on the player's drag actions, allowing for intuitive control over the striker's placement and aiming during gameplay.
       if(!ctrlState.isActive || ctrlState.ShotFired) return;
       const pos = getCoords(e);
 
@@ -297,7 +290,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
     };
 
 
-    const onEnd = () => {
+    const onEnd = () => {   // Define a function called onEnd that is triggered when the player moves the mouse or touch input while interacting with the striker in the carrom game. This function updates the position of the striker based on the player's drag actions, allowing for intuitive control over the striker's placement and aiming during gameplay.
       if(!ctrlState.isActive || ctrlState.ShotFired) return;
       ctrlState.isActive = false;
 
