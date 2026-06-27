@@ -106,23 +106,6 @@ const CarromBoard = () => {
 
     };
 
-    const handleEndTurn = () => {
-
-        if (queenState === 'waiting_confirm') {
-
-            setQueenState('on_board');
-
-            if (window.respawnQueen) window.respawnQueen();
-
-            console.log("Queen returned to center - failed to confirm");
-
-            alert("Queen returned to center - failed to confirm");
-
-        }
-
-        setCurrentPlayer(CurrentPlayer === 'p1' ? 'p2' : 'p1');
-
-    };
 
 
 
@@ -234,15 +217,7 @@ const CarromBoard = () => {
 
                 </div>
 
-                {/* Wooden Frame */}
 
-                {/* Code cutted from here and pasted on notepad */}
-
-
-
-
-
-                {/* from here code pased from ai which is same as previous */}
 
                 {/* Wooden Frame */}
 
@@ -332,20 +307,20 @@ const CarromBoard = () => {
                             {/* Live Laser Sight Targeting OverLay Line ( Dynamic SVG Rendering ) */}
 
                             {
-                                AimLine && (    
+                                AimLine && (
                                     <>
                                         {/* Forward Guide to Target the Ray Line  */}
                                         <line
                                             x1={AimLine.startX} y1={AimLine.startY}
                                             x2={AimLine.endX} y2={AimLine.endY}
-                                            stroke="#22c55e" strokeWidth="3" strokeDasharray="6 6"
-                                            style={{ filter: 'drop-shadow(0px 0px 6px #22c55e)' }}
+                                            stroke="#22c55e" strokeWidth="3.5" strokeDasharray="6 4"
+                                            style={{ filter: 'drop-shadow(0px 0px 8px #22c55e)' }}
                                         />
                                         {/* BackWards fingers Drag Tension Rubber Rope Line  */}
                                         <line
                                             x1={AimLine.startX} y1={AimLine.startY}
                                             x2={AimLine.dragX} y2={AimLine.dragY}
-                                            stroke='rgba(239 , 68 , 68 , 0.6 )' strokeWidth='2'
+                                            stroke='rgba(239 , 68 , 68 , 0.7 )' strokeWidth='2.5'
                                         />
                                     </>
                                 )
@@ -388,9 +363,9 @@ const CarromBoard = () => {
 
                 <div className='mt-8 flex flex-col items-center gap-4'>
 
-                    <button type="button" onClick={() => setCurrentPlayer(prev => prev.trim() === 'p1' ? 'p2' : 'p1')} className='px-4 py-1 text-[10px] font-bold uppercase tracking-widest bg-zinc-800 text-zinc-400 border border-zinc-700 rounded-full hover:bg-zinc-700 transition-all'> ACCESS_TURN_CONTROL </button>
+                    {/* <button type="button" onClick={() => setCurrentPlayer(prev => prev.trim() === 'p1' ? 'p2' : 'p1')} className='px-4 py-1 text-[10px] font-bold uppercase tracking-widest bg-zinc-800 text-zinc-400 border border-zinc-700 rounded-full hover:bg-zinc-700 transition-all'> ACCESS_TURN_CONTROL </button> */}
 
-                    <div className='px-6 py-2 bg-black border border-red-900/30 rounded-full backdrop-blur-sm '>
+                    {/* <div className='px-6 py-2 bg-black border border-red-900/30 rounded-full backdrop-blur-sm '>
 
                         <p className=' text-[10px] uppercase tracking-[0.5em] text-red-500 font-black animate-pulse '>
 
@@ -398,7 +373,7 @@ const CarromBoard = () => {
 
                         </p>
 
-                    </div>
+                    </div> */}
 
 
 
@@ -418,7 +393,7 @@ const CarromBoard = () => {
 
                     </div> */}
 
-                    <button onClick={endTurn} className='mt-6 px-10 py-3 bg-amber-500 text-black font-bold rounded-full'>
+                    <button onClick={endTurn} className='mt-6 px-10 py-3 bg-amber-500 text-black font-bold rounded-full hover: bg-amber-400 shadow-xl transition-all'>
 
                         END TURN / NEXT PLAYER
 

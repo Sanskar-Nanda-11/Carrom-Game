@@ -33,8 +33,8 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
     const engine = Matter.Engine.create({
 
       // enableSleeping: true,   // Enable sleeping in the physics engine to optimize performance by allowing bodies that are at rest to enter a sleep state, reducing unnecessary calculations and improving the overall efficiency of the simulation. This is particularly beneficial for a carrom game where many pieces may come to rest on the board, allowing the engine to focus its resources on active interactions and movements, enhancing the gameplay experience for players.             Note :- its answer can be false insted of being a comment 
-      positionIterations: 8,  // Set the number of position iterations for the physics engine to 10 to improve the accuracy of collision resolution and body positioning during the simulation. By increasing the position iterations, we can ensure that the physics engine calculates more precise positions for the bodies after collisions, resulting in a more realistic and visually appealing carrom game experience for players. This setting helps to enhance the overall quality of the physics simulation, making the interactions between the carrom pieces and the board more accurate and enjoyable during gameplay.
-      velocityIterations: 8,   // Set the number of velocity iterations for the physics engine to 10 to improve the accuracy of velocity calculations and collision response during the simulation. By increasing the velocity iterations, we can ensure that the physics engine calculates more precise velocities for the bodies after collisions, resulting in a more realistic and visually appealing carrom game experience for players. This setting helps to enhance the overall quality of the physics simulation, making the interactions between the carrom pieces and the board more accurate and enjoyable during gameplay.
+      positionIterations: 10,  // Set the number of position iterations for the physics engine to 10 to improve the accuracy of collision resolution and body positioning during the simulation. By increasing the position iterations, we can ensure that the physics engine calculates more precise positions for the bodies after collisions, resulting in a more realistic and visually appealing carrom game experience for players. This setting helps to enhance the overall quality of the physics simulation, making the interactions between the carrom pieces and the board more accurate and enjoyable during gameplay.
+      velocityIterations: 10,   // Set the number of velocity iterations for the physics engine to 10 to improve the accuracy of velocity calculations and collision response during the simulation. By increasing the velocity iterations, we can ensure that the physics engine calculates more precise velocities for the bodies after collisions, resulting in a more realistic and visually appealing carrom game experience for players. This setting helps to enhance the overall quality of the physics simulation, making the interactions between the carrom pieces and the board more accurate and enjoyable during gameplay.
       // constraintIteration: 4    //  Set the number of constraint iterations for the physics engine to 4 to improve the accuracy of constraint resolution during the simulation. By increasing the constraint iterations, we can ensure that the physics engine calculates more precise positions and forces for bodies that are connected by constraints (such as joints or springs), resulting in a more realistic and visually appealing carrom game experience for players. This setting helps to enhance the overall quality of the physics simulation, making the interactions between constrained bodies (like the striker and coins) more accurate and enjoyable during gameplay.
     });     // Create a new Matter.js engine to manage the physics simulation for the carrom game. The Matter.Engine.create() function initializes a new engine instance that will be responsible for calculating the physics interactions between the carrom pieces, walls, and pockets during gameplay. By creating an engine, we can simulate realistic movements and collisions based on the defined physics properties of the game elements, enhancing the overall gaming experience for players.  
 
@@ -82,9 +82,9 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
         visible: false
       },  // Set the render options for the walls to customize their appearance in the carrom game. By setting fillStyle to a specific color (in this case, a dark brown), we can create a visually distinct representation of the walls in the game. Additionally, by setting visible to false, we can make the walls invisible in the visual representation of the game while still allowing them to function as boundaries in the physics simulation. This allows players to focus on the carrom pieces and the board without being distracted by visible wall bodies, creating a cleaner and more immersive gaming experience. Note :- works only when wireframes is set to false in the renderer options.
 
-      restitution: 0.85,      // Set the restitution of the walls to 0.8 to control the bounciness of the carrom pieces when they collide with the walls. By setting restitution to a value less than 1, we can create a more realistic interaction between the pieces and the walls, allowing them to bounce off with some energy loss rather than perfectly elastic collisions. This helps to enhance the gameplay experience by providing a more natural and enjoyable interaction between the carrom pieces and the boundaries of the board during gameplay.
+      restitution: 0.82,      // Set the restitution of the walls to 0.8 to control the bounciness of the carrom pieces when they collide with the walls. By setting restitution to a value less than 1, we can create a more realistic interaction between the pieces and the walls, allowing them to bounce off with some energy loss rather than perfectly elastic collisions. This helps to enhance the gameplay experience by providing a more natural and enjoyable interaction between the carrom pieces and the boundaries of the board during gameplay.
 
-      friction: 0.001,     // Set the friction of the walls to 0.0 to ensure that the carrom pieces do not experience any resistance when sliding along the walls during gameplay. By setting friction to zero, we can create a smoother and more enjoyable gaming experience, allowing players to focus on their shots and interactions with the pieces without worrying about additional frictional forces affecting their movements when they come into contact with the walls of the carrom board.
+      friction: 0,     // Set the friction of the walls to 0.0 to ensure that the carrom pieces do not experience any resistance when sliding along the walls during gameplay. By setting friction to zero, we can create a smoother and more enjoyable gaming experience, allowing players to focus on their shots and interactions with the pieces without worrying about additional frictional forces affecting their movements when they come into contact with the walls of the carrom board.
       // frictionStatic: 0.0  // Set the static friction of the walls to 0.0 to ensure that the carrom pieces do not experience any resistance when they are at rest against the walls during gameplay. By setting frictionStatic to zero, we can create a more realistic and enjoyable gaming experience, allowing players to focus on their shots and interactions with the pieces without worrying about additional static frictional forces affecting their movements when they come into contact with the walls of the carrom board. This helps to enhance the overall interactivity and responsiveness of the game during gameplay.
     };
 
@@ -109,7 +109,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
     ]
 
     const pockets = pocketpositions.map(pos =>             //  Create circular bodies to represent the pockets on the carrom board using Matter.Bodies.circle() function. Each pocket is defined by its position (x and y coordinates) and a radius of 25, along with options that specify its physical properties and appearance in the physics simulation. By creating these pocket bodies, we can detect when a carrom piece collides with a pocket during gameplay, allowing us to implement logic for pocketing pieces and updating the game state accordingly. The options for each pocket include:
-      Matter.Bodies.circle(pos.x, pos.y, 22, {                   // Create circular bodies to represent the pockets on the carrom board using Matter.Bodies.circle() function. Each pocket is defined by its position (x and y coordinates) and a radius of 15, along with options that specify its physical properties and appearance in the physics simulation. By creating these pocket bodies, we can detect when a carrom piece collides with a pocket during gameplay, allowing us to implement logic for pocketing pieces and updating the game state accordingly. The options for each pocket include:
+      Matter.Bodies.circle(pos.x, pos.y, 20, {                   // Create circular bodies to represent the pockets on the carrom board using Matter.Bodies.circle() function. Each pocket is defined by its position (x and y coordinates) and a radius of 15, along with options that specify its physical properties and appearance in the physics simulation. By creating these pocket bodies, we can detect when a carrom piece collides with a pocket during gameplay, allowing us to implement logic for pocketing pieces and updating the game state accordingly. The options for each pocket include:
         isStatic: true,                           // Set isStatic to true to ensure that the pocket bodies do not move or interact with other bodies in the physics simulation. This is important for creating a stable and consistent representation of the pockets on the carrom board, allowing us to accurately detect when a carrom piece collides with a pocket during gameplay. By setting isStatic to true, we can ensure that the pockets serve their intended purpose as stationary targets for players to aim for when trying to pocket their pieces.
         isSensor: true,                   // Set isSensor to true to make the pocket bodies act as sensors in the physics simulation. This means that they will not physically interact with other bodies, but they will still trigger collision events when a carrom piece collides with them. This is important for implementing the logic of pocketing pieces during gameplay, as it allows us to detect when a piece has been pocketed without affecting the movement or behavior of the pieces in the simulation. By setting isSensor to true, we can create a more realistic and functional representation of the pockets in the carrom game.
         collisionFilter: {
@@ -133,8 +133,8 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
       label: 'queen',       // Set the label of the queen coin body to 'queen' to identify it in the physics simulation. This label can be used to differentiate the queen coin from other bodies in the simulation, allowing us to apply specific logic or interactions when the queen coin collides with other pieces or pockets on the board during gameplay. By assigning a label to the queen coin, we can enhance the functionality and interactivity of the carrom game.
 
       restitution: 0.6,         // Set restitution to 0.4 to make the queen coin moderately bouncy, allowing it to bounce off other pieces and walls with some elasticity. This option enhances the gameplay experience by adding a realistic bounce effect when the queen coin collides with other elements on the board, making the game more dynamic and enjoyable for players. By adjusting the restitution value, we can control how much energy is retained during collisions, creating a more engaging and interactive carrom game.
-      frictionAir: 0.015,        // Set frictionAir to 0.04 to provide a moderate amount of air resistance for the queen coin, allowing it to slow down gradually as it moves across the board. This option adds a layer of realism to the physics simulation, as it simulates the effect of air resistance on the movement of the coin, making the gameplay experience more immersive and enjoyable for players. By adjusting the frictionAir value, we can control how quickly the queen coin slows down, creating a more engaging and interactive carrom game.
-      density: 0.04,          // Set density to 0.04 to control the mass and inertia of the queen coin in the physics simulation. By adjusting the density value, we can influence how the queen coin interacts with other pieces on the board during gameplay, such as how it responds to collisions and how it moves when struck by the striker. A higher density will make the queen coin heavier and less affected by forces, while a lower density will make it lighter and more responsive to interactions. By choosing an appropriate density value, we can enhance the overall realism and enjoyment of the carrom game for players.
+      frictionAir: 0.02,        // Set frictionAir to 0.04 to provide a moderate amount of air resistance for the queen coin, allowing it to slow down gradually as it moves across the board. This option adds a layer of realism to the physics simulation, as it simulates the effect of air resistance on the movement of the coin, making the gameplay experience more immersive and enjoyable for players. By adjusting the frictionAir value, we can control how quickly the queen coin slows down, creating a more engaging and interactive carrom game.
+      density: 0.02,          // Set density to 0.04 to control the mass and inertia of the queen coin in the physics simulation. By adjusting the density value, we can influence how the queen coin interacts with other pieces on the board during gameplay, such as how it responds to collisions and how it moves when struck by the striker. A higher density will make the queen coin heavier and less affected by forces, while a lower density will make it lighter and more responsive to interactions. By choosing an appropriate density value, we can enhance the overall realism and enjoyment of the carrom game for players.
       collisionFilter: {
         category: Coins_Catagory,
         mask: Striker_Catagory | Coins_Catagory | Pocket_Catagory
@@ -157,9 +157,9 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
       coins.push(Matter.Bodies.circle(              // Create a circular body for each coin in the inner circle using Matter.Bodies.circle() function. Each coin is defined by its calculated x and y coordinates, radius (coinRadius), and options that specify its physical properties and appearance in the physics simulation. By creating these coins with the appropriate properties, we can ensure that they interact realistically with the other pieces on the carrom board during gameplay, adding an important element to the game as players aim to pocket these coins for points. The options for each coin include:
         x, y, coinRadius, {
         restitution: 0.65,       // Set restitution to 0.65 to make the coins moderately bouncy, allowing them to bounce off other pieces and walls with some elasticity. This option enhances the gameplay experience by adding a realistic bounce effect when the coins collide with other elements on the board, making the game more dynamic and enjoyable for players. By adjusting the restitution value, we can control how much energy is retained during collisions, creating a more engaging and interactive carrom game.
-        density: 0.04,      // Set density to 0.04 to control the mass and inertia of the coins in the physics simulation. By adjusting the density value, we can influence how the coins interact with other pieces on the board during gameplay, such as how they respond to collisions and how they move when struck by the striker. A higher density will make the coins heavier and less affected by forces, while a lower density will make them lighter and more responsive to interactions. By choosing an appropriate density value, we can enhance the overall realism and enjoyment of the carrom game for players.
+        density: 0.02,      // Set density to 0.02 to control the mass and inertia of the coins in the physics simulation. By adjusting the density value, we can influence how the coins interact with other pieces on the board during gameplay, such as how they respond to collisions and how they move when struck by the striker. A higher density will make the coins heavier and less affected by forces, while a lower density will make them lighter and more responsive to interactions. By choosing an appropriate density value, we can enhance the overall realism and enjoyment of the carrom game for players.
         friction: 0.005,       // Set friction to 0.005 to provide a small amount of resistance when the coins slide across the board during gameplay. This option adds a layer of realism to the physics simulation, as it simulates the effect of friction on the movement of the coins, making the gameplay experience more immersive and enjoyable for players. By adjusting the friction value, we can control how easily the coins slide across the board, creating a more engaging and interactive carrom game.
-        frictionAir: 0.015,  // Set frictionAir to 0.015 to provide a moderate amount of air resistance for the coins, allowing them to slow down gradually as they move across the board. This option adds a layer of realism to the physics simulation, as it simulates the effect of air resistance on the movement of the coins, making the gameplay experience more immersive and enjoyable for players. By adjusting the frictionAir value, we can control how quickly the coins slow down, creating a more engaging and interactive carrom game.
+        frictionAir: 0.02,  // Set frictionAir to 0.015 to provide a moderate amount of air resistance for the coins, allowing them to slow down gradually as they move across the board. This option adds a layer of realism to the physics simulation, as it simulates the effect of air resistance on the movement of the coins, making the gameplay experience more immersive and enjoyable for players. By adjusting the frictionAir value, we can control how quickly the coins slow down, creating a more engaging and interactive carrom game.
         // frictionStatic: 0.002, // Set frictionStatic to 0.002 to provide a small amount of resistance when the coins are at rest against the board during gameplay. This option adds a layer of realism to the physics simulation, as it simulates the effect of static friction on the movement of the coins, making the gameplay experience more immersive and enjoyable for players. By adjusting the frictionStatic value, we can control how easily the coins start moving when they are at rest, creating a more engaging and interactive carrom game.
         // slop: 0.01,  // Set slop to 0.01 to allow for a small amount of penetration between the coins and other bodies in the physics simulation. This option helps to prevent issues with collision detection, such as coins getting stuck or jittering when they come into contact with other pieces or walls on the board. By allowing a small amount of slop, we can ensure smoother interactions between the coins and other elements in the carrom game, enhancing the overall gameplay experience for players.
         label: isWhite ? 'white_coin' : 'black_coin',      // Set the label of each coin body based on its color to differentiate between white and black coins in the physics simulation. By assigning a label of 'white_coin' for white coins and 'black_coin' for black coins, we can easily identify and manage the different types of coins during gameplay, allowing us to implement specific logic or interactions based on their labels when they collide with other pieces or pockets on the board. This labeling system enhances the functionality and interactivity of the carrom game by providing a way to distinguish between the different coins in the physics simulation.
@@ -181,8 +181,8 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
       coins.push(Matter.Bodies.circle(
         x, y, coinRadius, {
         restitution: 0.65,
-        frictionAir: 0.015,
-        density: 0.04,
+        frictionAir: 0.02,
+        density: 0.02,
         friction: 0.005,
         // frictionStatic: 0.002,
         // slop: 0.01,
@@ -202,11 +202,11 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
     const striker = Matter.Bodies.circle(STRIKER_START_X, STRIKER_START_Y, 20, { // Create a circular body to represent the striker in the carrom game. The Matter.Bodies.circle() function is used to create a circular body with specified position (x and y coordinates), radius, and options. The options include properties such as mass, restitution, frictionAir, and render settings that define the physical behavior and appearance of the striker in the physics simulation. By creating the striker with these properties, we can ensure that it interacts realistically with the other pieces on the carrom board during gameplay.
       label: 'striker',      // Set the label of the striker body to 'striker' to identify it in the physics simulation. This label can be used to differentiate the striker from other bodies in the simulation, allowing us to apply specific logic or interactions when the striker collides with other pieces or pockets on the board during gameplay. By assigning a label to the striker, we can enhance the functionality and interactivity of the carrom game.
       // mass: 5,       // Higher mass → hits harder, Lower mass → moves easily
-      restitution: 0.6,        // Higher restitution → bouncier, Lower restitution → less bouncy
+      restitution: 0.5,        // Higher restitution → bouncier, Lower restitution → less bouncy
       friction: 0.001,            // Higher friction → more resistance to sliding, Lower friction → slides more easily ( affects how the striker interacts with the board and other pieces )
       // frictionStatic: 0.0,       // Higher frictionStatic → more resistance ( pressure ) to start moving, Lower frictionStatic → easier to start moving ( affects how the striker initially interacts with the board and other pieces )
-      density: 0.12,   //   Higher density → heavier, Lower density → lighter ( affects mass and inertia )
-      frictionAir: 0.012,       // Higher frictionAir → slows down faster, Lower frictionAir → retains speed longer
+      density: 0.08,   //   Higher density → heavier, Lower density → lighter ( affects mass and inertia )
+      frictionAir: 0.02,       // Higher frictionAir → slows down faster, Lower frictionAir → retains speed longer
       collisionFilter: {   // Define the collision filter for the striker to control how it interacts with other bodies in the physics simulation. The collisionFilter property allows us to specify which categories of bodies the striker belongs to and which categories it can collide with. By setting the category to Striker_Catagory and the mask to include Striker_Catagory, Coins_Catagory, and Mouse_Catagory, we can ensure that the striker will interact with other strikers, coins, and mouse interactions during gameplay, while ignoring collisions with bodies that do not match these categories. This allows us to create a more controlled and realistic interaction between the striker and other elements in the carrom game.
         category: Striker_Catagory,        // This category defines the group that the striker belongs to in the collision filtering system. By assigning the striker to the Striker_Catagory, we can control how it interacts with other bodies in the physics simulation based on their categories, allowing for specific collision behaviors during gameplay.
 
@@ -226,7 +226,8 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
     const ctrlState = {       // Define an object to hold the control state for the carrom game. This object will be used to manage various aspects of the game state, such as whether the game is active, the current mode of play, and whether a shot has been fired. By maintaining this control state, we can easily track and update the game's status during gameplay, allowing for a more interactive and responsive experience for players.
       isActive: false,      // Indicates whether the carrom game is currently active or not. By setting isActive to false initially, we can control when the game starts and ends, allowing us to manage the flow of gameplay and ensure that players can only interact with the game when it is in an active state.
       mode: "placement",           // Defines the current mode of play for the carrom game. By setting mode to "placement" initially, we can control the player's actions and interactions with the game, allowing them to place the striker and coins on the board before taking their shots. This mode can be updated during gameplay to reflect different stages of play, such as aiming, shooting, or waiting for the next turn, providing a structured and engaging experience for players.
-      ShotFired: false         // Indicates whether a shot has been fired in the carrom game. By setting ShotFired to false initially, we can track when the player has taken their shot, allowing us to manage the game's state and update the gameplay accordingly. This property can be updated during gameplay to reflect when a shot has been taken, enabling us to implement logic for handling the outcome of the shot, such as checking for pocketed coins or updating the player's turn.
+      ShotFired: false,     // Indicates whether a shot has been fired in the carrom game. By setting ShotFired to false initially, we can track when the player has taken their shot, allowing us to manage the game's state and update the gameplay accordingly. This property can be updated during gameplay to reflect when a shot has been taken, enabling us to implement logic for handling the outcome of the shot, such as checking for pocketed coins or updating the player's turn.
+      dragVector: { x: 0, y: 0 }
     };
 
     const getCoords = (event) => {  // Define a function called getCoords that takes an event object as an argument and translates the mouse or touch coordinates from the event into the coordinate system of the canvas element used in the carrom game. This function is essential for accurately mapping user interactions with the striker and other pieces on the board, allowing for precise control during gameplay. By calculating the relative coordinates of the mouse or touch event with respect to the canvas element, we can ensure that player interactions are accurately reflected in the game, enhancing the overall interactivity and enjoyment of the carrom game experience.
@@ -251,66 +252,70 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
       const pos = getCoords(e);   //  Get the coordinates of the mouse or touch event relative to the canvas element.
       const dist = Matter.Vector.magnitude(Matter.Vector.sub(striker.position, pos)); // Calculate the distance between the striker's position and the mouse or touch event position using Matter.Vector.magnitude() and Matter.Vector.sub(). This distance is used to determine if the player is close enough to the striker to initiate interaction, allowing for intuitive control over the striker's placement and aiming during gameplay.
 
-      if (dist < 40) {    // Check if the distance between the striker and the mouse or touch event position is less than 40 units. If the distance is within this threshold, it indicates that the player is close enough to the striker to initiate interaction. This threshold allows for a more forgiving and user-friendly control scheme, enabling players to easily engage with the striker without requiring precise positioning. If the condition is met, the function proceeds to activate the control state and determine the appropriate drag mode based on the player's position relative to the striker.
+      if (dist < 35) {    // Check if the distance between the striker and the mouse or touch event position is less than 40 units. If the distance is within this threshold, it indicates that the player is close enough to the striker to initiate interaction. This threshold allows for a more forgiving and user-friendly control scheme, enabling players to easily engage with the striker without requiring precise positioning. If the condition is met, the function proceeds to activate the control state and determine the appropriate drag mode based on the player's position relative to the striker.
         ctrlState.isActive = true;  // Set the isActive property of the control state to true, indicating that the player has initiated interaction with the striker. This activation allows the game to respond to subsequent mouse or touch movements, enabling intuitive control over the striker's placement and aiming during gameplay.
         ctrlState.mode = pos.y < striker.position.y ? "placement" : "aiming";   //  Determine the appropriate drag mode based on the player's position relative to the striker. If the y-coordinate of the mouse or touch event position is less than the y-coordinate of the striker's position, the mode is set to "placement," allowing the player to move the striker horizontally along the board. If the y-coordinate is greater than or equal to the striker's position, the mode is set to "aiming," enabling the player to aim and prepare for a shot. This logic provides an intuitive control scheme that adapts to the player's actions, enhancing the overall gameplay experience in the carrom game.
-        if(e.cancelable) e.preventDefault();      // Check if the event is cancelable and, if so, call e.preventDefault() to prevent the default behavior of the event. This is important for ensuring that the player's interaction with the striker does not trigger unintended actions, such as scrolling or zooming on touch devices, allowing for a more controlled and immersive gameplay experience. By preventing the default behavior of the event, we can ensure that the player's interactions with the striker are focused solely on the intended gameplay mechanics, enhancing the overall interactivity and enjoyment of the carrom game.
+        ctrlState.dragVector = { x:0 , y:0 };
+        if (e.cancelable) e.preventDefault();      // Check if the event is cancelable and, if so, call e.preventDefault() to prevent the default behavior of the event. This is important for ensuring that the player's interaction with the striker does not trigger unintended actions, such as scrolling or zooming on touch devices, allowing for a more controlled and immersive gameplay experience. By preventing the default behavior of the event, we can ensure that the player's interactions with the striker are focused solely on the intended gameplay mechanics, enhancing the overall interactivity and enjoyment of the carrom game.
       }
     };
 
 
     const onMove = (e) => {     // Define a function called onMove that is triggered when the player moves the mouse or touch input while interacting with the striker in the carrom game. This function updates the position of the striker based on the player's drag actions, allowing for intuitive control over the striker's placement and aiming during gameplay.
-      if(!ctrlState.isActive || ctrlState.ShotFired) return;
+      if (!ctrlState.isActive || ctrlState.ShotFired) return;
       const pos = getCoords(e);
 
-      if(ctrlState.mode === "placement"){
-        const lockedX = Math.max(145 , Math.min(455 , pos.x));
-        Matter.Body.setPosition(striker , {x:lockedX , y:STRIKER_START_Y});
-        Matter.Body.setVelocity(striker , {x:0 , y:0});
-      }else if(ctrlState.mode === "aiming"){
+      if (ctrlState.mode === "placement") {
+        const lockedX = Math.max(145, Math.min(455, pos.x));
+        Matter.Body.setPosition(striker, { x: lockedX, y: STRIKER_START_Y });
+        Matter.Body.setVelocity(striker, { x: 0, y: 0 });
+      } else if (ctrlState.mode === "aiming") {
         const sPos = striker.position;
-        const dragVector = Matter.Vector.sub(pos , sPos);
-        const distance = Matter.Vector.magnitude(dragVector);
+        const dragVec = Matter.Vector.sub(pos, sPos);
+        const distance = Matter.Vector.magnitude(dragVec);
 
-        if(distance > 10){
-          const dir = Matter.Vector.normalise(dragVector);
+        if (distance > 10) {
+          ctrlState.dragVector = dragVec;
+          const dir = Matter.Vector.normalise(dragVec);
           const tX = sPos.x - dir.x * (distance * 2.0);
           const tY = sPos.y - dir.y * (distance * 2.0);
 
-          if(setAimLineRef.current){
+          if (setAimLineRef.current) {
             setAimLineRef.current({
-              startX: sPos.x , startY: sPos.y,
-              endX : tX , endY : tY,
-              dragX : sPos.x , dragY : sPos.y
+              startX: sPos.x, startY: sPos.y,
+              endX: tX, endY: tY,
+              dragX: sPos.x, dragY: sPos.y
             });
           }
         }
       }
-      if(e.cancelable) e.preventDefault();
+      if (e.cancelable) e.preventDefault();
     };
 
 
     const onEnd = () => {   // Define a function called onEnd that is triggered when the player moves the mouse or touch input while interacting with the striker in the carrom game. This function updates the position of the striker based on the player's drag actions, allowing for intuitive control over the striker's placement and aiming during gameplay.
-      if(!ctrlState.isActive || ctrlState.ShotFired) return;
+      if (!ctrlState.isActive || ctrlState.ShotFired) return;
       ctrlState.isActive = false;
 
-      if(setAimLineRef.current) setAimLineRef.current(null);
+      if (setAimLineRef.current) setAimLineRef.current(null);
 
-      if(ctrlState.mode === "aiming"){
-        const canvas = render.canvas;
-        const rect = canvas.getBoundingClientRect();
+      if (ctrlState.mode === "aiming") {
+        const forceMagnitude = Matter.Vector.magnitude(ctrlState.dragVector);
+        // const canvas = render.canvas;
+        // const rect = canvas.getBoundingClientRect();
 
-        const sPos = striker.position;
-        const currentLine = document.querySelector('line[stroke = "#22c55e"]');
-
-        if(currentLine){
-          const dragVec = Matter.Vector.sub(striker.position , {
-            x: parseFloat(currentLine.getAttribute('dragX') || sPos.x),
-            y: parseFloat(currentLine.getAttribute('dragY') || sPos.y)
-          });
+        // const sPos = striker.position;
+        // const currentLine = document.querySelector('line[stroke = "#22c55e"]');
+            /* currentLine  */
+        if (forceMagnitude > 15 ) {
           ctrlState.ShotFired = true;
+          // const dragVec = Matter.Vector.sub(striker.position, {
+          //   x: parseFloat(currentLine.getAttribute('dragX') || sPos.x),
+          //   y: parseFloat(currentLine.getAttribute('dragY') || sPos.y)
+          // });
+          const launchVector = Matter.Vector.negative(ctrlState.dragVector);
           const forceScale = 0.0035;
-          Matter.Body.applyForce(striker , striker.position , Matter.Vector.mult(dragVec , forceScale));
+          Matter.Body.applyForce(striker, striker.position, Matter.Vector.mult(launchVector, forceScale));
         }
       }
     };
@@ -343,7 +348,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
             Matter.Body.setVelocity(otherBody, { x: 0, y: 0 });    // Reset the velocity of the striker to zero when it is pocketed. By using Matter.Body.setVelocity(), we can stop any movement of the striker after it has been pocketed, ensuring that it does not continue to move across the board after being reset to its initial position. This helps to maintain a consistent and controlled gameplay experience for players in the carrom game, allowing them to focus on their next shot without interference from a moving striker.
 
             /* Matter.Body.setAngularVelocity(otherBody, 0);       // Reset the angular velocity of the striker to zero when it is pocketed. By using Matter.Body.setAngularVelocity(), we can stop any rotation of the striker after it has been pocketed, ensuring that it remains stationary and does not continue to spin on the board after being reset to its initial position. This helps to maintain a consistent and controlled gameplay experience for players in the carrom game, allowing them to focus on their next shot without interference from a rotating striker. */
-            
+
             onScoreRef.current('Striker_foul');         // Call the onScoreRef.current function with the argument 'Striker_foul' to indicate that a foul has occurred due to the striker being pocketed. This allows us to implement specific game logic for handling fouls in the carrom game, such as deducting points from the player's score or applying penalties based on the rules of the game. By calling onScoreRef.current('Striker_foul'), we can update the game state accordingly and provide feedback to players about the consequences of pocketing the striker, enhancing the overall interactivity and engagement of the carrom game.
           } else {
             Matter.Composite.remove(engine.world, otherBody);         // Remove the body that collided with the pocket from the physics simulation when it is pocketed. By using Matter.Composite.remove(), we can effectively remove the coin or piece that was pocketed from the game board, allowing for accurate tracking of remaining pieces and updating the game state accordingly. This helps to maintain a consistent and immersive gameplay experience for players in the carrom game, as they can see the pieces being removed from the board when they are successfully pocketed.
@@ -359,7 +364,7 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
     Matter.Events.on(engine, 'afterUpdate', () => {                 // Set up an event listener for the 'afterUpdate' event on the physics engine to perform actions after each update cycle of the simulation. By using Matter.Events.on(), we can listen for the 'afterUpdate' event, which is triggered after the physics engine has processed all the updates for a given frame. This allows us to implement custom logic that needs to be executed after the physics calculations are complete, such as checking for game state changes, updating scores, or handling any other necessary actions based on the current state of the game. The callback function can access the current state of the physics simulation and make decisions accordingly, enhancing the overall functionality and interactivity of the carrom game.
       if (ctrlState.ShortFired) {          // Check if the ShortFired variable is true, indicating that the striker has been fired during the current turn. This condition allows us to determine if we need to check for moving elements on the board after a shot has been taken. By evaluating ShortFired, we can implement logic to monitor the state of the game and determine when all pieces have come to a stop, allowing us to reset the striker's position or update scores as necessary, enhancing the overall gameplay experience in the carrom game.
         const Bodies = Matter.Composite.allBodies(engine.world);           //  Get an array of all the bodies currently present in the physics simulation by using Matter.Composite.allBodies(). This allows us to check the state of all the pieces on the board after a shot has been fired, enabling us to determine if any pieces are still moving or if the shot has completed. By accessing the remaining bodies in the simulation, we can implement logic to reset the striker's position or update scores once all pieces have come to a stop, enhancing the overall functionality and interactivity of the carrom game.
-        const Moving = Bodies.some(body => !body.isStatic && body.speed > 0.12);           //    Check if any of the remaining bodies in the physics simulation are still moving by using the some() method to evaluate if any body has a speed greater than 0.15 and is not static. This allows us to determine if the shot has completed, as we can consider the shot finished when all pieces on the board have come to a stop. By checking for moving elements, we can implement logic to reset the striker's position or update scores once the shot is complete, enhancing the overall gameplay experience for players in the carrom game.
+        const Moving = Bodies.some(body => !body.isStatic && body.speed > 0.1);           //    Check if any of the remaining bodies in the physics simulation are still moving by using the some() method to evaluate if any body has a speed greater than 0.15 and is not static. This allows us to determine if the shot has completed, as we can consider the shot finished when all pieces on the board have come to a stop. By checking for moving elements, we can implement logic to reset the striker's position or update scores once the shot is complete, enhancing the overall gameplay experience for players in the carrom game.
 
         if (!Moving) {                              //   Check if there are no moving elements on the board by evaluating if elementsMoving is false. This condition indicates that all pieces have come to a stop after a shot has been fired, allowing us to determine that the shot has completed. By checking for this condition, we can execute specific actions such as resetting the striker's position or updating scores, ensuring that the game state is updated appropriately and enhancing the overall functionality and interactivity of the carrom game.
           ctrlState.ShortFired = false;                        // Reset the ShortFired variable to false, indicating that the striker has completed its shot and that we are no longer in a state of having fired the striker. This allows us to update the game state accordingly and prepare for the next turn or interaction. By resetting ShortFired, we can ensure that the game logic accurately reflects the current state of play, allowing players to continue their gameplay experience without confusion or interruption in the carrom game.
@@ -480,8 +485,8 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
     //     }
     //   }
     // };
-    
- 
+
+
 
     // Matter.Events.on(render, 'afterRender', () => {                       // Set up an event listener for the 'afterRender' event in the Matter.js rendering engine. This event is triggered after the physics simulation has been rendered, allowing us to perform custom drawing operations on the canvas. By using Matter.Events.on(render, 'afterRender', ...), we can add additional visual elements, such as aiming guides or other indicators, to enhance the player's experience and provide visual feedback during gameplay in the carrom game.
     //   if (!hudCtx) return; // Check if the HUD (Heads-Up Display) canvas context is available. If hudCtx is null or undefined, the function returns early, preventing any further drawing operations on the HUD canvas. This ensures that we only attempt to draw visual elements when the HUD context is properly initialized, avoiding potential errors or unexpected behavior during gameplay in the carrom game.
@@ -608,15 +613,21 @@ export const useCarromPhysics = (screenRef, onScore, onShotComplete, setAimLine)
 
 
       if (render.canvas) {                // Check if the render.canvas property exists before attempting to remove it to prevent errors in case the canvas has already been removed or was never created. This condition allows us to safely clean up the canvas element used for rendering the physics simulation when the component unmounts, ensuring that we do not encounter any issues with trying to remove a non-existent element. By checking for the existence of render.canvas, we can maintain optimal performance and prevent unintended side effects in the application during cleanup.
+        render.canvas.removeEventListener('mousedown', onStart);
+        render.canvas.removeEventListener('touchstart', onStart);
         render.canvas.remove();                 // Remove the canvas element used for rendering the physics simulation from the DOM when the component unmounts to clean up resources and prevent memory leaks. By calling render.canvas.remove(), we can ensure that the canvas element is properly removed from the document, allowing for efficient cleanup of the rendering resources when the component is no longer in use. This is important for maintaining optimal performance and preventing unintended side effects in the application, especially when dealing with complex physics simulations that can consume significant resources. By removing the canvas, we can ensure that our application remains efficient and responsive without any lingering elements after the component has been unmounted.
-        window.respawnQueen = null; // Remove the respawnQueen function from the window object when the component unmounts to prevent memory leaks and ensure that the function is properly cleaned up when the component is no longer in use. This is important for maintaining optimal performance and preventing unintended side effects in the application, especially when dealing with global functions that can affect the entire window. By removing this function, we can ensure that our application remains efficient and responsive without any lingering functions after the component has been unmounted.
       };
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('touchmove', onMove);
+        window.removeEventListener('mouseup', onEnd);
+        window.removeEventListener('touchend', onEnd);
+        window.respawnQueen = null; // Remove the respawnQueen function from the window object when the component unmounts to prevent memory leaks and ensure that the function is properly cleaned up when the component is no longer in use. This is important for maintaining optimal performance and preventing unintended side effects in the application, especially when dealing with global functions that can affect the entire window. By removing this function, we can ensure that our application remains efficient and responsive without any lingering functions after the component has been unmounted.
 
-      
-            /* // window.removeEventListener('mouseup', handleGlobalMouseUp);             // Remove the global mouseup event listener when the component unmounts to prevent memory leaks and ensure that the event listener is properly cleaned up when the component is no longer in use. This is important for maintaining optimal performance and preventing unintended side effects in the application, especially when dealing with global event listeners that can affect the entire window. By removing this event listener, we can ensure that our application remains efficient and responsive without any lingering event handlers after the component has been unmounted.
-      // render.canvas = null;
-      // render.context = null;
-      // render.textures = {}; */
+
+      /* // window.removeEventListener('mouseup', handleGlobalMouseUp);             // Remove the global mouseup event listener when the component unmounts to prevent memory leaks and ensure that the event listener is properly cleaned up when the component is no longer in use. This is important for maintaining optimal performance and preventing unintended side effects in the application, especially when dealing with global event listeners that can affect the entire window. By removing this event listener, we can ensure that our application remains efficient and responsive without any lingering event handlers after the component has been unmounted.
+// render.canvas = null;
+// render.context = null;
+// render.textures = {}; */
 
 
       // commented till here
